@@ -1,0 +1,4017 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    COLON
+    CORDER
+    CORIZQ
+    MUTABLE
+    OR
+    STRUCT
+    continue
+    for
+    global
+    in
+    local
+
+Grammar
+
+Rule 0     S' -> init
+Rule 1     init -> scripts
+Rule 2     init -> empty
+Rule 3     empty -> <empty>
+Rule 4     scripts -> scripts script
+Rule 5     scripts -> script
+Rule 6     script -> function SEMICOLON
+Rule 7     script -> instruccion
+Rule 8     function -> FUNCION ID PARIZQ PARDER instrucciones FIN
+Rule 9     function -> FUNCION ID PARIZQ PARAMETROSTIPO PARDER instrucciones FIN
+Rule 10    PARAMETROS -> PARAMETROS COMMA PARAMETRO
+Rule 11    PARAMETROS -> PARAMETRO
+Rule 12    PARAMETRO -> expresion
+Rule 13    PARAMETROSTIPO -> PARAMETROSTIPO COMMA PARAMETROTIPO
+Rule 14    PARAMETROSTIPO -> PARAMETROTIPO
+Rule 15    PARAMETROTIPO -> ID TIPOVAR TIPO
+Rule 16    PARAMETROTIPO -> ID TIPOVAR ID
+Rule 17    PARAMETROTIPO -> ID
+Rule 18    instrucciones -> instrucciones instruccion
+Rule 19    instrucciones -> instruccion
+Rule 20    instruccion -> imprimir SEMICOLON
+Rule 21    instruccion -> call SEMICOLON
+Rule 22    instruccion -> IF SEMICOLON
+Rule 23    instruccion -> WHILE SEMICOLON
+Rule 24    instruccion -> BREAK SEMICOLON
+Rule 25    instruccion -> RETURN SEMICOLON
+Rule 26    instruccion -> DECLARACION SEMICOLON
+Rule 27    IF -> if expresion instrucciones FIN
+Rule 28    IF -> if expresion instrucciones else instrucciones FIN
+Rule 29    IF -> if expresion instrucciones LIST_ELSEIF
+Rule 30    LIST_ELSEIF -> LIST_ELSEIF ELSEIF
+Rule 31    LIST_ELSEIF -> ELSEIF
+Rule 32    ELSEIF -> elseif expresion instrucciones FIN
+Rule 33    ELSEIF -> elseif expresion instrucciones else instrucciones FIN
+Rule 34    ELSEIF -> elseif expresion instrucciones LIST_ELSEIF
+Rule 35    WHILE -> while expresion instrucciones FIN
+Rule 36    RETURN -> return expresion
+Rule 37    BREAK -> break
+Rule 38    DECLARACION -> ID IGUAL expresion
+Rule 39    imprimir -> PRINTLN PARIZQ PARAMETROS PARDER
+Rule 40    imprimir -> PRINT PARIZQ PARAMETROS PARDER
+Rule 41    expresion -> expresion MAS expresion
+Rule 42    expresion -> expresion MENOS expresion
+Rule 43    expresion -> expresion POR expresion
+Rule 44    expresion -> expresion DIVIDIDO expresion
+Rule 45    expresion -> expresion POTENCIA expresion
+Rule 46    expresion -> expresion MODULO expresion
+Rule 47    expresion -> expresion DOT expresion
+Rule 48    expresion -> expresion IGUALIGUAL expresion
+Rule 49    expresion -> expresion MAYORQ expresion
+Rule 50    expresion -> expresion MENORQ expresion
+Rule 51    expresion -> expresion MAYORIQ expresion
+Rule 52    expresion -> expresion MENORIQ expresion
+Rule 53    expresion -> expresion DIFERENTE expresion
+Rule 54    expresion -> PARIZQ expresion PARDER
+Rule 55    call -> ID PARIZQ PARDER
+Rule 56    call -> ID NOT PARIZQ PARDER
+Rule 57    call -> ID PARIZQ PARAMETROS PARDER
+Rule 58    call -> ID NOT PARIZQ PARAMETROS PARDER
+Rule 59    expresion -> call
+Rule 60    expresion -> ENTERO
+Rule 61    expresion -> DECIMAL
+Rule 62    expresion -> CADENA
+Rule 63    expresion -> CHARACTER
+Rule 64    expresion -> ID
+Rule 65    expresion -> TRUE
+Rule 66    expresion -> FALSE
+Rule 67    expresion -> NULO
+Rule 68    TIPO -> INT64
+Rule 69    TIPO -> FLOAT64
+Rule 70    TIPO -> BOOL
+Rule 71    TIPO -> CHAR
+Rule 72    TIPO -> ID
+Rule 73    TIPO -> STRING
+
+Terminals, with rules where they appear
+
+AND                  : 
+BOOL                 : 70
+CADENA               : 62
+CHAR                 : 71
+CHARACTER            : 63
+COLON                : 
+COMMA                : 10 13
+CORDER               : 
+CORIZQ               : 
+DECIMAL              : 61
+DIFERENTE            : 53
+DIVIDIDO             : 44
+DOT                  : 47
+ENTERO               : 60
+FALSE                : 66
+FIN                  : 8 9 27 28 32 33 35
+FLOAT64              : 69
+FUNCION              : 8 9
+ID                   : 8 9 15 16 16 17 38 55 56 57 58 64 72
+IGUAL                : 38
+IGUALIGUAL           : 48
+INT64                : 68
+MAS                  : 41
+MAYORIQ              : 51
+MAYORQ               : 49
+MENORIQ              : 52
+MENORQ               : 50
+MENOS                : 42
+MODULO               : 46
+MUTABLE              : 
+NOT                  : 56 58
+NULO                 : 67
+OR                   : 
+PARDER               : 8 9 39 40 54 55 56 57 58
+PARIZQ               : 8 9 39 40 54 55 56 57 58
+POR                  : 43
+POTENCIA             : 45
+PRINT                : 40
+PRINTLN              : 39
+SEMICOLON            : 6 20 21 22 23 24 25 26
+STRING               : 73
+STRUCT               : 
+TIPOVAR              : 15 16
+TRUE                 : 65
+break                : 37
+continue             : 
+else                 : 28 33
+elseif               : 32 33 34
+error                : 
+for                  : 
+global               : 
+if                   : 27 28 29
+in                   : 
+local                : 
+return               : 36
+while                : 35
+
+Nonterminals, with rules where they appear
+
+BREAK                : 24
+DECLARACION          : 26
+ELSEIF               : 30 31
+IF                   : 22
+LIST_ELSEIF          : 29 30 34
+PARAMETRO            : 10 11
+PARAMETROS           : 10 39 40 57 58
+PARAMETROSTIPO       : 9 13
+PARAMETROTIPO        : 13 14
+RETURN               : 25
+TIPO                 : 15
+WHILE                : 23
+call                 : 21 59
+empty                : 2
+expresion            : 12 27 28 29 32 33 34 35 36 38 41 41 42 42 43 43 44 44 45 45 46 46 47 47 48 48 49 49 50 50 51 51 52 52 53 53 54
+function             : 6
+imprimir             : 20
+init                 : 0
+instruccion          : 7 18 19
+instrucciones        : 8 9 18 27 28 28 29 32 33 33 34 35
+script               : 4 5
+scripts              : 1 4
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . init
+    (1) init -> . scripts
+    (2) init -> . empty
+    (4) scripts -> . scripts script
+    (5) scripts -> . script
+    (3) empty -> .
+    (6) script -> . function SEMICOLON
+    (7) script -> . instruccion
+    (8) function -> . FUNCION ID PARIZQ PARDER instrucciones FIN
+    (9) function -> . FUNCION ID PARIZQ PARAMETROSTIPO PARDER instrucciones FIN
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    $end            reduce using rule 3 (empty -> .)
+    FUNCION         shift and go to state 7
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    init                           shift and go to state 1
+    scripts                        shift and go to state 2
+    empty                          shift and go to state 3
+    script                         shift and go to state 4
+    function                       shift and go to state 5
+    instruccion                    shift and go to state 6
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 1
+
+    (0) S' -> init .
+
+
+
+state 2
+
+    (1) init -> scripts .
+    (4) scripts -> scripts . script
+    (6) script -> . function SEMICOLON
+    (7) script -> . instruccion
+    (8) function -> . FUNCION ID PARIZQ PARDER instrucciones FIN
+    (9) function -> . FUNCION ID PARIZQ PARAMETROSTIPO PARDER instrucciones FIN
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    $end            reduce using rule 1 (init -> scripts .)
+    FUNCION         shift and go to state 7
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    script                         shift and go to state 22
+    function                       shift and go to state 5
+    instruccion                    shift and go to state 6
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 3
+
+    (2) init -> empty .
+
+    $end            reduce using rule 2 (init -> empty .)
+
+
+state 4
+
+    (5) scripts -> script .
+
+    FUNCION         reduce using rule 5 (scripts -> script .)
+    PRINTLN         reduce using rule 5 (scripts -> script .)
+    PRINT           reduce using rule 5 (scripts -> script .)
+    ID              reduce using rule 5 (scripts -> script .)
+    if              reduce using rule 5 (scripts -> script .)
+    while           reduce using rule 5 (scripts -> script .)
+    break           reduce using rule 5 (scripts -> script .)
+    return          reduce using rule 5 (scripts -> script .)
+    $end            reduce using rule 5 (scripts -> script .)
+
+
+state 5
+
+    (6) script -> function . SEMICOLON
+
+    SEMICOLON       shift and go to state 23
+
+
+state 6
+
+    (7) script -> instruccion .
+
+    FUNCION         reduce using rule 7 (script -> instruccion .)
+    PRINTLN         reduce using rule 7 (script -> instruccion .)
+    PRINT           reduce using rule 7 (script -> instruccion .)
+    ID              reduce using rule 7 (script -> instruccion .)
+    if              reduce using rule 7 (script -> instruccion .)
+    while           reduce using rule 7 (script -> instruccion .)
+    break           reduce using rule 7 (script -> instruccion .)
+    return          reduce using rule 7 (script -> instruccion .)
+    $end            reduce using rule 7 (script -> instruccion .)
+
+
+state 7
+
+    (8) function -> FUNCION . ID PARIZQ PARDER instrucciones FIN
+    (9) function -> FUNCION . ID PARIZQ PARAMETROSTIPO PARDER instrucciones FIN
+
+    ID              shift and go to state 24
+
+
+state 8
+
+    (55) call -> ID . PARIZQ PARDER
+    (56) call -> ID . NOT PARIZQ PARDER
+    (57) call -> ID . PARIZQ PARAMETROS PARDER
+    (58) call -> ID . NOT PARIZQ PARAMETROS PARDER
+    (38) DECLARACION -> ID . IGUAL expresion
+
+    PARIZQ          shift and go to state 25
+    NOT             shift and go to state 26
+    IGUAL           shift and go to state 27
+
+
+state 9
+
+    (20) instruccion -> imprimir . SEMICOLON
+
+    SEMICOLON       shift and go to state 28
+
+
+state 10
+
+    (21) instruccion -> call . SEMICOLON
+
+    SEMICOLON       shift and go to state 29
+
+
+state 11
+
+    (22) instruccion -> IF . SEMICOLON
+
+    SEMICOLON       shift and go to state 30
+
+
+state 12
+
+    (23) instruccion -> WHILE . SEMICOLON
+
+    SEMICOLON       shift and go to state 31
+
+
+state 13
+
+    (24) instruccion -> BREAK . SEMICOLON
+
+    SEMICOLON       shift and go to state 32
+
+
+state 14
+
+    (25) instruccion -> RETURN . SEMICOLON
+
+    SEMICOLON       shift and go to state 33
+
+
+state 15
+
+    (26) instruccion -> DECLARACION . SEMICOLON
+
+    SEMICOLON       shift and go to state 34
+
+
+state 16
+
+    (39) imprimir -> PRINTLN . PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 35
+
+
+state 17
+
+    (40) imprimir -> PRINT . PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 36
+
+
+state 18
+
+    (27) IF -> if . expresion instrucciones FIN
+    (28) IF -> if . expresion instrucciones else instrucciones FIN
+    (29) IF -> if . expresion instrucciones LIST_ELSEIF
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 37
+    call                           shift and go to state 39
+
+state 19
+
+    (35) WHILE -> while . expresion instrucciones FIN
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 48
+    call                           shift and go to state 39
+
+state 20
+
+    (37) BREAK -> break .
+
+    SEMICOLON       reduce using rule 37 (BREAK -> break .)
+
+
+state 21
+
+    (36) RETURN -> return . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 49
+    call                           shift and go to state 39
+
+state 22
+
+    (4) scripts -> scripts script .
+
+    FUNCION         reduce using rule 4 (scripts -> scripts script .)
+    PRINTLN         reduce using rule 4 (scripts -> scripts script .)
+    PRINT           reduce using rule 4 (scripts -> scripts script .)
+    ID              reduce using rule 4 (scripts -> scripts script .)
+    if              reduce using rule 4 (scripts -> scripts script .)
+    while           reduce using rule 4 (scripts -> scripts script .)
+    break           reduce using rule 4 (scripts -> scripts script .)
+    return          reduce using rule 4 (scripts -> scripts script .)
+    $end            reduce using rule 4 (scripts -> scripts script .)
+
+
+state 23
+
+    (6) script -> function SEMICOLON .
+
+    FUNCION         reduce using rule 6 (script -> function SEMICOLON .)
+    PRINTLN         reduce using rule 6 (script -> function SEMICOLON .)
+    PRINT           reduce using rule 6 (script -> function SEMICOLON .)
+    ID              reduce using rule 6 (script -> function SEMICOLON .)
+    if              reduce using rule 6 (script -> function SEMICOLON .)
+    while           reduce using rule 6 (script -> function SEMICOLON .)
+    break           reduce using rule 6 (script -> function SEMICOLON .)
+    return          reduce using rule 6 (script -> function SEMICOLON .)
+    $end            reduce using rule 6 (script -> function SEMICOLON .)
+
+
+state 24
+
+    (8) function -> FUNCION ID . PARIZQ PARDER instrucciones FIN
+    (9) function -> FUNCION ID . PARIZQ PARAMETROSTIPO PARDER instrucciones FIN
+
+    PARIZQ          shift and go to state 50
+
+
+state 25
+
+    (55) call -> ID PARIZQ . PARDER
+    (57) call -> ID PARIZQ . PARAMETROS PARDER
+    (10) PARAMETROS -> . PARAMETROS COMMA PARAMETRO
+    (11) PARAMETROS -> . PARAMETRO
+    (12) PARAMETRO -> . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARDER          shift and go to state 51
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    PARAMETROS                     shift and go to state 52
+    PARAMETRO                      shift and go to state 53
+    expresion                      shift and go to state 54
+    call                           shift and go to state 39
+
+state 26
+
+    (56) call -> ID NOT . PARIZQ PARDER
+    (58) call -> ID NOT . PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 55
+
+
+state 27
+
+    (38) DECLARACION -> ID IGUAL . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 56
+    call                           shift and go to state 39
+
+state 28
+
+    (20) instruccion -> imprimir SEMICOLON .
+
+    FUNCION         reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    PRINTLN         reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    PRINT           reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    ID              reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    if              reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    while           reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    break           reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    return          reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    $end            reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    FIN             reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    else            reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+    elseif          reduce using rule 20 (instruccion -> imprimir SEMICOLON .)
+
+
+state 29
+
+    (21) instruccion -> call SEMICOLON .
+
+    FUNCION         reduce using rule 21 (instruccion -> call SEMICOLON .)
+    PRINTLN         reduce using rule 21 (instruccion -> call SEMICOLON .)
+    PRINT           reduce using rule 21 (instruccion -> call SEMICOLON .)
+    ID              reduce using rule 21 (instruccion -> call SEMICOLON .)
+    if              reduce using rule 21 (instruccion -> call SEMICOLON .)
+    while           reduce using rule 21 (instruccion -> call SEMICOLON .)
+    break           reduce using rule 21 (instruccion -> call SEMICOLON .)
+    return          reduce using rule 21 (instruccion -> call SEMICOLON .)
+    $end            reduce using rule 21 (instruccion -> call SEMICOLON .)
+    FIN             reduce using rule 21 (instruccion -> call SEMICOLON .)
+    else            reduce using rule 21 (instruccion -> call SEMICOLON .)
+    elseif          reduce using rule 21 (instruccion -> call SEMICOLON .)
+
+
+state 30
+
+    (22) instruccion -> IF SEMICOLON .
+
+    FUNCION         reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    PRINTLN         reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    PRINT           reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    ID              reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    if              reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    while           reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    break           reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    return          reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    $end            reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    FIN             reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    else            reduce using rule 22 (instruccion -> IF SEMICOLON .)
+    elseif          reduce using rule 22 (instruccion -> IF SEMICOLON .)
+
+
+state 31
+
+    (23) instruccion -> WHILE SEMICOLON .
+
+    FUNCION         reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    PRINTLN         reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    PRINT           reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    ID              reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    if              reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    while           reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    break           reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    return          reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    $end            reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    FIN             reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    else            reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+    elseif          reduce using rule 23 (instruccion -> WHILE SEMICOLON .)
+
+
+state 32
+
+    (24) instruccion -> BREAK SEMICOLON .
+
+    FUNCION         reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    PRINTLN         reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    PRINT           reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    ID              reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    if              reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    while           reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    break           reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    return          reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    $end            reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    FIN             reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    else            reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+    elseif          reduce using rule 24 (instruccion -> BREAK SEMICOLON .)
+
+
+state 33
+
+    (25) instruccion -> RETURN SEMICOLON .
+
+    FUNCION         reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    PRINTLN         reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    PRINT           reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    ID              reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    if              reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    while           reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    break           reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    return          reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    $end            reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    FIN             reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    else            reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+    elseif          reduce using rule 25 (instruccion -> RETURN SEMICOLON .)
+
+
+state 34
+
+    (26) instruccion -> DECLARACION SEMICOLON .
+
+    FUNCION         reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    PRINTLN         reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    PRINT           reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    ID              reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    if              reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    while           reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    break           reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    return          reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    $end            reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    FIN             reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    else            reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+    elseif          reduce using rule 26 (instruccion -> DECLARACION SEMICOLON .)
+
+
+state 35
+
+    (39) imprimir -> PRINTLN PARIZQ . PARAMETROS PARDER
+    (10) PARAMETROS -> . PARAMETROS COMMA PARAMETRO
+    (11) PARAMETROS -> . PARAMETRO
+    (12) PARAMETRO -> . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    PARAMETROS                     shift and go to state 57
+    PARAMETRO                      shift and go to state 53
+    expresion                      shift and go to state 54
+    call                           shift and go to state 39
+
+state 36
+
+    (40) imprimir -> PRINT PARIZQ . PARAMETROS PARDER
+    (10) PARAMETROS -> . PARAMETROS COMMA PARAMETRO
+    (11) PARAMETROS -> . PARAMETRO
+    (12) PARAMETRO -> . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    PARAMETROS                     shift and go to state 58
+    PARAMETRO                      shift and go to state 53
+    expresion                      shift and go to state 54
+    call                           shift and go to state 39
+
+state 37
+
+    (27) IF -> if expresion . instrucciones FIN
+    (28) IF -> if expresion . instrucciones else instrucciones FIN
+    (29) IF -> if expresion . instrucciones LIST_ELSEIF
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+    (18) instrucciones -> . instrucciones instruccion
+    (19) instrucciones -> . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    IGUALIGUAL      shift and go to state 67
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+    DIFERENTE       shift and go to state 72
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instrucciones                  shift and go to state 59
+    instruccion                    shift and go to state 73
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 38
+
+    (54) expresion -> PARIZQ . expresion PARDER
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 74
+    call                           shift and go to state 39
+
+state 39
+
+    (59) expresion -> call .
+
+    MAS             reduce using rule 59 (expresion -> call .)
+    MENOS           reduce using rule 59 (expresion -> call .)
+    POR             reduce using rule 59 (expresion -> call .)
+    DIVIDIDO        reduce using rule 59 (expresion -> call .)
+    POTENCIA        reduce using rule 59 (expresion -> call .)
+    MODULO          reduce using rule 59 (expresion -> call .)
+    DOT             reduce using rule 59 (expresion -> call .)
+    IGUALIGUAL      reduce using rule 59 (expresion -> call .)
+    MAYORQ          reduce using rule 59 (expresion -> call .)
+    MENORQ          reduce using rule 59 (expresion -> call .)
+    MAYORIQ         reduce using rule 59 (expresion -> call .)
+    MENORIQ         reduce using rule 59 (expresion -> call .)
+    DIFERENTE       reduce using rule 59 (expresion -> call .)
+    PRINTLN         reduce using rule 59 (expresion -> call .)
+    PRINT           reduce using rule 59 (expresion -> call .)
+    ID              reduce using rule 59 (expresion -> call .)
+    if              reduce using rule 59 (expresion -> call .)
+    while           reduce using rule 59 (expresion -> call .)
+    break           reduce using rule 59 (expresion -> call .)
+    return          reduce using rule 59 (expresion -> call .)
+    SEMICOLON       reduce using rule 59 (expresion -> call .)
+    PARDER          reduce using rule 59 (expresion -> call .)
+    COMMA           reduce using rule 59 (expresion -> call .)
+
+
+state 40
+
+    (60) expresion -> ENTERO .
+
+    MAS             reduce using rule 60 (expresion -> ENTERO .)
+    MENOS           reduce using rule 60 (expresion -> ENTERO .)
+    POR             reduce using rule 60 (expresion -> ENTERO .)
+    DIVIDIDO        reduce using rule 60 (expresion -> ENTERO .)
+    POTENCIA        reduce using rule 60 (expresion -> ENTERO .)
+    MODULO          reduce using rule 60 (expresion -> ENTERO .)
+    DOT             reduce using rule 60 (expresion -> ENTERO .)
+    IGUALIGUAL      reduce using rule 60 (expresion -> ENTERO .)
+    MAYORQ          reduce using rule 60 (expresion -> ENTERO .)
+    MENORQ          reduce using rule 60 (expresion -> ENTERO .)
+    MAYORIQ         reduce using rule 60 (expresion -> ENTERO .)
+    MENORIQ         reduce using rule 60 (expresion -> ENTERO .)
+    DIFERENTE       reduce using rule 60 (expresion -> ENTERO .)
+    PRINTLN         reduce using rule 60 (expresion -> ENTERO .)
+    PRINT           reduce using rule 60 (expresion -> ENTERO .)
+    ID              reduce using rule 60 (expresion -> ENTERO .)
+    if              reduce using rule 60 (expresion -> ENTERO .)
+    while           reduce using rule 60 (expresion -> ENTERO .)
+    break           reduce using rule 60 (expresion -> ENTERO .)
+    return          reduce using rule 60 (expresion -> ENTERO .)
+    SEMICOLON       reduce using rule 60 (expresion -> ENTERO .)
+    PARDER          reduce using rule 60 (expresion -> ENTERO .)
+    COMMA           reduce using rule 60 (expresion -> ENTERO .)
+
+
+state 41
+
+    (61) expresion -> DECIMAL .
+
+    MAS             reduce using rule 61 (expresion -> DECIMAL .)
+    MENOS           reduce using rule 61 (expresion -> DECIMAL .)
+    POR             reduce using rule 61 (expresion -> DECIMAL .)
+    DIVIDIDO        reduce using rule 61 (expresion -> DECIMAL .)
+    POTENCIA        reduce using rule 61 (expresion -> DECIMAL .)
+    MODULO          reduce using rule 61 (expresion -> DECIMAL .)
+    DOT             reduce using rule 61 (expresion -> DECIMAL .)
+    IGUALIGUAL      reduce using rule 61 (expresion -> DECIMAL .)
+    MAYORQ          reduce using rule 61 (expresion -> DECIMAL .)
+    MENORQ          reduce using rule 61 (expresion -> DECIMAL .)
+    MAYORIQ         reduce using rule 61 (expresion -> DECIMAL .)
+    MENORIQ         reduce using rule 61 (expresion -> DECIMAL .)
+    DIFERENTE       reduce using rule 61 (expresion -> DECIMAL .)
+    PRINTLN         reduce using rule 61 (expresion -> DECIMAL .)
+    PRINT           reduce using rule 61 (expresion -> DECIMAL .)
+    ID              reduce using rule 61 (expresion -> DECIMAL .)
+    if              reduce using rule 61 (expresion -> DECIMAL .)
+    while           reduce using rule 61 (expresion -> DECIMAL .)
+    break           reduce using rule 61 (expresion -> DECIMAL .)
+    return          reduce using rule 61 (expresion -> DECIMAL .)
+    SEMICOLON       reduce using rule 61 (expresion -> DECIMAL .)
+    PARDER          reduce using rule 61 (expresion -> DECIMAL .)
+    COMMA           reduce using rule 61 (expresion -> DECIMAL .)
+
+
+state 42
+
+    (62) expresion -> CADENA .
+
+    MAS             reduce using rule 62 (expresion -> CADENA .)
+    MENOS           reduce using rule 62 (expresion -> CADENA .)
+    POR             reduce using rule 62 (expresion -> CADENA .)
+    DIVIDIDO        reduce using rule 62 (expresion -> CADENA .)
+    POTENCIA        reduce using rule 62 (expresion -> CADENA .)
+    MODULO          reduce using rule 62 (expresion -> CADENA .)
+    DOT             reduce using rule 62 (expresion -> CADENA .)
+    IGUALIGUAL      reduce using rule 62 (expresion -> CADENA .)
+    MAYORQ          reduce using rule 62 (expresion -> CADENA .)
+    MENORQ          reduce using rule 62 (expresion -> CADENA .)
+    MAYORIQ         reduce using rule 62 (expresion -> CADENA .)
+    MENORIQ         reduce using rule 62 (expresion -> CADENA .)
+    DIFERENTE       reduce using rule 62 (expresion -> CADENA .)
+    PRINTLN         reduce using rule 62 (expresion -> CADENA .)
+    PRINT           reduce using rule 62 (expresion -> CADENA .)
+    ID              reduce using rule 62 (expresion -> CADENA .)
+    if              reduce using rule 62 (expresion -> CADENA .)
+    while           reduce using rule 62 (expresion -> CADENA .)
+    break           reduce using rule 62 (expresion -> CADENA .)
+    return          reduce using rule 62 (expresion -> CADENA .)
+    SEMICOLON       reduce using rule 62 (expresion -> CADENA .)
+    PARDER          reduce using rule 62 (expresion -> CADENA .)
+    COMMA           reduce using rule 62 (expresion -> CADENA .)
+
+
+state 43
+
+    (63) expresion -> CHARACTER .
+
+    MAS             reduce using rule 63 (expresion -> CHARACTER .)
+    MENOS           reduce using rule 63 (expresion -> CHARACTER .)
+    POR             reduce using rule 63 (expresion -> CHARACTER .)
+    DIVIDIDO        reduce using rule 63 (expresion -> CHARACTER .)
+    POTENCIA        reduce using rule 63 (expresion -> CHARACTER .)
+    MODULO          reduce using rule 63 (expresion -> CHARACTER .)
+    DOT             reduce using rule 63 (expresion -> CHARACTER .)
+    IGUALIGUAL      reduce using rule 63 (expresion -> CHARACTER .)
+    MAYORQ          reduce using rule 63 (expresion -> CHARACTER .)
+    MENORQ          reduce using rule 63 (expresion -> CHARACTER .)
+    MAYORIQ         reduce using rule 63 (expresion -> CHARACTER .)
+    MENORIQ         reduce using rule 63 (expresion -> CHARACTER .)
+    DIFERENTE       reduce using rule 63 (expresion -> CHARACTER .)
+    PRINTLN         reduce using rule 63 (expresion -> CHARACTER .)
+    PRINT           reduce using rule 63 (expresion -> CHARACTER .)
+    ID              reduce using rule 63 (expresion -> CHARACTER .)
+    if              reduce using rule 63 (expresion -> CHARACTER .)
+    while           reduce using rule 63 (expresion -> CHARACTER .)
+    break           reduce using rule 63 (expresion -> CHARACTER .)
+    return          reduce using rule 63 (expresion -> CHARACTER .)
+    SEMICOLON       reduce using rule 63 (expresion -> CHARACTER .)
+    PARDER          reduce using rule 63 (expresion -> CHARACTER .)
+    COMMA           reduce using rule 63 (expresion -> CHARACTER .)
+
+
+state 44
+
+    (64) expresion -> ID .
+    (55) call -> ID . PARIZQ PARDER
+    (56) call -> ID . NOT PARIZQ PARDER
+    (57) call -> ID . PARIZQ PARAMETROS PARDER
+    (58) call -> ID . NOT PARIZQ PARAMETROS PARDER
+
+    MAS             reduce using rule 64 (expresion -> ID .)
+    MENOS           reduce using rule 64 (expresion -> ID .)
+    POR             reduce using rule 64 (expresion -> ID .)
+    DIVIDIDO        reduce using rule 64 (expresion -> ID .)
+    POTENCIA        reduce using rule 64 (expresion -> ID .)
+    MODULO          reduce using rule 64 (expresion -> ID .)
+    DOT             reduce using rule 64 (expresion -> ID .)
+    IGUALIGUAL      reduce using rule 64 (expresion -> ID .)
+    MAYORQ          reduce using rule 64 (expresion -> ID .)
+    MENORQ          reduce using rule 64 (expresion -> ID .)
+    MAYORIQ         reduce using rule 64 (expresion -> ID .)
+    MENORIQ         reduce using rule 64 (expresion -> ID .)
+    DIFERENTE       reduce using rule 64 (expresion -> ID .)
+    PRINTLN         reduce using rule 64 (expresion -> ID .)
+    PRINT           reduce using rule 64 (expresion -> ID .)
+    ID              reduce using rule 64 (expresion -> ID .)
+    if              reduce using rule 64 (expresion -> ID .)
+    while           reduce using rule 64 (expresion -> ID .)
+    break           reduce using rule 64 (expresion -> ID .)
+    return          reduce using rule 64 (expresion -> ID .)
+    SEMICOLON       reduce using rule 64 (expresion -> ID .)
+    PARDER          reduce using rule 64 (expresion -> ID .)
+    COMMA           reduce using rule 64 (expresion -> ID .)
+    PARIZQ          shift and go to state 25
+    NOT             shift and go to state 26
+
+
+state 45
+
+    (65) expresion -> TRUE .
+
+    MAS             reduce using rule 65 (expresion -> TRUE .)
+    MENOS           reduce using rule 65 (expresion -> TRUE .)
+    POR             reduce using rule 65 (expresion -> TRUE .)
+    DIVIDIDO        reduce using rule 65 (expresion -> TRUE .)
+    POTENCIA        reduce using rule 65 (expresion -> TRUE .)
+    MODULO          reduce using rule 65 (expresion -> TRUE .)
+    DOT             reduce using rule 65 (expresion -> TRUE .)
+    IGUALIGUAL      reduce using rule 65 (expresion -> TRUE .)
+    MAYORQ          reduce using rule 65 (expresion -> TRUE .)
+    MENORQ          reduce using rule 65 (expresion -> TRUE .)
+    MAYORIQ         reduce using rule 65 (expresion -> TRUE .)
+    MENORIQ         reduce using rule 65 (expresion -> TRUE .)
+    DIFERENTE       reduce using rule 65 (expresion -> TRUE .)
+    PRINTLN         reduce using rule 65 (expresion -> TRUE .)
+    PRINT           reduce using rule 65 (expresion -> TRUE .)
+    ID              reduce using rule 65 (expresion -> TRUE .)
+    if              reduce using rule 65 (expresion -> TRUE .)
+    while           reduce using rule 65 (expresion -> TRUE .)
+    break           reduce using rule 65 (expresion -> TRUE .)
+    return          reduce using rule 65 (expresion -> TRUE .)
+    SEMICOLON       reduce using rule 65 (expresion -> TRUE .)
+    PARDER          reduce using rule 65 (expresion -> TRUE .)
+    COMMA           reduce using rule 65 (expresion -> TRUE .)
+
+
+state 46
+
+    (66) expresion -> FALSE .
+
+    MAS             reduce using rule 66 (expresion -> FALSE .)
+    MENOS           reduce using rule 66 (expresion -> FALSE .)
+    POR             reduce using rule 66 (expresion -> FALSE .)
+    DIVIDIDO        reduce using rule 66 (expresion -> FALSE .)
+    POTENCIA        reduce using rule 66 (expresion -> FALSE .)
+    MODULO          reduce using rule 66 (expresion -> FALSE .)
+    DOT             reduce using rule 66 (expresion -> FALSE .)
+    IGUALIGUAL      reduce using rule 66 (expresion -> FALSE .)
+    MAYORQ          reduce using rule 66 (expresion -> FALSE .)
+    MENORQ          reduce using rule 66 (expresion -> FALSE .)
+    MAYORIQ         reduce using rule 66 (expresion -> FALSE .)
+    MENORIQ         reduce using rule 66 (expresion -> FALSE .)
+    DIFERENTE       reduce using rule 66 (expresion -> FALSE .)
+    PRINTLN         reduce using rule 66 (expresion -> FALSE .)
+    PRINT           reduce using rule 66 (expresion -> FALSE .)
+    ID              reduce using rule 66 (expresion -> FALSE .)
+    if              reduce using rule 66 (expresion -> FALSE .)
+    while           reduce using rule 66 (expresion -> FALSE .)
+    break           reduce using rule 66 (expresion -> FALSE .)
+    return          reduce using rule 66 (expresion -> FALSE .)
+    SEMICOLON       reduce using rule 66 (expresion -> FALSE .)
+    PARDER          reduce using rule 66 (expresion -> FALSE .)
+    COMMA           reduce using rule 66 (expresion -> FALSE .)
+
+
+state 47
+
+    (67) expresion -> NULO .
+
+    MAS             reduce using rule 67 (expresion -> NULO .)
+    MENOS           reduce using rule 67 (expresion -> NULO .)
+    POR             reduce using rule 67 (expresion -> NULO .)
+    DIVIDIDO        reduce using rule 67 (expresion -> NULO .)
+    POTENCIA        reduce using rule 67 (expresion -> NULO .)
+    MODULO          reduce using rule 67 (expresion -> NULO .)
+    DOT             reduce using rule 67 (expresion -> NULO .)
+    IGUALIGUAL      reduce using rule 67 (expresion -> NULO .)
+    MAYORQ          reduce using rule 67 (expresion -> NULO .)
+    MENORQ          reduce using rule 67 (expresion -> NULO .)
+    MAYORIQ         reduce using rule 67 (expresion -> NULO .)
+    MENORIQ         reduce using rule 67 (expresion -> NULO .)
+    DIFERENTE       reduce using rule 67 (expresion -> NULO .)
+    PRINTLN         reduce using rule 67 (expresion -> NULO .)
+    PRINT           reduce using rule 67 (expresion -> NULO .)
+    ID              reduce using rule 67 (expresion -> NULO .)
+    if              reduce using rule 67 (expresion -> NULO .)
+    while           reduce using rule 67 (expresion -> NULO .)
+    break           reduce using rule 67 (expresion -> NULO .)
+    return          reduce using rule 67 (expresion -> NULO .)
+    SEMICOLON       reduce using rule 67 (expresion -> NULO .)
+    PARDER          reduce using rule 67 (expresion -> NULO .)
+    COMMA           reduce using rule 67 (expresion -> NULO .)
+
+
+state 48
+
+    (35) WHILE -> while expresion . instrucciones FIN
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+    (18) instrucciones -> . instrucciones instruccion
+    (19) instrucciones -> . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    IGUALIGUAL      shift and go to state 67
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+    DIFERENTE       shift and go to state 72
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instrucciones                  shift and go to state 75
+    instruccion                    shift and go to state 73
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 49
+
+    (36) RETURN -> return expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    SEMICOLON       reduce using rule 36 (RETURN -> return expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    IGUALIGUAL      shift and go to state 67
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+    DIFERENTE       shift and go to state 72
+
+
+state 50
+
+    (8) function -> FUNCION ID PARIZQ . PARDER instrucciones FIN
+    (9) function -> FUNCION ID PARIZQ . PARAMETROSTIPO PARDER instrucciones FIN
+    (13) PARAMETROSTIPO -> . PARAMETROSTIPO COMMA PARAMETROTIPO
+    (14) PARAMETROSTIPO -> . PARAMETROTIPO
+    (15) PARAMETROTIPO -> . ID TIPOVAR TIPO
+    (16) PARAMETROTIPO -> . ID TIPOVAR ID
+    (17) PARAMETROTIPO -> . ID
+
+    PARDER          shift and go to state 77
+    ID              shift and go to state 76
+
+    PARAMETROSTIPO                 shift and go to state 78
+    PARAMETROTIPO                  shift and go to state 79
+
+state 51
+
+    (55) call -> ID PARIZQ PARDER .
+
+    SEMICOLON       reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    MAS             reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    MENOS           reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    POR             reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    DIVIDIDO        reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    POTENCIA        reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    MODULO          reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    DOT             reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    IGUALIGUAL      reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    MAYORQ          reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    MENORQ          reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    MAYORIQ         reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    MENORIQ         reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    DIFERENTE       reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    PRINTLN         reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    PRINT           reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    ID              reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    if              reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    while           reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    break           reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    return          reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    PARDER          reduce using rule 55 (call -> ID PARIZQ PARDER .)
+    COMMA           reduce using rule 55 (call -> ID PARIZQ PARDER .)
+
+
+state 52
+
+    (57) call -> ID PARIZQ PARAMETROS . PARDER
+    (10) PARAMETROS -> PARAMETROS . COMMA PARAMETRO
+
+    PARDER          shift and go to state 80
+    COMMA           shift and go to state 81
+
+
+state 53
+
+    (11) PARAMETROS -> PARAMETRO .
+
+    PARDER          reduce using rule 11 (PARAMETROS -> PARAMETRO .)
+    COMMA           reduce using rule 11 (PARAMETROS -> PARAMETRO .)
+
+
+state 54
+
+    (12) PARAMETRO -> expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    PARDER          reduce using rule 12 (PARAMETRO -> expresion .)
+    COMMA           reduce using rule 12 (PARAMETRO -> expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    IGUALIGUAL      shift and go to state 67
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+    DIFERENTE       shift and go to state 72
+
+
+state 55
+
+    (56) call -> ID NOT PARIZQ . PARDER
+    (58) call -> ID NOT PARIZQ . PARAMETROS PARDER
+    (10) PARAMETROS -> . PARAMETROS COMMA PARAMETRO
+    (11) PARAMETROS -> . PARAMETRO
+    (12) PARAMETRO -> . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARDER          shift and go to state 82
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    PARAMETROS                     shift and go to state 83
+    PARAMETRO                      shift and go to state 53
+    expresion                      shift and go to state 54
+    call                           shift and go to state 39
+
+state 56
+
+    (38) DECLARACION -> ID IGUAL expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    SEMICOLON       reduce using rule 38 (DECLARACION -> ID IGUAL expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    IGUALIGUAL      shift and go to state 67
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+    DIFERENTE       shift and go to state 72
+
+
+state 57
+
+    (39) imprimir -> PRINTLN PARIZQ PARAMETROS . PARDER
+    (10) PARAMETROS -> PARAMETROS . COMMA PARAMETRO
+
+    PARDER          shift and go to state 84
+    COMMA           shift and go to state 81
+
+
+state 58
+
+    (40) imprimir -> PRINT PARIZQ PARAMETROS . PARDER
+    (10) PARAMETROS -> PARAMETROS . COMMA PARAMETRO
+
+    PARDER          shift and go to state 85
+    COMMA           shift and go to state 81
+
+
+state 59
+
+    (27) IF -> if expresion instrucciones . FIN
+    (28) IF -> if expresion instrucciones . else instrucciones FIN
+    (29) IF -> if expresion instrucciones . LIST_ELSEIF
+    (18) instrucciones -> instrucciones . instruccion
+    (30) LIST_ELSEIF -> . LIST_ELSEIF ELSEIF
+    (31) LIST_ELSEIF -> . ELSEIF
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (32) ELSEIF -> . elseif expresion instrucciones FIN
+    (33) ELSEIF -> . elseif expresion instrucciones else instrucciones FIN
+    (34) ELSEIF -> . elseif expresion instrucciones LIST_ELSEIF
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    FIN             shift and go to state 86
+    else            shift and go to state 87
+    elseif          shift and go to state 91
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    LIST_ELSEIF                    shift and go to state 88
+    instruccion                    shift and go to state 89
+    ELSEIF                         shift and go to state 90
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 60
+
+    (41) expresion -> expresion MAS . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 92
+    call                           shift and go to state 39
+
+state 61
+
+    (42) expresion -> expresion MENOS . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 93
+    call                           shift and go to state 39
+
+state 62
+
+    (43) expresion -> expresion POR . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 94
+    call                           shift and go to state 39
+
+state 63
+
+    (44) expresion -> expresion DIVIDIDO . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 95
+    call                           shift and go to state 39
+
+state 64
+
+    (45) expresion -> expresion POTENCIA . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 96
+    call                           shift and go to state 39
+
+state 65
+
+    (46) expresion -> expresion MODULO . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 97
+    call                           shift and go to state 39
+
+state 66
+
+    (47) expresion -> expresion DOT . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 98
+    call                           shift and go to state 39
+
+state 67
+
+    (48) expresion -> expresion IGUALIGUAL . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 99
+    call                           shift and go to state 39
+
+state 68
+
+    (49) expresion -> expresion MAYORQ . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 100
+    call                           shift and go to state 39
+
+state 69
+
+    (50) expresion -> expresion MENORQ . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 101
+    call                           shift and go to state 39
+
+state 70
+
+    (51) expresion -> expresion MAYORIQ . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 102
+    call                           shift and go to state 39
+
+state 71
+
+    (52) expresion -> expresion MENORIQ . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 103
+    call                           shift and go to state 39
+
+state 72
+
+    (53) expresion -> expresion DIFERENTE . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 104
+    call                           shift and go to state 39
+
+state 73
+
+    (19) instrucciones -> instruccion .
+
+    FIN             reduce using rule 19 (instrucciones -> instruccion .)
+    else            reduce using rule 19 (instrucciones -> instruccion .)
+    elseif          reduce using rule 19 (instrucciones -> instruccion .)
+    PRINTLN         reduce using rule 19 (instrucciones -> instruccion .)
+    PRINT           reduce using rule 19 (instrucciones -> instruccion .)
+    ID              reduce using rule 19 (instrucciones -> instruccion .)
+    if              reduce using rule 19 (instrucciones -> instruccion .)
+    while           reduce using rule 19 (instrucciones -> instruccion .)
+    break           reduce using rule 19 (instrucciones -> instruccion .)
+    return          reduce using rule 19 (instrucciones -> instruccion .)
+
+
+state 74
+
+    (54) expresion -> PARIZQ expresion . PARDER
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    PARDER          shift and go to state 105
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    IGUALIGUAL      shift and go to state 67
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+    DIFERENTE       shift and go to state 72
+
+
+state 75
+
+    (35) WHILE -> while expresion instrucciones . FIN
+    (18) instrucciones -> instrucciones . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    FIN             shift and go to state 106
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instruccion                    shift and go to state 89
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 76
+
+    (15) PARAMETROTIPO -> ID . TIPOVAR TIPO
+    (16) PARAMETROTIPO -> ID . TIPOVAR ID
+    (17) PARAMETROTIPO -> ID .
+
+    TIPOVAR         shift and go to state 107
+    PARDER          reduce using rule 17 (PARAMETROTIPO -> ID .)
+    COMMA           reduce using rule 17 (PARAMETROTIPO -> ID .)
+
+
+state 77
+
+    (8) function -> FUNCION ID PARIZQ PARDER . instrucciones FIN
+    (18) instrucciones -> . instrucciones instruccion
+    (19) instrucciones -> . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instrucciones                  shift and go to state 108
+    instruccion                    shift and go to state 73
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 78
+
+    (9) function -> FUNCION ID PARIZQ PARAMETROSTIPO . PARDER instrucciones FIN
+    (13) PARAMETROSTIPO -> PARAMETROSTIPO . COMMA PARAMETROTIPO
+
+    PARDER          shift and go to state 109
+    COMMA           shift and go to state 110
+
+
+state 79
+
+    (14) PARAMETROSTIPO -> PARAMETROTIPO .
+
+    PARDER          reduce using rule 14 (PARAMETROSTIPO -> PARAMETROTIPO .)
+    COMMA           reduce using rule 14 (PARAMETROSTIPO -> PARAMETROTIPO .)
+
+
+state 80
+
+    (57) call -> ID PARIZQ PARAMETROS PARDER .
+
+    SEMICOLON       reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    MAS             reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    MENOS           reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    POR             reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    DIVIDIDO        reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    POTENCIA        reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    MODULO          reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    DOT             reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    IGUALIGUAL      reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    MAYORQ          reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    MENORQ          reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    MAYORIQ         reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    MENORIQ         reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    DIFERENTE       reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    PRINTLN         reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    PRINT           reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    ID              reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    if              reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    while           reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    break           reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    return          reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    PARDER          reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+    COMMA           reduce using rule 57 (call -> ID PARIZQ PARAMETROS PARDER .)
+
+
+state 81
+
+    (10) PARAMETROS -> PARAMETROS COMMA . PARAMETRO
+    (12) PARAMETRO -> . expresion
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    PARAMETRO                      shift and go to state 111
+    expresion                      shift and go to state 54
+    call                           shift and go to state 39
+
+state 82
+
+    (56) call -> ID NOT PARIZQ PARDER .
+
+    SEMICOLON       reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    MAS             reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    MENOS           reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    POR             reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    DIVIDIDO        reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    POTENCIA        reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    MODULO          reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    DOT             reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    IGUALIGUAL      reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    MAYORQ          reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    MENORQ          reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    MAYORIQ         reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    MENORIQ         reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    DIFERENTE       reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    PRINTLN         reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    PRINT           reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    ID              reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    if              reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    while           reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    break           reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    return          reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    PARDER          reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+    COMMA           reduce using rule 56 (call -> ID NOT PARIZQ PARDER .)
+
+
+state 83
+
+    (58) call -> ID NOT PARIZQ PARAMETROS . PARDER
+    (10) PARAMETROS -> PARAMETROS . COMMA PARAMETRO
+
+    PARDER          shift and go to state 112
+    COMMA           shift and go to state 81
+
+
+state 84
+
+    (39) imprimir -> PRINTLN PARIZQ PARAMETROS PARDER .
+
+    SEMICOLON       reduce using rule 39 (imprimir -> PRINTLN PARIZQ PARAMETROS PARDER .)
+
+
+state 85
+
+    (40) imprimir -> PRINT PARIZQ PARAMETROS PARDER .
+
+    SEMICOLON       reduce using rule 40 (imprimir -> PRINT PARIZQ PARAMETROS PARDER .)
+
+
+state 86
+
+    (27) IF -> if expresion instrucciones FIN .
+
+    SEMICOLON       reduce using rule 27 (IF -> if expresion instrucciones FIN .)
+
+
+state 87
+
+    (28) IF -> if expresion instrucciones else . instrucciones FIN
+    (18) instrucciones -> . instrucciones instruccion
+    (19) instrucciones -> . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instrucciones                  shift and go to state 113
+    instruccion                    shift and go to state 73
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 88
+
+    (29) IF -> if expresion instrucciones LIST_ELSEIF .
+    (30) LIST_ELSEIF -> LIST_ELSEIF . ELSEIF
+    (32) ELSEIF -> . elseif expresion instrucciones FIN
+    (33) ELSEIF -> . elseif expresion instrucciones else instrucciones FIN
+    (34) ELSEIF -> . elseif expresion instrucciones LIST_ELSEIF
+
+    SEMICOLON       reduce using rule 29 (IF -> if expresion instrucciones LIST_ELSEIF .)
+    elseif          shift and go to state 91
+
+    ELSEIF                         shift and go to state 114
+
+state 89
+
+    (18) instrucciones -> instrucciones instruccion .
+
+    FIN             reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    else            reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    elseif          reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    PRINTLN         reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    PRINT           reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    ID              reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    if              reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    while           reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    break           reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+    return          reduce using rule 18 (instrucciones -> instrucciones instruccion .)
+
+
+state 90
+
+    (31) LIST_ELSEIF -> ELSEIF .
+
+    elseif          reduce using rule 31 (LIST_ELSEIF -> ELSEIF .)
+    SEMICOLON       reduce using rule 31 (LIST_ELSEIF -> ELSEIF .)
+
+
+state 91
+
+    (32) ELSEIF -> elseif . expresion instrucciones FIN
+    (33) ELSEIF -> elseif . expresion instrucciones else instrucciones FIN
+    (34) ELSEIF -> elseif . expresion instrucciones LIST_ELSEIF
+    (41) expresion -> . expresion MAS expresion
+    (42) expresion -> . expresion MENOS expresion
+    (43) expresion -> . expresion POR expresion
+    (44) expresion -> . expresion DIVIDIDO expresion
+    (45) expresion -> . expresion POTENCIA expresion
+    (46) expresion -> . expresion MODULO expresion
+    (47) expresion -> . expresion DOT expresion
+    (48) expresion -> . expresion IGUALIGUAL expresion
+    (49) expresion -> . expresion MAYORQ expresion
+    (50) expresion -> . expresion MENORQ expresion
+    (51) expresion -> . expresion MAYORIQ expresion
+    (52) expresion -> . expresion MENORIQ expresion
+    (53) expresion -> . expresion DIFERENTE expresion
+    (54) expresion -> . PARIZQ expresion PARDER
+    (59) expresion -> . call
+    (60) expresion -> . ENTERO
+    (61) expresion -> . DECIMAL
+    (62) expresion -> . CADENA
+    (63) expresion -> . CHARACTER
+    (64) expresion -> . ID
+    (65) expresion -> . TRUE
+    (66) expresion -> . FALSE
+    (67) expresion -> . NULO
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+
+    PARIZQ          shift and go to state 38
+    ENTERO          shift and go to state 40
+    DECIMAL         shift and go to state 41
+    CADENA          shift and go to state 42
+    CHARACTER       shift and go to state 43
+    ID              shift and go to state 44
+    TRUE            shift and go to state 45
+    FALSE           shift and go to state 46
+    NULO            shift and go to state 47
+
+    expresion                      shift and go to state 115
+    call                           shift and go to state 39
+
+state 92
+
+    (41) expresion -> expresion MAS expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    MAS             reduce using rule 41 (expresion -> expresion MAS expresion .)
+    MENOS           reduce using rule 41 (expresion -> expresion MAS expresion .)
+    IGUALIGUAL      reduce using rule 41 (expresion -> expresion MAS expresion .)
+    MAYORQ          reduce using rule 41 (expresion -> expresion MAS expresion .)
+    MENORQ          reduce using rule 41 (expresion -> expresion MAS expresion .)
+    MAYORIQ         reduce using rule 41 (expresion -> expresion MAS expresion .)
+    MENORIQ         reduce using rule 41 (expresion -> expresion MAS expresion .)
+    DIFERENTE       reduce using rule 41 (expresion -> expresion MAS expresion .)
+    PRINTLN         reduce using rule 41 (expresion -> expresion MAS expresion .)
+    PRINT           reduce using rule 41 (expresion -> expresion MAS expresion .)
+    ID              reduce using rule 41 (expresion -> expresion MAS expresion .)
+    if              reduce using rule 41 (expresion -> expresion MAS expresion .)
+    while           reduce using rule 41 (expresion -> expresion MAS expresion .)
+    break           reduce using rule 41 (expresion -> expresion MAS expresion .)
+    return          reduce using rule 41 (expresion -> expresion MAS expresion .)
+    SEMICOLON       reduce using rule 41 (expresion -> expresion MAS expresion .)
+    PARDER          reduce using rule 41 (expresion -> expresion MAS expresion .)
+    COMMA           reduce using rule 41 (expresion -> expresion MAS expresion .)
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+
+  ! POR             [ reduce using rule 41 (expresion -> expresion MAS expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 41 (expresion -> expresion MAS expresion .) ]
+  ! POTENCIA        [ reduce using rule 41 (expresion -> expresion MAS expresion .) ]
+  ! MODULO          [ reduce using rule 41 (expresion -> expresion MAS expresion .) ]
+  ! DOT             [ reduce using rule 41 (expresion -> expresion MAS expresion .) ]
+  ! MAS             [ shift and go to state 60 ]
+  ! MENOS           [ shift and go to state 61 ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 93
+
+    (42) expresion -> expresion MENOS expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    MAS             reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    MENOS           reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    IGUALIGUAL      reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    MAYORQ          reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    MENORQ          reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    MAYORIQ         reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    MENORIQ         reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    DIFERENTE       reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    PRINTLN         reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    PRINT           reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    ID              reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    if              reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    while           reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    break           reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    return          reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    SEMICOLON       reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    PARDER          reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    COMMA           reduce using rule 42 (expresion -> expresion MENOS expresion .)
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+
+  ! POR             [ reduce using rule 42 (expresion -> expresion MENOS expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 42 (expresion -> expresion MENOS expresion .) ]
+  ! POTENCIA        [ reduce using rule 42 (expresion -> expresion MENOS expresion .) ]
+  ! MODULO          [ reduce using rule 42 (expresion -> expresion MENOS expresion .) ]
+  ! DOT             [ reduce using rule 42 (expresion -> expresion MENOS expresion .) ]
+  ! MAS             [ shift and go to state 60 ]
+  ! MENOS           [ shift and go to state 61 ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 94
+
+    (43) expresion -> expresion POR expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    MAS             reduce using rule 43 (expresion -> expresion POR expresion .)
+    MENOS           reduce using rule 43 (expresion -> expresion POR expresion .)
+    POR             reduce using rule 43 (expresion -> expresion POR expresion .)
+    DIVIDIDO        reduce using rule 43 (expresion -> expresion POR expresion .)
+    MODULO          reduce using rule 43 (expresion -> expresion POR expresion .)
+    IGUALIGUAL      reduce using rule 43 (expresion -> expresion POR expresion .)
+    MAYORQ          reduce using rule 43 (expresion -> expresion POR expresion .)
+    MENORQ          reduce using rule 43 (expresion -> expresion POR expresion .)
+    MAYORIQ         reduce using rule 43 (expresion -> expresion POR expresion .)
+    MENORIQ         reduce using rule 43 (expresion -> expresion POR expresion .)
+    DIFERENTE       reduce using rule 43 (expresion -> expresion POR expresion .)
+    PRINTLN         reduce using rule 43 (expresion -> expresion POR expresion .)
+    PRINT           reduce using rule 43 (expresion -> expresion POR expresion .)
+    ID              reduce using rule 43 (expresion -> expresion POR expresion .)
+    if              reduce using rule 43 (expresion -> expresion POR expresion .)
+    while           reduce using rule 43 (expresion -> expresion POR expresion .)
+    break           reduce using rule 43 (expresion -> expresion POR expresion .)
+    return          reduce using rule 43 (expresion -> expresion POR expresion .)
+    SEMICOLON       reduce using rule 43 (expresion -> expresion POR expresion .)
+    PARDER          reduce using rule 43 (expresion -> expresion POR expresion .)
+    COMMA           reduce using rule 43 (expresion -> expresion POR expresion .)
+    POTENCIA        shift and go to state 64
+    DOT             shift and go to state 66
+
+  ! POTENCIA        [ reduce using rule 43 (expresion -> expresion POR expresion .) ]
+  ! DOT             [ reduce using rule 43 (expresion -> expresion POR expresion .) ]
+  ! MAS             [ shift and go to state 60 ]
+  ! MENOS           [ shift and go to state 61 ]
+  ! POR             [ shift and go to state 62 ]
+  ! DIVIDIDO        [ shift and go to state 63 ]
+  ! MODULO          [ shift and go to state 65 ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 95
+
+    (44) expresion -> expresion DIVIDIDO expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    MAS             reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    MENOS           reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    POR             reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    DIVIDIDO        reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    MODULO          reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    IGUALIGUAL      reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    MAYORQ          reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    MENORQ          reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    MAYORIQ         reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    MENORIQ         reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    DIFERENTE       reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    PRINTLN         reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    PRINT           reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    ID              reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    if              reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    while           reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    break           reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    return          reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    SEMICOLON       reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    PARDER          reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    COMMA           reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .)
+    POTENCIA        shift and go to state 64
+    DOT             shift and go to state 66
+
+  ! POTENCIA        [ reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .) ]
+  ! DOT             [ reduce using rule 44 (expresion -> expresion DIVIDIDO expresion .) ]
+  ! MAS             [ shift and go to state 60 ]
+  ! MENOS           [ shift and go to state 61 ]
+  ! POR             [ shift and go to state 62 ]
+  ! DIVIDIDO        [ shift and go to state 63 ]
+  ! MODULO          [ shift and go to state 65 ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 96
+
+    (45) expresion -> expresion POTENCIA expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    MAS             reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    MENOS           reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    POR             reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    DIVIDIDO        reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    MODULO          reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    IGUALIGUAL      reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    MAYORQ          reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    MENORQ          reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    MAYORIQ         reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    MENORIQ         reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    DIFERENTE       reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    PRINTLN         reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    PRINT           reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    ID              reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    if              reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    while           reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    break           reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    return          reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    SEMICOLON       reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    PARDER          reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    COMMA           reduce using rule 45 (expresion -> expresion POTENCIA expresion .)
+    POTENCIA        shift and go to state 64
+    DOT             shift and go to state 66
+
+  ! POTENCIA        [ reduce using rule 45 (expresion -> expresion POTENCIA expresion .) ]
+  ! DOT             [ reduce using rule 45 (expresion -> expresion POTENCIA expresion .) ]
+  ! MAS             [ shift and go to state 60 ]
+  ! MENOS           [ shift and go to state 61 ]
+  ! POR             [ shift and go to state 62 ]
+  ! DIVIDIDO        [ shift and go to state 63 ]
+  ! MODULO          [ shift and go to state 65 ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 97
+
+    (46) expresion -> expresion MODULO expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    MAS             reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    MENOS           reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    POR             reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    DIVIDIDO        reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    MODULO          reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    IGUALIGUAL      reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    MAYORQ          reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    MENORQ          reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    MAYORIQ         reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    MENORIQ         reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    DIFERENTE       reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    PRINTLN         reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    PRINT           reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    ID              reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    if              reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    while           reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    break           reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    return          reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    SEMICOLON       reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    PARDER          reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    COMMA           reduce using rule 46 (expresion -> expresion MODULO expresion .)
+    POTENCIA        shift and go to state 64
+    DOT             shift and go to state 66
+
+  ! POTENCIA        [ reduce using rule 46 (expresion -> expresion MODULO expresion .) ]
+  ! DOT             [ reduce using rule 46 (expresion -> expresion MODULO expresion .) ]
+  ! MAS             [ shift and go to state 60 ]
+  ! MENOS           [ shift and go to state 61 ]
+  ! POR             [ shift and go to state 62 ]
+  ! DIVIDIDO        [ shift and go to state 63 ]
+  ! MODULO          [ shift and go to state 65 ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 98
+
+    (47) expresion -> expresion DOT expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    MAS             reduce using rule 47 (expresion -> expresion DOT expresion .)
+    MENOS           reduce using rule 47 (expresion -> expresion DOT expresion .)
+    POR             reduce using rule 47 (expresion -> expresion DOT expresion .)
+    DIVIDIDO        reduce using rule 47 (expresion -> expresion DOT expresion .)
+    POTENCIA        reduce using rule 47 (expresion -> expresion DOT expresion .)
+    MODULO          reduce using rule 47 (expresion -> expresion DOT expresion .)
+    DOT             reduce using rule 47 (expresion -> expresion DOT expresion .)
+    IGUALIGUAL      reduce using rule 47 (expresion -> expresion DOT expresion .)
+    MAYORQ          reduce using rule 47 (expresion -> expresion DOT expresion .)
+    MENORQ          reduce using rule 47 (expresion -> expresion DOT expresion .)
+    MAYORIQ         reduce using rule 47 (expresion -> expresion DOT expresion .)
+    MENORIQ         reduce using rule 47 (expresion -> expresion DOT expresion .)
+    DIFERENTE       reduce using rule 47 (expresion -> expresion DOT expresion .)
+    PRINTLN         reduce using rule 47 (expresion -> expresion DOT expresion .)
+    PRINT           reduce using rule 47 (expresion -> expresion DOT expresion .)
+    ID              reduce using rule 47 (expresion -> expresion DOT expresion .)
+    if              reduce using rule 47 (expresion -> expresion DOT expresion .)
+    while           reduce using rule 47 (expresion -> expresion DOT expresion .)
+    break           reduce using rule 47 (expresion -> expresion DOT expresion .)
+    return          reduce using rule 47 (expresion -> expresion DOT expresion .)
+    SEMICOLON       reduce using rule 47 (expresion -> expresion DOT expresion .)
+    PARDER          reduce using rule 47 (expresion -> expresion DOT expresion .)
+    COMMA           reduce using rule 47 (expresion -> expresion DOT expresion .)
+
+  ! MAS             [ shift and go to state 60 ]
+  ! MENOS           [ shift and go to state 61 ]
+  ! POR             [ shift and go to state 62 ]
+  ! DIVIDIDO        [ shift and go to state 63 ]
+  ! POTENCIA        [ shift and go to state 64 ]
+  ! MODULO          [ shift and go to state 65 ]
+  ! DOT             [ shift and go to state 66 ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 99
+
+    (48) expresion -> expresion IGUALIGUAL expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    IGUALIGUAL      reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    DIFERENTE       reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    PRINTLN         reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    PRINT           reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    ID              reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    if              reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    while           reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    break           reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    return          reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    SEMICOLON       reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    PARDER          reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    COMMA           reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+
+  ! MAS             [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! MENOS           [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! POR             [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! POTENCIA        [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! MODULO          [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! DOT             [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! MAYORQ          [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! MENORQ          [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! MAYORIQ         [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! MENORIQ         [ reduce using rule 48 (expresion -> expresion IGUALIGUAL expresion .) ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 100
+
+    (49) expresion -> expresion MAYORQ expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    IGUALIGUAL      reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    MAYORQ          reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    MENORQ          reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    MAYORIQ         reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    MENORIQ         reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    DIFERENTE       reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    PRINTLN         reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    PRINT           reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    ID              reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    if              reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    while           reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    break           reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    return          reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    SEMICOLON       reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    PARDER          reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    COMMA           reduce using rule 49 (expresion -> expresion MAYORQ expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+
+  ! MAS             [ reduce using rule 49 (expresion -> expresion MAYORQ expresion .) ]
+  ! MENOS           [ reduce using rule 49 (expresion -> expresion MAYORQ expresion .) ]
+  ! POR             [ reduce using rule 49 (expresion -> expresion MAYORQ expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 49 (expresion -> expresion MAYORQ expresion .) ]
+  ! POTENCIA        [ reduce using rule 49 (expresion -> expresion MAYORQ expresion .) ]
+  ! MODULO          [ reduce using rule 49 (expresion -> expresion MAYORQ expresion .) ]
+  ! DOT             [ reduce using rule 49 (expresion -> expresion MAYORQ expresion .) ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 101
+
+    (50) expresion -> expresion MENORQ expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    IGUALIGUAL      reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    MAYORQ          reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    MENORQ          reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    MAYORIQ         reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    MENORIQ         reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    DIFERENTE       reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    PRINTLN         reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    PRINT           reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    ID              reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    if              reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    while           reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    break           reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    return          reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    SEMICOLON       reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    PARDER          reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    COMMA           reduce using rule 50 (expresion -> expresion MENORQ expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+
+  ! MAS             [ reduce using rule 50 (expresion -> expresion MENORQ expresion .) ]
+  ! MENOS           [ reduce using rule 50 (expresion -> expresion MENORQ expresion .) ]
+  ! POR             [ reduce using rule 50 (expresion -> expresion MENORQ expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 50 (expresion -> expresion MENORQ expresion .) ]
+  ! POTENCIA        [ reduce using rule 50 (expresion -> expresion MENORQ expresion .) ]
+  ! MODULO          [ reduce using rule 50 (expresion -> expresion MENORQ expresion .) ]
+  ! DOT             [ reduce using rule 50 (expresion -> expresion MENORQ expresion .) ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 102
+
+    (51) expresion -> expresion MAYORIQ expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    IGUALIGUAL      reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    MAYORQ          reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    MENORQ          reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    MAYORIQ         reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    MENORIQ         reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    DIFERENTE       reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    PRINTLN         reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    PRINT           reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    ID              reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    if              reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    while           reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    break           reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    return          reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    SEMICOLON       reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    PARDER          reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    COMMA           reduce using rule 51 (expresion -> expresion MAYORIQ expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+
+  ! MAS             [ reduce using rule 51 (expresion -> expresion MAYORIQ expresion .) ]
+  ! MENOS           [ reduce using rule 51 (expresion -> expresion MAYORIQ expresion .) ]
+  ! POR             [ reduce using rule 51 (expresion -> expresion MAYORIQ expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 51 (expresion -> expresion MAYORIQ expresion .) ]
+  ! POTENCIA        [ reduce using rule 51 (expresion -> expresion MAYORIQ expresion .) ]
+  ! MODULO          [ reduce using rule 51 (expresion -> expresion MAYORIQ expresion .) ]
+  ! DOT             [ reduce using rule 51 (expresion -> expresion MAYORIQ expresion .) ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 103
+
+    (52) expresion -> expresion MENORIQ expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    IGUALIGUAL      reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    MAYORQ          reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    MENORQ          reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    MAYORIQ         reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    MENORIQ         reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    DIFERENTE       reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    PRINTLN         reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    PRINT           reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    ID              reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    if              reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    while           reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    break           reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    return          reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    SEMICOLON       reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    PARDER          reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    COMMA           reduce using rule 52 (expresion -> expresion MENORIQ expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+
+  ! MAS             [ reduce using rule 52 (expresion -> expresion MENORIQ expresion .) ]
+  ! MENOS           [ reduce using rule 52 (expresion -> expresion MENORIQ expresion .) ]
+  ! POR             [ reduce using rule 52 (expresion -> expresion MENORIQ expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 52 (expresion -> expresion MENORIQ expresion .) ]
+  ! POTENCIA        [ reduce using rule 52 (expresion -> expresion MENORIQ expresion .) ]
+  ! MODULO          [ reduce using rule 52 (expresion -> expresion MENORIQ expresion .) ]
+  ! DOT             [ reduce using rule 52 (expresion -> expresion MENORIQ expresion .) ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! MAYORQ          [ shift and go to state 68 ]
+  ! MENORQ          [ shift and go to state 69 ]
+  ! MAYORIQ         [ shift and go to state 70 ]
+  ! MENORIQ         [ shift and go to state 71 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 104
+
+    (53) expresion -> expresion DIFERENTE expresion .
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+
+    IGUALIGUAL      reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    DIFERENTE       reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    PRINTLN         reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    PRINT           reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    ID              reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    if              reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    while           reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    break           reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    return          reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    SEMICOLON       reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    PARDER          reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    COMMA           reduce using rule 53 (expresion -> expresion DIFERENTE expresion .)
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+
+  ! MAS             [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MENOS           [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! POR             [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! DIVIDIDO        [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! POTENCIA        [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MODULO          [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! DOT             [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MAYORQ          [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MENORQ          [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MAYORIQ         [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! MENORIQ         [ reduce using rule 53 (expresion -> expresion DIFERENTE expresion .) ]
+  ! IGUALIGUAL      [ shift and go to state 67 ]
+  ! DIFERENTE       [ shift and go to state 72 ]
+
+
+state 105
+
+    (54) expresion -> PARIZQ expresion PARDER .
+
+    MAS             reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    MENOS           reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    POR             reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    DIVIDIDO        reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    POTENCIA        reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    MODULO          reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    DOT             reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    IGUALIGUAL      reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    MAYORQ          reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    MENORQ          reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    MAYORIQ         reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    MENORIQ         reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    DIFERENTE       reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    PRINTLN         reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    PRINT           reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    ID              reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    if              reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    while           reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    break           reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    return          reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    SEMICOLON       reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    PARDER          reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+    COMMA           reduce using rule 54 (expresion -> PARIZQ expresion PARDER .)
+
+
+state 106
+
+    (35) WHILE -> while expresion instrucciones FIN .
+
+    SEMICOLON       reduce using rule 35 (WHILE -> while expresion instrucciones FIN .)
+
+
+state 107
+
+    (15) PARAMETROTIPO -> ID TIPOVAR . TIPO
+    (16) PARAMETROTIPO -> ID TIPOVAR . ID
+    (68) TIPO -> . INT64
+    (69) TIPO -> . FLOAT64
+    (70) TIPO -> . BOOL
+    (71) TIPO -> . CHAR
+    (72) TIPO -> . ID
+    (73) TIPO -> . STRING
+
+    ID              shift and go to state 116
+    INT64           shift and go to state 118
+    FLOAT64         shift and go to state 119
+    BOOL            shift and go to state 120
+    CHAR            shift and go to state 121
+    STRING          shift and go to state 122
+
+    TIPO                           shift and go to state 117
+
+state 108
+
+    (8) function -> FUNCION ID PARIZQ PARDER instrucciones . FIN
+    (18) instrucciones -> instrucciones . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    FIN             shift and go to state 123
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instruccion                    shift and go to state 89
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 109
+
+    (9) function -> FUNCION ID PARIZQ PARAMETROSTIPO PARDER . instrucciones FIN
+    (18) instrucciones -> . instrucciones instruccion
+    (19) instrucciones -> . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instrucciones                  shift and go to state 124
+    instruccion                    shift and go to state 73
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 110
+
+    (13) PARAMETROSTIPO -> PARAMETROSTIPO COMMA . PARAMETROTIPO
+    (15) PARAMETROTIPO -> . ID TIPOVAR TIPO
+    (16) PARAMETROTIPO -> . ID TIPOVAR ID
+    (17) PARAMETROTIPO -> . ID
+
+    ID              shift and go to state 76
+
+    PARAMETROTIPO                  shift and go to state 125
+
+state 111
+
+    (10) PARAMETROS -> PARAMETROS COMMA PARAMETRO .
+
+    PARDER          reduce using rule 10 (PARAMETROS -> PARAMETROS COMMA PARAMETRO .)
+    COMMA           reduce using rule 10 (PARAMETROS -> PARAMETROS COMMA PARAMETRO .)
+
+
+state 112
+
+    (58) call -> ID NOT PARIZQ PARAMETROS PARDER .
+
+    SEMICOLON       reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    MAS             reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    MENOS           reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    POR             reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    DIVIDIDO        reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    POTENCIA        reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    MODULO          reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    DOT             reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    IGUALIGUAL      reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    MAYORQ          reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    MENORQ          reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    MAYORIQ         reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    MENORIQ         reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    DIFERENTE       reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    PRINTLN         reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    PRINT           reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    ID              reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    if              reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    while           reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    break           reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    return          reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    PARDER          reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+    COMMA           reduce using rule 58 (call -> ID NOT PARIZQ PARAMETROS PARDER .)
+
+
+state 113
+
+    (28) IF -> if expresion instrucciones else instrucciones . FIN
+    (18) instrucciones -> instrucciones . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    FIN             shift and go to state 126
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instruccion                    shift and go to state 89
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 114
+
+    (30) LIST_ELSEIF -> LIST_ELSEIF ELSEIF .
+
+    elseif          reduce using rule 30 (LIST_ELSEIF -> LIST_ELSEIF ELSEIF .)
+    SEMICOLON       reduce using rule 30 (LIST_ELSEIF -> LIST_ELSEIF ELSEIF .)
+
+
+state 115
+
+    (32) ELSEIF -> elseif expresion . instrucciones FIN
+    (33) ELSEIF -> elseif expresion . instrucciones else instrucciones FIN
+    (34) ELSEIF -> elseif expresion . instrucciones LIST_ELSEIF
+    (41) expresion -> expresion . MAS expresion
+    (42) expresion -> expresion . MENOS expresion
+    (43) expresion -> expresion . POR expresion
+    (44) expresion -> expresion . DIVIDIDO expresion
+    (45) expresion -> expresion . POTENCIA expresion
+    (46) expresion -> expresion . MODULO expresion
+    (47) expresion -> expresion . DOT expresion
+    (48) expresion -> expresion . IGUALIGUAL expresion
+    (49) expresion -> expresion . MAYORQ expresion
+    (50) expresion -> expresion . MENORQ expresion
+    (51) expresion -> expresion . MAYORIQ expresion
+    (52) expresion -> expresion . MENORIQ expresion
+    (53) expresion -> expresion . DIFERENTE expresion
+    (18) instrucciones -> . instrucciones instruccion
+    (19) instrucciones -> . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    MAS             shift and go to state 60
+    MENOS           shift and go to state 61
+    POR             shift and go to state 62
+    DIVIDIDO        shift and go to state 63
+    POTENCIA        shift and go to state 64
+    MODULO          shift and go to state 65
+    DOT             shift and go to state 66
+    IGUALIGUAL      shift and go to state 67
+    MAYORQ          shift and go to state 68
+    MENORQ          shift and go to state 69
+    MAYORIQ         shift and go to state 70
+    MENORIQ         shift and go to state 71
+    DIFERENTE       shift and go to state 72
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instrucciones                  shift and go to state 127
+    instruccion                    shift and go to state 73
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 116
+
+    (16) PARAMETROTIPO -> ID TIPOVAR ID .
+    (72) TIPO -> ID .
+
+  ! reduce/reduce conflict for PARDER resolved using rule 16 (PARAMETROTIPO -> ID TIPOVAR ID .)
+  ! reduce/reduce conflict for COMMA resolved using rule 16 (PARAMETROTIPO -> ID TIPOVAR ID .)
+    PARDER          reduce using rule 16 (PARAMETROTIPO -> ID TIPOVAR ID .)
+    COMMA           reduce using rule 16 (PARAMETROTIPO -> ID TIPOVAR ID .)
+
+  ! PARDER          [ reduce using rule 72 (TIPO -> ID .) ]
+  ! COMMA           [ reduce using rule 72 (TIPO -> ID .) ]
+
+
+state 117
+
+    (15) PARAMETROTIPO -> ID TIPOVAR TIPO .
+
+    PARDER          reduce using rule 15 (PARAMETROTIPO -> ID TIPOVAR TIPO .)
+    COMMA           reduce using rule 15 (PARAMETROTIPO -> ID TIPOVAR TIPO .)
+
+
+state 118
+
+    (68) TIPO -> INT64 .
+
+    PARDER          reduce using rule 68 (TIPO -> INT64 .)
+    COMMA           reduce using rule 68 (TIPO -> INT64 .)
+
+
+state 119
+
+    (69) TIPO -> FLOAT64 .
+
+    PARDER          reduce using rule 69 (TIPO -> FLOAT64 .)
+    COMMA           reduce using rule 69 (TIPO -> FLOAT64 .)
+
+
+state 120
+
+    (70) TIPO -> BOOL .
+
+    PARDER          reduce using rule 70 (TIPO -> BOOL .)
+    COMMA           reduce using rule 70 (TIPO -> BOOL .)
+
+
+state 121
+
+    (71) TIPO -> CHAR .
+
+    PARDER          reduce using rule 71 (TIPO -> CHAR .)
+    COMMA           reduce using rule 71 (TIPO -> CHAR .)
+
+
+state 122
+
+    (73) TIPO -> STRING .
+
+    PARDER          reduce using rule 73 (TIPO -> STRING .)
+    COMMA           reduce using rule 73 (TIPO -> STRING .)
+
+
+state 123
+
+    (8) function -> FUNCION ID PARIZQ PARDER instrucciones FIN .
+
+    SEMICOLON       reduce using rule 8 (function -> FUNCION ID PARIZQ PARDER instrucciones FIN .)
+
+
+state 124
+
+    (9) function -> FUNCION ID PARIZQ PARAMETROSTIPO PARDER instrucciones . FIN
+    (18) instrucciones -> instrucciones . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    FIN             shift and go to state 128
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instruccion                    shift and go to state 89
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 125
+
+    (13) PARAMETROSTIPO -> PARAMETROSTIPO COMMA PARAMETROTIPO .
+
+    PARDER          reduce using rule 13 (PARAMETROSTIPO -> PARAMETROSTIPO COMMA PARAMETROTIPO .)
+    COMMA           reduce using rule 13 (PARAMETROSTIPO -> PARAMETROSTIPO COMMA PARAMETROTIPO .)
+
+
+state 126
+
+    (28) IF -> if expresion instrucciones else instrucciones FIN .
+
+    SEMICOLON       reduce using rule 28 (IF -> if expresion instrucciones else instrucciones FIN .)
+
+
+state 127
+
+    (32) ELSEIF -> elseif expresion instrucciones . FIN
+    (33) ELSEIF -> elseif expresion instrucciones . else instrucciones FIN
+    (34) ELSEIF -> elseif expresion instrucciones . LIST_ELSEIF
+    (18) instrucciones -> instrucciones . instruccion
+    (30) LIST_ELSEIF -> . LIST_ELSEIF ELSEIF
+    (31) LIST_ELSEIF -> . ELSEIF
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (32) ELSEIF -> . elseif expresion instrucciones FIN
+    (33) ELSEIF -> . elseif expresion instrucciones else instrucciones FIN
+    (34) ELSEIF -> . elseif expresion instrucciones LIST_ELSEIF
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    FIN             shift and go to state 129
+    else            shift and go to state 130
+    elseif          shift and go to state 91
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    LIST_ELSEIF                    shift and go to state 131
+    instruccion                    shift and go to state 89
+    ELSEIF                         shift and go to state 90
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 128
+
+    (9) function -> FUNCION ID PARIZQ PARAMETROSTIPO PARDER instrucciones FIN .
+
+    SEMICOLON       reduce using rule 9 (function -> FUNCION ID PARIZQ PARAMETROSTIPO PARDER instrucciones FIN .)
+
+
+state 129
+
+    (32) ELSEIF -> elseif expresion instrucciones FIN .
+
+    elseif          reduce using rule 32 (ELSEIF -> elseif expresion instrucciones FIN .)
+    SEMICOLON       reduce using rule 32 (ELSEIF -> elseif expresion instrucciones FIN .)
+
+
+state 130
+
+    (33) ELSEIF -> elseif expresion instrucciones else . instrucciones FIN
+    (18) instrucciones -> . instrucciones instruccion
+    (19) instrucciones -> . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instrucciones                  shift and go to state 132
+    instruccion                    shift and go to state 73
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 131
+
+    (34) ELSEIF -> elseif expresion instrucciones LIST_ELSEIF .
+    (30) LIST_ELSEIF -> LIST_ELSEIF . ELSEIF
+    (32) ELSEIF -> . elseif expresion instrucciones FIN
+    (33) ELSEIF -> . elseif expresion instrucciones else instrucciones FIN
+    (34) ELSEIF -> . elseif expresion instrucciones LIST_ELSEIF
+
+  ! shift/reduce conflict for elseif resolved as shift
+    SEMICOLON       reduce using rule 34 (ELSEIF -> elseif expresion instrucciones LIST_ELSEIF .)
+    elseif          shift and go to state 91
+
+  ! elseif          [ reduce using rule 34 (ELSEIF -> elseif expresion instrucciones LIST_ELSEIF .) ]
+
+    ELSEIF                         shift and go to state 114
+
+state 132
+
+    (33) ELSEIF -> elseif expresion instrucciones else instrucciones . FIN
+    (18) instrucciones -> instrucciones . instruccion
+    (20) instruccion -> . imprimir SEMICOLON
+    (21) instruccion -> . call SEMICOLON
+    (22) instruccion -> . IF SEMICOLON
+    (23) instruccion -> . WHILE SEMICOLON
+    (24) instruccion -> . BREAK SEMICOLON
+    (25) instruccion -> . RETURN SEMICOLON
+    (26) instruccion -> . DECLARACION SEMICOLON
+    (39) imprimir -> . PRINTLN PARIZQ PARAMETROS PARDER
+    (40) imprimir -> . PRINT PARIZQ PARAMETROS PARDER
+    (55) call -> . ID PARIZQ PARDER
+    (56) call -> . ID NOT PARIZQ PARDER
+    (57) call -> . ID PARIZQ PARAMETROS PARDER
+    (58) call -> . ID NOT PARIZQ PARAMETROS PARDER
+    (27) IF -> . if expresion instrucciones FIN
+    (28) IF -> . if expresion instrucciones else instrucciones FIN
+    (29) IF -> . if expresion instrucciones LIST_ELSEIF
+    (35) WHILE -> . while expresion instrucciones FIN
+    (37) BREAK -> . break
+    (36) RETURN -> . return expresion
+    (38) DECLARACION -> . ID IGUAL expresion
+
+    FIN             shift and go to state 133
+    PRINTLN         shift and go to state 16
+    PRINT           shift and go to state 17
+    ID              shift and go to state 8
+    if              shift and go to state 18
+    while           shift and go to state 19
+    break           shift and go to state 20
+    return          shift and go to state 21
+
+    instruccion                    shift and go to state 89
+    imprimir                       shift and go to state 9
+    call                           shift and go to state 10
+    IF                             shift and go to state 11
+    WHILE                          shift and go to state 12
+    BREAK                          shift and go to state 13
+    RETURN                         shift and go to state 14
+    DECLARACION                    shift and go to state 15
+
+state 133
+
+    (33) ELSEIF -> elseif expresion instrucciones else instrucciones FIN .
+
+    elseif          reduce using rule 33 (ELSEIF -> elseif expresion instrucciones else instrucciones FIN .)
+    SEMICOLON       reduce using rule 33 (ELSEIF -> elseif expresion instrucciones else instrucciones FIN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for elseif in state 131 resolved as shift
+WARNING: reduce/reduce conflict in state 116 resolved using rule (PARAMETROTIPO -> ID TIPOVAR ID)
+WARNING: rejected rule (TIPO -> ID) in state 116
+WARNING: Rule (TIPO -> ID) is never reduced
