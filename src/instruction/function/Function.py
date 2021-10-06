@@ -13,7 +13,6 @@ class Function(Instruction):
     def compile(self, environment):
         auxG = Generator()
         generator = auxG.getInstance()
-
         newEnv = Environment(environment)
 
         exitLabel = generator.newLabel()
@@ -21,10 +20,10 @@ class Function(Instruction):
         generator.addBeginFunc(self.id)
 
         # temp = generator.addTemp()
+        newEnv.size += 1##Contando cuantos valores ya hay
         for p in self.parameters:
             # tempParam = generator.addTemp()
             # generator.addExp(tempParam, 'P', '1', '+')
-            newEnv.size += 1##Contando cuantos valores ya hay
             newEnv.setVariable(p, Type.ANY, False)
             # generator.getStack(temp, tempParam)
 
@@ -35,9 +34,6 @@ class Function(Instruction):
         generator.putLabel(exitLabel)
 
         generator.addEndFunc()
-
-    def validateParams(self):
-        pass
 
     def graph(self, g, father):
         pass

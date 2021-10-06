@@ -36,9 +36,15 @@
 # x(1);
 
 
-function x(n)
-    f = 5;
-    return n;
-end;
+# function x(n)
+#     return n;
+# end;
 
-println(x(4));
+# function y(n,b)
+#     return n+b;
+# end;
+
+# println(y(4,2));
+
+println(uppercase("cristian"));
+

@@ -16,6 +16,7 @@ class Generator:
         # Lista de funciones nativas
         self.printString = False
         self.exceptions = []
+        self.uppercase = False
 
     def getInstance(self):
         if Generator.generator == None:
@@ -176,10 +177,10 @@ class Generator:
     # HEAP
     #================================
     def setHeap(self, pos, value):
-        self.codeIn(f'heap[int({pos})]={value};\n')
+        self.codeIn(f'heap[int({pos})] = {value};\n')
 
     def getHeap(self, place, pos):
-        self.codeIn(f'{place}=heap[int({pos})];\n')
+        self.codeIn(f'{place} = heap[int({pos})];\n')
 
     def nextHeap(self):
         self.codeIn('H = H + 1;\n')
@@ -225,6 +226,76 @@ class Generator:
         self.addGoto(compareLbl)
 
         self.putLabel(returnLbl)
+        self.addEndFunc()
+        self.inNatives = False
+    
+    #================================
+
+    def fUpperCase(self):
+        if(self.uppercase):
+            return
+        self.uppercase = True
+        self.inNatives = True
+
+        self.addBeginFunc("uppercase")
+        
+        tempNewString = self.addTemp()
+        self.addExp(tempNewString, 'H', '', '')
+
+        # escape label
+        returnLbl = self.newLabel() 
+
+        # puntero stack
+        tempP = self.addTemp()
+
+        # puntero heap
+        tempH = self.addTemp()
+
+        self.addExp(tempP, 'P', '1', '+')
+        self.getStack(tempH, tempP)
+
+        #label inicio
+        initLbl = self.newLabel()
+        self.addGoto(initLbl)
+        self.putLabel(initLbl)
+
+        #temporal para extraer caracter´
+        tempC = self.addTemp()
+
+        self.getHeap(tempC, tempH)
+
+        #Label para transformacion
+        labelEx = self.newLabel()
+
+        # Si temp = -1 llegamos al final de la cadena
+        self.addIf(tempC, "-1", "==", returnLbl)
+        self.addIf(tempC, "97", ">", labelEx)
+        self.addIf(tempC, "122", "<", labelEx)
+        
+        self.putLabel(labelEx)
+
+        # para convertirlo a mayuscula
+        self.addExp(tempC, tempC, '32', '-') 
+       
+        # Guardamos en una posicion nueva del heap
+        self.setHeap('H', tempC)
+        # Aumentamos el heap
+        self.nextHeap()
+
+        # next puntero heap
+        self.addExp(tempH, tempH, '1', '+')
+        # regresamos al lbl de inicio
+        self.addGoto(initLbl) 
+        self.putLabel(returnLbl)
+
+        # Guardamos el -1 indicando el fin de la cadena
+        self.setHeap('H', '-1')
+        # Aumentamos el heap
+        self.nextHeap()
+
+        #Guardamos el retono
+        self.setStack('P', tempNewString)
+        
         self.addEndFunc()
         self.inNatives = False
 

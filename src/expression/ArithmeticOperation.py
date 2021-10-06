@@ -2,6 +2,7 @@ from src.abstract.Expression import Expression
 from src.ast.Generator import Generator
 from src.ast.Type import TypeOperation
 from src.ast.TypeTable import TypeTable
+from src.ast.Type import Type
 from src.abstract.Return import Return
 
 class ArithmeticOperation(Expression):
@@ -18,9 +19,9 @@ class ArithmeticOperation(Expression):
         left = self.left.compile(environment)
         rigth = self.rigth.compile(environment)
 
-        finalType = TypeTable()
+        # finalType = TypeTable()
 
-        resultType =  finalType.getType(left.getType(), rigth.getType()) 
+        # resultType = finalType.getType(left.getType(), rigth.getType()) 
 
         temp = generator.addTemp()
 
@@ -35,7 +36,7 @@ class ArithmeticOperation(Expression):
             op = '/'
         
         generator.addExp(temp, left.getValue(), rigth.getValue(), op)
-        return Return(temp, resultType, True)
+        return Return(temp, Type.INT64, True)
 
 
     def graph(self, g, father):

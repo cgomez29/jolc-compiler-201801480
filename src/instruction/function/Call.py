@@ -14,6 +14,13 @@ class Call(Expression):
     def compile(self, environment):
         aucG = Generator()
         generator = aucG.getInstance()
+        if(self.id == "uppercase"):
+            for p in self.parameters:
+                ret = p.compile(environment)
+                value = ret.getValue()
+                # returnType = ret.getType()
+            return Return(self.callUpperCase(environment, value), Type.STRING, False) 
+
 
         sizeActual = environment.size
 
@@ -38,13 +45,32 @@ class Call(Expression):
             returnType = ret.getType()
             generator.setStack(temp, value)
 
-
         generator.newEnv(sizeActual)
         generator.callFun(self.id)
         generator.getStack(temp, 'P')
         generator.retEnv(sizeActual)
 
         return Return(temp, returnType, False)
+
+    def callUpperCase(self, environment, value):
+        auxG = Generator()
+        generator = auxG.getInstance()
+        generator.fUpperCase()
+
+        paramTemp = generator.addTemp()
+
+        generator.addExp(paramTemp, 'P', environment.getSize(), '+')
+        generator.addExp(paramTemp, paramTemp, '1', '+')
+        generator.setStack(paramTemp, value)
+
+        generator.newEnv(environment.getSize())
+        generator.callFun('uppercase')
+
+        temp = generator.addTemp()
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.getSize())
+
+        return temp
 
     def graph(self, g, father):
         pass

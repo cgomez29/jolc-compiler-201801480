@@ -12,11 +12,11 @@ class Environment:
 
         # Nuevo
         self.size = 0
-        print("ACTUAL", self.size)
+        # print("ACTUAL", self.size)
         if(previous != None):
-            print("ES NUEVOO")
+            # print("ES NUEVOO")
             self.size = self.previous.size
-            print("ES NUEVOO", self.size)
+            # print("ES NUEVOO", self.size)
     
     def setName(self, name):
         self.name = name 
