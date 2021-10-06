@@ -34,10 +34,9 @@ class LogicalOperation(Expression):
 
             result.trueLbl = rigth.trueLbl
             result.falseLbl = rigth.falseLbl
-        elif(self.typeOperation == TypeOperation.DIFERENTE):
-            return '!'
-
-        
+        elif(self.typeOperation == TypeOperation.NOT):
+            result.trueLbl = left.falseLbl
+            result.falseLbl = left.trueLbl
         
         return result
 

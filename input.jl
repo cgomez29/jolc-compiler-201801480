@@ -52,6 +52,6 @@
 # println(x(4));
 
 
-if (5>1 && 5>2 ) 
+if (!true) 
     println(1);
 end;
