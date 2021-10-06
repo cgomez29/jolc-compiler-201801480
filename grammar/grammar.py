@@ -13,6 +13,7 @@ from src.instruction.function.Function import Function
 from src.instruction.function.Call import Call
 from src.expression.ArithmeticOperation import ArithmeticOperation
 from src.expression.RelationalOperation import RelationalOperation
+from src.expression.LogicalOperation import LogicalOperation
 from src.expression.Identifier import Identifier 
 from src.expression.Literal import Literal 
 
@@ -423,6 +424,16 @@ def p_expresion_relacional(t):
     elif t[2] == '<=': t[0] = RelationalOperation(t[1],t[3], TypeOperation.MENORIQ, t.lineno(2), find_column(t.slice[2]))
     elif t[2] == '!=': t[0] = RelationalOperation(t[1],t[3], TypeOperation.DIFERENTE, t.lineno(2), find_column(t.slice[2]))
 
+
+def p_expresiones_logicas(t):
+    '''expresion : expresion AND expresion
+                | expresion OR expresion'''
+    if t[2] == '&&'  : t[0] = LogicalOperation(t[1],t[3], TypeOperation.AND, t.lineno(2), find_column(t.slice[2]))
+    elif t[2] == '||'  : t[0] = LogicalOperation(t[1],t[3], TypeOperation.OR, t.lineno(2), find_column(t.slice[2]))
+
+def p_expresiones_logicasNOT(t):
+    '''expresion : NOT expresion '''
+    if t[1] == '!'  : t[0] = LogicalOperation(t[2],None, TypeOperation.NOT, t.lineno(1), find_column(t.slice[1]))
 
 def p_expresion_agrupacion(t):
     'expresion : PARIZQ expresion PARDER'

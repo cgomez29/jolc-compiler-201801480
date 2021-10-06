@@ -37,14 +37,21 @@
 
 
 # function x(n)
-#     return n;
+#     f = 5;
+#     return f+n+n;
 # end;
 
-# function y(n,b)
-#     return n+b;
-# end;
+# # function y(n,b)
+# #     return n+b;
+# # end;
 
-# println(y(4,2));
+# # println(y(4,2));
 
-println(uppercase("cristian"));
+# # println(uppercase("cristian"));
 
+# println(x(4));
+
+
+if (5>1 && 5>2 ) 
+    println(1);
+end;

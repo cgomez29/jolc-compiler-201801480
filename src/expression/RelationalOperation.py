@@ -16,7 +16,7 @@ class RelationalOperation(Expression):
         auxG = Generator()
         generator = auxG.getInstance()
 
-        generator.addComment('Start relation expression')
+        generator.addComment('Start relational expression')
 
         left = self.left.compile(environment)
         rigth = None
@@ -47,7 +47,7 @@ class RelationalOperation(Expression):
             generator.putLabel(gotoRigth)
 
             right = self.right.compile(environment)
-            if right.type != Type.BOOLEAN:
+            if right.type != Type.BOOL:
                 print("Error, no se pueden comparar")
                 return
             gotoEnd = generator.newLabel()

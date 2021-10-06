@@ -6,10 +6,10 @@ from src.ast.Type import Type
 from src.abstract.Return import Return
 
 class ArithmeticOperation(Expression):
-    def __init__(self, left, rigth, typeOperation, line, column):
+    def __init__(self, left, right, typeOperation, line, column):
         Expression.__init__(self, line, column)
         self.left = left
-        self.rigth = rigth
+        self.right = right
         self.typeOperation = typeOperation  
 
     def compile(self, environment):
@@ -17,7 +17,7 @@ class ArithmeticOperation(Expression):
         generator = auxG.getInstance()
 
         left = self.left.compile(environment)
-        rigth = self.rigth.compile(environment)
+        right = self.right.compile(environment)
 
         # finalType = TypeTable()
 
@@ -34,8 +34,10 @@ class ArithmeticOperation(Expression):
             op = '*'
         elif (self.typeOperation == TypeOperation.DIVISION):
             op = '/'
+        elif (self.typeOperation == TypeOperation.MODULO):
+            op = '%'
         
-        generator.addExp(temp, left.getValue(), rigth.getValue(), op)
+        generator.addExp(temp, left.getValue(), right.getValue(), op)
         return Return(temp, Type.INT64, True)
 
 
