@@ -19,37 +19,19 @@ class ArithmeticOperation(Expression):
         left = self.left.compile(environment)
         rigth = self.rigth.compile(environment)
 
+        if(left.getType() == Type.STRING and rigth.getType() == Type.INT64 and
+            self.typeOperation == TypeOperation.POTENCIA): # String ^ INT64
+            generator.fRepeatString()
+            return self.repeatString(environment, left.getValue(), rigth.getValue())
 
-        
         # Concatenacion de String
         if(left.getType() == Type.STRING and rigth.getType() == Type.STRING and
             self.typeOperation == TypeOperation.MULTIPLICACION): # String * String
             generator.fConcatString()
-            
-            # paso de parametros
-            # Parametro 1 
-            paramTemp = generator.addTemp()
-            generator.addExp(paramTemp, 'P', environment.getSize(), '+')
-            generator.addExp(paramTemp, paramTemp, '1', '+')
-            generator.setStack(paramTemp, left.getValue())
-            # Parametro 2 
-            paramTemp1 = generator.addTemp()
-            generator.addExp(paramTemp1, paramTemp, environment.getSize(), '+')
-            generator.addExp(paramTemp1, paramTemp1, '1', '+')
-            generator.setStack(paramTemp1, rigth.getValue())
-            
-            # Cambio y llamada a entorno
-            generator.newEnv(environment.getSize())
-            generator.callFun('concatString')
-            temp = generator.addTemp()
-            generator.getStack(temp, 'P')
-            generator.retEnv(environment.getSize())
-            return Return(temp, Type.STRING, True)
-
+            return self.concatString(environment, left.getValue(), rigth.getValue())
+        
         # finalType = TypeTable()
-
         # resultType = finalType.getType(left.getType(), rigth.getType()) 
-
 
         temp = generator.addTemp()
 
@@ -68,6 +50,51 @@ class ArithmeticOperation(Expression):
         generator.addExp(temp, left.getValue(), rigth.getValue(), op)
         return Return(temp, Type.INT64, True)
 
+    def repeatString(self, environment, param1, param2):
+        auxG = Generator()
+        generator = auxG.getInstance()
+        # paso de parámetros
+        # Parametro 1 
+        paramTemp = generator.addTemp()
+        generator.addExp(paramTemp, 'P', environment.getSize(), '+')
+        generator.addExp(paramTemp, paramTemp, '1', '+')
+        generator.setStack(paramTemp, param1)
+        # Parametro 2 
+        paramTemp1 = generator.addTemp()
+        generator.addExp(paramTemp1, paramTemp, environment.getSize(), '+')
+        generator.addExp(paramTemp1, paramTemp1, '1', '+')
+        generator.setStack(paramTemp1, param2)
+        
+        # Cambio y llamada a entorno
+        generator.newEnv(environment.getSize())
+        generator.callFun('repeatString')
+        temp = generator.addTemp()
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.getSize())
+        return Return(temp, Type.STRING, True)
+
+    def concatString(self, environment, param1, param2):
+        auxG = Generator()
+        generator = auxG.getInstance()
+        # paso de parámetros
+        # Parametro 1 
+        paramTemp = generator.addTemp()
+        generator.addExp(paramTemp, 'P', environment.getSize(), '+')
+        generator.addExp(paramTemp, paramTemp, '1', '+')
+        generator.setStack(paramTemp, param1)
+        # Parametro 2 
+        paramTemp1 = generator.addTemp()
+        generator.addExp(paramTemp1, paramTemp, environment.getSize(), '+')
+        generator.addExp(paramTemp1, paramTemp1, '1', '+')
+        generator.setStack(paramTemp1, param2)
+        
+        # Cambio y llamada a entorno
+        generator.newEnv(environment.getSize())
+        generator.callFun('concatString')
+        temp = generator.addTemp()
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.getSize())
+        return Return(temp, Type.STRING, True)
 
     def graph(self, g, father):
         pass

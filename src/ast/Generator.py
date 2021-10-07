@@ -22,7 +22,7 @@ class Generator:
         self.uppercase = False
         self.lowercase = False
         self.concatString = False
-
+        self.repeatString = False
         self.exceptions = []
 
     def getInstance(self):
@@ -408,6 +408,8 @@ class Generator:
         self.addEndFunc()
         self.inNatives = False
 
+    #================================
+
     def fConcatString(self):
         if(self.concatString):
             return
@@ -489,6 +491,85 @@ class Generator:
         self.addEndFunc()
         self.inNatives = False
 
+    #================================
+
+    def fRepeatString(self):
+        if(self.repeatString):
+            return
+        self.repeatString = True
+        self.inNatives = True
+        self.addBeginFunc("repeatString")
+        # temp new String
+        tempNewString = self.addTemp()
+        # temp counter iteraciones
+        tempCounter = self.addTemp()
+
+        # Guardando pos del string a repetir
+        tempR = self.addTemp() 
+        
+        tempP = self.addTemp()
+        tempP2 = self.addTemp()
+        tempH = self.addTemp()
+
+        # label de salida
+        returnLbl = self.newLabel()
+        # label de inicio
+        initLbl = self.newLabel()
+
+        # Guardando el inicio de mi concatenacion
+        self.addExp(tempNewString, 'H', '', '')
+        self.addExp(tempCounter, '1', '', '')
+
+        #extrayendo parametros
+        #Parametro1
+        self.addExp(tempP, 'P', '1', '+')
+        self.getStack(tempP, tempP)
+        #Parametro1
+        self.addExp(tempP2, 'P', '2', '+')
+        self.getStack(tempP2, tempP2)
+
+        ## Inicio de recorrido
+        # self.addGoto(initLbl)
+        self.addExp(tempR, tempP, '', '')
+        self.putLabel(initLbl)
+
+        #extrayendo valor del heap
+        self.getHeap(tempH,tempP)
+
+        # labels para primer parámetro
+        lblTrue1 = self.newLabel() 
+        # lblFalse1 = self.newLabel() 
+
+        self.addIf(tempH, '-1', '==', lblTrue1)
+        # self.addGoto(lblFalse1)
+        # self.putLabel(lblFalse1)
+
+        # Guardando nuevo string
+        self.setHeap('H', tempH)
+        self.addExp(tempP, tempP, '1', '+')
+        self.nextHeap()
+        # regresando al inicio
+        self.addGoto(initLbl)
+        # termino la cadena 
+        self.putLabel(lblTrue1)
+        self.addIf(tempP2, tempCounter, '==', returnLbl)
+        self.addExp(tempCounter, tempCounter, '1', '+')
+        # regresandoe el puntero para recorrer nuevamente el string 
+        self.addExp(tempP, tempR, '', '')
+        self.addGoto(initLbl)
+        
+        # salida
+        self.putLabel(returnLbl)
+
+        # colocando simbolo de finalizacion
+        self.setHeap('H', '-1')
+        self.nextHeap()
+        
+        # valor de retorno
+        self.setStack('P', tempNewString)
+
+        self.addEndFunc()
+        self.inNatives = False
     #================================
     # EXCEPTION
     #================================

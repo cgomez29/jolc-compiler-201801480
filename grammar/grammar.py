@@ -408,6 +408,7 @@ def p_expresion_aritmetica(t):
     elif t[2] == '*': t[0] = ArithmeticOperation(t[1],t[3], TypeOperation.MULTIPLICACION, t.lineno(2), find_column(t.slice[2]))
     elif t[2] == '/': t[0] = ArithmeticOperation(t[1],t[3], TypeOperation.DIVISION, t.lineno(2), find_column(t.slice[2]))
     elif t[2] == '%': t[0] = ArithmeticOperation(t[1],t[3], TypeOperation.MODULO, t.lineno(2), find_column(t.slice[2]))
+    elif t[2] == '^': t[0] = ArithmeticOperation(t[1],t[3], TypeOperation.POTENCIA, t.lineno(2), find_column(t.slice[2]))
    
 def p_expresion_relacional(t):
     '''expresion : expresion IGUALIGUAL expresion

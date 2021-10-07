@@ -51,4 +51,10 @@
 
 # println(x(4));
 
-println("Hola "*"Mundo");
+if (5>6)
+    println(1);
+elseif (5<2)
+    println(2);
+else
+    println(0);
+end;
