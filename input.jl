@@ -51,7 +51,3 @@
 
 # println(x(4));
 
-
-if (!true) 
-    println(1);
-end;

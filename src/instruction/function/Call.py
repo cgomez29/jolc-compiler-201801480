@@ -14,13 +14,19 @@ class Call(Expression):
     def compile(self, environment):
         aucG = Generator()
         generator = aucG.getInstance()
+
         if(self.id == "uppercase"):
             for p in self.parameters:
                 ret = p.compile(environment)
                 value = ret.getValue()
                 # returnType = ret.getType()
             return Return(self.callUpperCase(environment, value), Type.STRING, False) 
-
+        elif(self.id == 'lowercase'):
+            for p in self.parameters:
+                ret = p.compile(environment)
+                value = ret.getValue()
+                # returnType = ret.getType()
+            return Return(self.callLowerCase(environment, value), Type.STRING, False) 
 
         sizeActual = environment.size
 
@@ -69,7 +75,26 @@ class Call(Expression):
         temp = generator.addTemp()
         generator.getStack(temp, 'P')
         generator.retEnv(environment.getSize())
+        return temp
 
+    
+    def callLowerCase(self, environment, value):
+        auxG = Generator()
+        generator = auxG.getInstance()
+        generator.fLowerCase()
+
+        paramTemp = generator.addTemp()
+
+        generator.addExp(paramTemp, 'P', environment.getSize(), '+')
+        generator.addExp(paramTemp, paramTemp, '1', '+')
+        generator.setStack(paramTemp, value)
+
+        generator.newEnv(environment.getSize())
+        generator.callFun('lowercase')
+
+        temp = generator.addTemp()
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.getSize())
         return temp
 
     def graph(self, g, father):

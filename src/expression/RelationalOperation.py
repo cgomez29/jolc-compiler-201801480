@@ -46,7 +46,7 @@ class RelationalOperation(Expression):
 
             generator.putLabel(gotoRigth)
 
-            right = self.right.compile(environment)
+            right = self.rigth.compile(environment)
             if right.type != Type.BOOL:
                 print("Error, no se pueden comparar")
                 return
