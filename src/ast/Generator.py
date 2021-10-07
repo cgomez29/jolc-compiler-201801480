@@ -1,3 +1,6 @@
+from re import T
+
+
 class Generator:
     generator = None
     def __init__(self):
@@ -18,6 +21,7 @@ class Generator:
         self.printString = False
         self.uppercase = False
         self.lowercase = False
+        self.concatString = False
 
         self.exceptions = []
 
@@ -91,7 +95,7 @@ class Generator:
     # EXPRESIONES
     #================================
     def addExp(self, result, left, right, op):
-        self.codeIn(f'{result} = {left} {op} {right};\n')
+        self.codeIn(f'{result} = {left}{op}{right};\n')
 
     #================================
     # INSTRUCCIONES
@@ -112,6 +116,38 @@ class Generator:
         self.addPrint("c", 115)
         self.addPrint("c", 101)
 
+    def printNothing(self):
+        self.addPrint("c", 110) # n
+        self.addPrint("c", 111) # o
+        self.addPrint("c", 116) # t
+        self.addPrint("c", 104) # h
+        self.addPrint("c", 105) # i
+        self.addPrint("c", 110) # n
+        self.addPrint("c", 103) # g
+
+    def printMathError(self):
+        self.addPrint("c", 77) # M
+        self.addPrint("c", 97) # a
+        self.addPrint("c", 116) # t
+        self.addPrint("c", 104) # h
+        self.addPrint("c", 69) # E
+        self.addPrint("c", 114) # r
+        self.addPrint("c", 114) # r
+        self.addPrint("c", 111) # o
+        self.addPrint("c", 114) # r
+
+    def printBoundsError(self):
+        self.addPrint("c", 66) # B
+        self.addPrint("c", 111) # o
+        self.addPrint("c", 117) # u
+        self.addPrint("c", 110) # n
+        self.addPrint("c", 100) # d
+        self.addPrint("c", 115) # s
+        self.addPrint("c", 69) # E
+        self.addPrint("c", 114) # r
+        self.addPrint("c", 114) # r
+        self.addPrint("c", 111) # o
+        self.addPrint("c", 114) # r
     #================================
     # New line for comentary
     #================================
@@ -272,14 +308,13 @@ class Generator:
 
         # Si temp = -1 llegamos al final de la cadena
         self.addIf(tempC, "-1", "==", returnLbl)
-        self.addIf(tempC, "97", "<", labelEx)
-        self.addIf(tempC, "122", ">", labelEx)
+        self.addIf(tempC, "97", ">", labelEx)
+        self.addIf(tempC, "122", "<", labelEx)
         
+        self.putLabel(labelEx)
 
         # para convertirlo a mayuscula
         self.addExp(tempC, tempC, '32', '-') 
-
-        self.putLabel(labelEx)
        
         # Guardamos en una posicion nueva del heap
         self.setHeap('H', tempC)
@@ -343,14 +378,14 @@ class Generator:
 
         # Si temp = -1 llegamos al final de la cadena
         self.addIf(tempC, "-1", "==", returnLbl)
-        self.addIf(tempC, "65", "<", labelEx)
-        self.addIf(tempC, "90", ">", labelEx)
+        self.addIf(tempC, "65", ">", labelEx)
+        self.addIf(tempC, "90", "<", labelEx)
         
+        self.putLabel(labelEx)
+
         # para convertirlo a mayuscula
         self.addExp(tempC, tempC, '32', '+') 
        
-        self.putLabel(labelEx)
-
         # Guardamos en una posicion nueva del heap
         self.setHeap('H', tempC)
         # Aumentamos el heap
@@ -370,6 +405,87 @@ class Generator:
         #Guardamos el retono
         self.setStack('P', tempNewString)
         
+        self.addEndFunc()
+        self.inNatives = False
+
+    def fConcatString(self):
+        if(self.concatString):
+            return
+        self.concatString = True
+        self.inNatives = True
+        self.addBeginFunc("concatString")
+        #temp new String
+        tempNewString = self.addTemp()
+
+        tempP = self.addTemp()
+        tempP2 = self.addTemp()
+        tempH = self.addTemp()
+
+        # label de salida
+        returnLbl = self.newLabel()
+        # label de inicio
+        initLbl = self.newLabel()
+
+        # Guardando el inicio de mi concatenacion
+        self.addExp(tempNewString, 'H', '', '')
+
+        #extrayendo parametros
+        #Parametro1
+        self.addExp(tempP, 'P', '1', '+')
+        self.getStack(tempP, tempP)
+        #Parametro1
+        self.addExp(tempP2, 'P', '2', '+')
+        self.getStack(tempP2, tempP2)
+
+        ## Inicio de recorrido
+        self.addGoto(initLbl)
+        self.putLabel(initLbl)
+
+        #extrayendo valor del heap
+        self.getHeap(tempH,tempP)
+
+        # labels para primer parámetro
+        lblTrue1 = self.newLabel() 
+        lblFalse1 = self.newLabel() 
+
+        self.addIf(tempH, '-1', '==', lblFalse1)
+        self.addGoto(lblTrue1)
+        self.putLabel(lblTrue1)
+        # concatenando....
+        self.setHeap('H',tempH)
+        self.nextHeap()
+        self.addExp(tempP, tempP, '1', '+')
+        self.addGoto(initLbl)
+
+        #continua con el segundo parametro
+        self.putLabel(lblFalse1)
+
+        #extrayendo valor del heap
+        self.getHeap(tempH,tempP2)
+        
+        # labels para segundo parámetro
+        lblTrue1 = self.newLabel() 
+        # lblFalse1 = self.newLabel() 
+
+        self.addIf(tempH, '-1', '==', returnLbl)
+        self.addGoto(lblTrue1)
+        self.putLabel(lblTrue1)
+        # concatenando....
+        self.setHeap('H',tempH)
+        self.nextHeap()
+        self.addExp(tempP2, tempP2, '1', '+')
+        self.addGoto(lblFalse1) #regresamos al lbl falso del primer parámetro
+        
+        # salida function
+        self.putLabel(returnLbl)
+
+        # Ingresando el simbolo de terminación de la cadena
+        self.setHeap('H', '-1')
+        self.nextHeap()
+
+        # valor de retorno
+        self.setStack('P', tempNewString)
+
         self.addEndFunc()
         self.inNatives = False
 
