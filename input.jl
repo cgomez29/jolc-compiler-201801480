@@ -41,14 +41,20 @@
 #     return f+n+n;
 # end;
 
-# # function y(n,b)
-# #     return n+b;
-# # end;
+# function y(n,b)
+#     return n*b;
+# end;
 
-# # println(y(4,2));
 
-# # println(uppercase("cristian"));
+# println(y(4,4));
 
-# println(x(4));
 
-println(parse(Float64,"3.141516"));
+# println(y(4,4));
+
+
+mutable struct Persona 
+    nombre;
+    edad;
+end;
+
+p = Persona(22, "cris");

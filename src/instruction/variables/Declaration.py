@@ -22,7 +22,7 @@ class Declaration(Instruction):
 
         #Guardado y obtencion de la variable
         #Contiene la posicion para asignarlo en el heap
-        newVar = environment.setVariable(self.id, val.getType(), (val.type == Type.STRING or val.type == Type.STRUCT))
+        newVar = environment.setVariable(self.id, val.getType(), (val.type == Type.STRING or val.type == Type.STRUCT or val.type == Type.MSTRUCT))
         
         # Obtencion de posicion de la variable
         tempPos = newVar.pos

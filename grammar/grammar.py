@@ -10,6 +10,7 @@ from src.instruction.loops.While import While
 from src.instruction.loops.Break import Break
 from src.instruction.loops.Return import Return
 from src.instruction.function.Function import Function
+from src.instruction.struct.Struct import Struct
 from src.instruction.function.Call import Call
 from src.expression.ArithmeticOperation import ArithmeticOperation
 from src.expression.RelationalOperation import RelationalOperation
@@ -304,12 +305,64 @@ def p_instrucciones_instruccion(t):
 def p_instruccion_evaluar(t):
     '''instruccion  : imprimir SEMICOLON
                     | call SEMICOLON
+                    | STRUCTS SEMICOLON
                     | IF SEMICOLON
                     | WHILE SEMICOLON
                     | BREAK SEMICOLON
                     | RETURN SEMICOLON
                     | DECLARACION SEMICOLON'''
     t[0] = t[1]
+
+#=======================================================================================
+# STRUCT
+#=======================================================================================
+
+def p_instruccion_struct(t):
+    '''STRUCTS   :   MUTABLE STRUCT ID ATIBUTOSSTRUCT FIN
+                |   MUTABLE STRUCT ID FIN
+                |   STRUCT ID ATIBUTOSSTRUCT FIN
+                |   STRUCT ID FIN
+                '''
+    if(len(t) == 6):
+        t[0] = Struct(t[3], t[4], t.lineno(1), find_column(t.slice[1]), True)
+    elif(len(t) == 5):
+        if(t[1] == "mutable"):
+           t[0] = Struct(t[3], [], t.lineno(1), find_column(t.slice[1]), True)
+        else: 
+           t[0] = Struct(t[2], t[3], t.lineno(1), find_column(t.slice[1]))
+    else:
+        t[0] = Struct(t[2], [], t.lineno(1), find_column(t.slice[1]))
+
+def p_struct_atributos(t):
+    '''ATIBUTOSSTRUCT   :   ATIBUTOSSTRUCT ATRIBUTOSTRUCT SEMICOLON'''
+    t[1].append(t[2])
+    t[0] = t[1]
+
+def p_struct_actributo(t):
+    '''ATIBUTOSSTRUCT   :   ATRIBUTOSTRUCT SEMICOLON'''
+    t[0] = [t[1]]
+
+def p_atributo_item(t):
+    '''ATRIBUTOSTRUCT   :   ID TIPOVAR TIPO 
+                        |   ID TIPOVAR ID
+                        |   ID '''
+    if(len(t)==2):
+        t[0] = {"id":t[1],"tipo": DataType("Any", Type.ANY, 0, 0)}
+    else:
+        t[0] = {"id":t[1],"tipo": t[3]}
+
+def p_struct_gets(t):
+    '''STRUCTGETS   : STRUCTGETS DOT STRUCTGET'''
+    t[1].append(t[3])
+    t[0] = t[1]
+
+def p_struct_get(t):
+    '''STRUCTGETS   : STRUCTGET'''
+    t[0] = [t[1]]
+
+def p_get_item(t):
+    '''STRUCTGET    :   ID'''
+    t[0] = t[1] 
 
 #=======================================================================================
 # IF

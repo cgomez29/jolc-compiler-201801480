@@ -49,6 +49,9 @@ class Environment:
     def setFunction(self, id, function):
         self.functions[id] = function
 
+    def setStruct(self, id, struct):
+        self.structs[id] = struct
+
     # Retorna el simbolo del struct buscado
     def getStruct(self, id):
         env = self 
@@ -56,7 +59,6 @@ class Environment:
             if id in env.structs.keys(): return env.structs[id]
             env = env.previous
         return None
-
 
     def getGlobalEnviroment(self):
         environment = self
