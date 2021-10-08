@@ -492,6 +492,10 @@ def p_expresion_boolean(t):
 
 #=======================================================================================
 
+def p_expresion_tipo(t):
+    'expresion : TIPO'
+    t[0] = t[1]
+
 def p_tipo(t):
     '''TIPO :   INT64
             |   FLOAT64

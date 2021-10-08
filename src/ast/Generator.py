@@ -23,6 +23,7 @@ class Generator:
         self.lowercase = False
         self.concatString = False
         self.repeatString = False
+        self.parse = False
         self.exceptions = []
 
     def getInstance(self):
@@ -101,7 +102,10 @@ class Generator:
     # INSTRUCCIONES
     #================================
     def addPrint(self, type, value):
-        self.codeIn(f'fmt.Printf("%{type}", int({value}));\n')
+        if(type == 'f'):
+            self.codeIn(f'fmt.Printf("%{type}", {value});\n')
+        else:
+            self.codeIn(f'fmt.Printf("%{type}", int({value}));\n')
 
     def printTrue(self):
         self.addPrint("c", 116)
@@ -564,12 +568,82 @@ class Generator:
         # colocando simbolo de finalizacion
         self.setHeap('H', '-1')
         self.nextHeap()
-        
+
         # valor de retorno
         self.setStack('P', tempNewString)
 
         self.addEndFunc()
         self.inNatives = False
+
+    def fParse(self):
+        if(self.parse):
+            return
+        self.parse = True
+        self.inNatives = True
+        self.addBeginFunc("parse")
+
+        tempP = self.addTemp()
+        tempH = self.addTemp()
+        tempNum = self.addTemp()
+        tempBase = self.addTemp()
+
+        self.addExp(tempBase, '10', '', '')
+
+        # label de salida
+        returnLbl = self.newLabel()
+        # label de inicio
+        initLbl = self.newLabel()
+
+        #extrayendo parametros
+        #Parametro1
+        self.addExp(tempP, 'P', '1', '+')
+        self.getStack(tempP, tempP)
+
+        #inicio recorrido
+        self.putLabel(initLbl)
+
+        # extrayendo digito
+        self.getHeap(tempH, tempP)
+
+        lblDecimal = self.newLabel()
+        lblTrue = self.newLabel()
+
+        # es numero
+        self.addIf(tempH, '46', '==', lblTrue)
+        # self.addIf(tempH, '48', '<', lblTrue)
+        # self.addIf(tempH, '57', '>', lblTrue)
+
+        self.addExp(tempH, tempH, '48', '-')
+        self.addExp(tempNum, tempNum, tempH, '+')
+        self.addExp(tempP, tempP, '1', '+')
+
+        self.addGoto(initLbl)
+
+        self.putLabel(lblTrue)
+        self.addExp(tempP, tempP, '1', '+')
+
+        self.putLabel(lblDecimal)
+
+        # extrayendo digito
+        self.getHeap(tempH, tempP)
+
+        self.addIf(tempH, '-1', '==', returnLbl)
+
+        self.addExp(tempH, tempH, '48', '-')
+        self.addExp(tempH, tempH, tempBase, '/')
+        self.addExp(tempNum, tempNum, tempH, '+')
+        self.addExp(tempP, tempP, '1', '+')
+        self.addExp(tempBase, tempBase, '10', '*')
+        
+        self.addGoto(lblDecimal)
+        # label de salida
+        self.putLabel(returnLbl)
+
+        # valor de retorno
+        self.setStack('P', tempNum)
+        self.addEndFunc()
+        self.inNatives = False
+
     #================================
     # EXCEPTION
     #================================

@@ -27,6 +27,13 @@ class Call(Expression):
                 value = ret.getValue()
                 # returnType = ret.getType()
             return Return(self.callLowerCase(environment, value), Type.STRING, False) 
+        elif(self.id == 'parse'):
+            type = self.parameters[0].compile(environment)
+            if(type.getType() != Type.FLOAT64):
+                return 
+            param1 = self.parameters[1].compile(environment)
+            
+            return Return(self.callParse(environment, param1.getValue()), Type.FLOAT64, False)
 
         sizeActual = environment.size
 
@@ -57,6 +64,26 @@ class Call(Expression):
         generator.retEnv(sizeActual)
 
         return Return(temp, returnType, False)
+
+    def callParse(self, environment, value):
+        auxG = Generator()
+        generator = auxG.getInstance()
+        generator.fParse()
+
+        paramTemp = generator.addTemp()
+
+        generator.addExp(paramTemp, 'P', environment.getSize(), '+')
+        generator.addExp(paramTemp, paramTemp, '1', '+')
+        generator.setStack(paramTemp, value)
+
+        generator.newEnv(environment.getSize())
+        generator.callFun('parse')
+
+        temp = generator.addTemp()
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.getSize())
+        return temp
+
 
     def callUpperCase(self, environment, value):
         auxG = Generator()

@@ -51,10 +51,4 @@
 
 # println(x(4));
 
-if (5>6)
-    println(1);
-elseif (5<2)
-    println(2);
-else
-    println(0);
-end;
+println(parse(Float64,"3.141516"));
