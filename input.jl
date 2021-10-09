@@ -52,9 +52,18 @@
 # println(y(4,4));
 
 
-mutable struct Persona 
+mutable struct Cosa
+    name;
+    edadCosa;
+  end;
+  
+  mutable struct Persona 
     nombre;
     edad;
-end;
-
-p = Persona(22, "cris");
+    cosa;
+  end;
+  
+  c = Cosa("c", 56);
+  p = Persona("cr", 22, c);
+  
+  println(p.cosa.name);

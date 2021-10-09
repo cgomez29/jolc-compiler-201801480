@@ -31,8 +31,11 @@ class Environment:
             env = env.previous
         return None
 
-    def setVariable(self, id, type, inHeap):
+    def setVariable(self, id, type, inHeap, auxType = '', typeAttributes = [], values = []):
         newSymbol = Symbol(id, type, self.size, self.previous == None, inHeap)
+        newSymbol.setAuxType(auxType)
+        newSymbol.setAttributes(typeAttributes)
+        newSymbol.setValues(values)
         if( id not in self.variables.keys()):
             self.size += 1
         self.variables[id] = newSymbol

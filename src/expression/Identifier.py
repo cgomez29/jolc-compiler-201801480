@@ -12,7 +12,7 @@ class Identifier(Expression):
     def compile(self, environment):
         auxG = Generator()
         generator =  auxG.getInstance()
-        generator.addComment("Start identifier")
+        # generator.addComment("Start identifier")
 
         var = environment.getVariable(self.id)   
         
@@ -31,9 +31,13 @@ class Identifier(Expression):
         generator.getStack(temp, tempPos)
 
         if var.type != Type.BOOL:
-            generator.addComment("Fin identifier")
+            # generator.addComment("Fin identifier")
             generator.addSpace()
-            return Return(temp, var.type, True)
+            ret = Return(temp, var.type, True)
+            ret.setAuxType(var.getAuxType())
+            ret.setAttributes(var.getAttributes())
+            ret.setValues(var.getValues())
+            return ret  
 
         if self.trueLbl == '':
             self.trueLbl = generator.newLabel()
@@ -43,13 +47,16 @@ class Identifier(Expression):
         generator.addIf(temp, '1', '==', self.trueLbl)
         generator.addGoto(self.falseLbl)
 
-        generator.addComment("fin identifier")
+        # generator.addComment("fin identifier")
         generator.addSpace()
 
-        ret = Return(None, Type.BOOLEAN, False)
+        ret = Return(None, Type.BOOL, False)
         ret.trueLbl = self.trueLbl
         ret.falseLbl = self.falseLbl
         return ret
+
+    def getId(self):
+        return self.id
 
     def graph(self, g, father):
         pass

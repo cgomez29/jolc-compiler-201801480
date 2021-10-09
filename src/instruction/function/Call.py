@@ -81,14 +81,23 @@ class Call(Expression):
                 return 
             generator.addExp('H', 'H', len(self.parameters), '+') # creando las pos a las referencias hacia sus atributos
             
+            auxTypes = []
+            auxValues = []
             for p in self.parameters:
-                generator.setHeap(tempH, p.compile(environment).getValue())
+                value = p.compile(environment)
+                generator.setHeap(tempH, value.getValue())
                 generator.addExp(tempH, tempH, '1', '+')
+                auxTypes.append(value.getType())   
+                auxValues.append(value)   
 
             type = Type.STRUCT
             if(struct.mutable):
                 type = Type.MSTRUCT
-            return Return(tempStruct, type, False)
+
+            ret = Return(tempStruct, type, False, self.id)
+            ret.setAttributes(auxTypes)
+            ret.setValues(auxValues)
+            return ret 
 
     def callTrunc(self, environment, value):
         auxG = Generator()

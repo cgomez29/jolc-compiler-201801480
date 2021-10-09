@@ -13,6 +13,7 @@ from src.instruction.function.Function import Function
 from src.instruction.struct.Struct import Struct
 from src.instruction.function.Call import Call
 from src.expression.ArithmeticOperation import ArithmeticOperation
+from src.instruction.struct.StructGet import StructGet
 from src.expression.RelationalOperation import RelationalOperation
 from src.expression.Identifier import Identifier 
 from src.expression.Literal import Literal 
@@ -347,7 +348,7 @@ def p_atributo_item(t):
                         |   ID TIPOVAR ID
                         |   ID '''
     if(len(t)==2):
-        t[0] = {"id":t[1],"tipo": DataType("Any", Type.ANY, 0, 0)}
+        t[0] = {"id":t[1],"tipo": Type.ANY}
     else:
         t[0] = {"id":t[1],"tipo": t[3]}
 
@@ -462,7 +463,8 @@ def p_expresion_aritmetica(t):
     elif t[2] == '/': t[0] = ArithmeticOperation(t[1],t[3], TypeOperation.DIVISION, t.lineno(2), find_column(t.slice[2]))
     elif t[2] == '%': t[0] = ArithmeticOperation(t[1],t[3], TypeOperation.MODULO, t.lineno(2), find_column(t.slice[2]))
     elif t[2] == '^': t[0] = ArithmeticOperation(t[1],t[3], TypeOperation.POTENCIA, t.lineno(2), find_column(t.slice[2]))
-   
+    elif t[2] == '.': t[0] = StructGet(t[1],t[3], t.lineno(2), find_column(t.slice[2]))
+
 def p_expresion_relacional(t):
     '''expresion : expresion IGUALIGUAL expresion
                 | expresion MAYORQ expresion
