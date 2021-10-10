@@ -427,7 +427,8 @@ def p_instruccion_break(t):
 # DECLARATION
 #=======================================================================================
 def p_instruccion_declaration(t):
-    ''' DECLARACION  : ID IGUAL expresion
+    ''' DECLARACION     : ID IGUAL expresion
+                        | STRUCTGETS IGUAL expresion
     '''
     t[0] = Declaration(None, t[1], t[3], t.lineno(1), find_column(t.slice[2]))
 

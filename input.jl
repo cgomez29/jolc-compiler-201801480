@@ -57,13 +57,17 @@ mutable struct Cosa
     edadCosa;
   end;
   
-  mutable struct Persona 
+mutable struct Persona 
     nombre;
     edad;
     cosa;
-  end;
+end;
   
-  c = Cosa("c", 56);
-  p = Persona("cr", 22, c);
-  
-  println(p.cosa.name);
+c = Cosa("c", 56);
+p = Persona("cr", 22, c);
+println(c.name);
+println(p.cosa.name);
+
+c.name = "cs";
+
+println(p.cosa.name);
