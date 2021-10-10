@@ -52,22 +52,25 @@
 # println(y(4,4));
 
 
-mutable struct Cosa
-    name;
-    edadCosa;
-  end;
+# mutable struct Cosa
+#     name;
+#     edadCosa;
+#   end;
   
-mutable struct Persona 
-    nombre;
-    edad;
-    cosa;
-end;
+# mutable struct Persona 
+#     nombre;
+#     edad;
+#     cosa;
+# end;
   
-c = Cosa("c", 56);
-p = Persona("cr", 22, c);
-println(c.name);
-println(p.cosa.name);
+# c = Cosa("c", 56);
+# p = Persona("cr", 22, c);
+# println(c.name);
+# println(p.cosa.name);
 
-c.name = "cs";
+# c.name = "cs";
 
-println(p.cosa.name);
+# println(p.cosa.name);
+
+a = (55+3)/(3-3);
+println(a);

@@ -47,7 +47,20 @@ class ArithmeticOperation(Expression):
         elif (self.typeOperation == TypeOperation.DIVISION):
             op = '%'
         
-        generator.addExp(temp, left.getValue(), rigth.getValue(), op)
+        # Comprobación dinámica
+        if op == '/' or op == '%':
+            lblTrue = generator.newLabel()
+            lblExit = generator.newLabel()
+            generator.addIf(rigth.getValue(), '0', '!=', lblTrue)
+            generator.printMathError()
+            generator.addExp(temp, '0', '', '')
+            generator.addGoto(lblExit)
+            generator.putLabel(lblTrue)
+            generator.addExp(temp, left.getValue(), rigth.getValue(), op)
+            generator.putLabel(lblExit)
+        else:
+            generator.addExp(temp, left.getValue(), rigth.getValue(), op)
+
         return Return(temp, Type.INT64, True)
 
     def repeatString(self, environment, param1, param2):
