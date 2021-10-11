@@ -24,6 +24,8 @@ class Declaration(Instruction):
             #Contiene la posicion para asignarlo en el heap
             if (val.type == Type.STRUCT or val.type == Type.MSTRUCT):
                 newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
+            elif (val.type == Type.ARRAY):
+                newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
             else:
                 newVar = environment.setVariable(self.id, val.getType(), (val.type == Type.STRING))
             

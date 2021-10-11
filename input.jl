@@ -72,5 +72,6 @@
 
 # println(p.cosa.name);
 
-a = (55+3)/(3-3);
-println(a);
+x = [1,[2,0],3,[4,5,6],7,8];
+# x = "cris";
+println(x);

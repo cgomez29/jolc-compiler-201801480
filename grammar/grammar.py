@@ -11,6 +11,7 @@ from src.instruction.loops.Break import Break
 from src.instruction.loops.Return import Return
 from src.instruction.function.Function import Function
 from src.instruction.struct.Struct import Struct
+from src.instruction.array.Array import Array
 from src.instruction.function.Call import Call
 from src.expression.ArithmeticOperation import ArithmeticOperation
 from src.instruction.struct.StructGet import StructGet
@@ -366,6 +367,26 @@ def p_get_item(t):
     t[0] = t[1] 
 
 #=======================================================================================
+# ARRAY
+#=======================================================================================
+def p_intruccion_array(t):
+    '''ARREGLO : CORIZQ PARAMETROS CORDER'''
+    t[0] = Array(t[2], t.lineno(1), find_column(t.slice[1]))
+
+def p_array_list(t):
+    '''ARRAYGETS   :  ARRAYGETS ARRAYGET'''
+    t[1].append(t[2])
+    t[0] = t[1]
+#=======================================================================================
+def p_array_item(t):
+    '''ARRAYGETS   :    ARRAYGET'''
+    t[0] = [t[1]]
+
+def p_array_value(t):
+    '''ARRAYGET    :  CORIZQ expresion CORDER'''
+    t[0] = t[2] 
+
+#=======================================================================================
 # IF
 #=======================================================================================
 
@@ -547,6 +568,14 @@ def p_expresion_boolean(t):
         t[0] = Literal(None, Type.NULO, t.lineno(1), find_column(t.slice[1]))
 
 #=======================================================================================
+
+# def p_expresion_arrayget(t):
+#     'expresion : ID ARRAYGETS'
+#     t[0] = ArrayAccess(t[1], t[2], t.lineno(1), find_column(t.slice[1]))
+
+def p_expresion_array(t):
+    'expresion : ARREGLO'
+    t[0] = t[1]
 
 def p_expresion_tipo(t):
     'expresion : TIPO'

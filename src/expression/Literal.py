@@ -45,7 +45,6 @@ class Literal(Expression):
             return Return(retTemp, Type.STRING, True)
         else:
             # Float64 and Int64
-
             return Return(str(self.value), self.type, False)
         
     def graph(self, g, father):
