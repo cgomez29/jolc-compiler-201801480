@@ -11,7 +11,7 @@ class Array(Instruction):
     def compile(self, environment):
         auxG = Generator()
         generator = auxG.getInstance()
-        
+        # generator.addComment("----------------INIT ARRAY -----------------------")
         tempH = generator.addTemp() # puntero heap
         tempH2 = generator.addTemp() # posiciones del arreglo
         generator.addExp(tempH, 'H', '', '') # guardando la pos del array 
@@ -20,17 +20,21 @@ class Array(Instruction):
         
         auxTypes = []
         auxValues = [] # guarda los atributos de los arreglos anidados
+        counter = 1
         for e in self.expressions:
             value = e.compile(environment) # compilando valor
             generator.setHeap(tempH2, value.getValue()) # guardando valor
-            generator.addExp(tempH2, tempH2, 1, '+') # cambio de lugar
-            generator.nextHeap()
+            if (counter != len(self.expressions)):
+                generator.addExp(tempH2, tempH2, '1', '+') # cambio de lugar
+
+            counter += 1
             auxTypes.append(value.getType());
             auxValues.append(value.getAttributes())        
 
         ret = Return(tempH, Type.ARRAY, True)
         ret.setAttributes(auxTypes)
         ret.setValues(auxValues)
+        # generator.addComment("----------------FIN ARRAY -----------------------")
         return ret
 
     def graph(self, g, father):

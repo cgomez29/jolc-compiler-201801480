@@ -41,8 +41,10 @@ class Print(Instruction):
                     generator.getHeap(temp, a)
                     if(symbol.getAttributes()[a] == Type.INT64):
                         generator.addPrint("d", temp)
+                    elif(symbol.getAttributes()[a] == Type.STRING):
+                        self.isString(generator, temp, environment)
                     elif(symbol.getAttributes()[a] == Type.ARRAY):
-                        self.isArray(a, symbol.getValues()[a])
+                        self.isArray(a, temp, symbol.getValues()[a], environment)
                     if a != len(symbol.getAttributes()) -1:
                         generator.addPrint("c", '44')
                 generator.addPrint("c", '93')
@@ -51,25 +53,30 @@ class Print(Instruction):
 
             if self.jump:
                 generator.newLine()
+
     # pos: posicion del arreglo en el heap
     # attributes: types de los valores
-    def isArray(self, pos, attributes):
+    def isArray(self, pos, temp, attributes, environment):
         auxG = Generator()
         generator = auxG.getInstance()
-        generator.addComment("RECURSIVOOO")
-        temp = generator.addTemp()
+        # generator.addComment("RECURSIVOOO")
+        generator.addComment("*********************************************")
+        # temp = generator.addTemp()
         generator.getHeap(temp, pos) # recuperando el arreglo
         generator.addPrint("c", '91')
         for a in range(len(attributes)):
             generator.getHeap(temp, temp)
             if(attributes[a] == Type.INT64):
                 generator.addPrint("d", temp)
+            elif(attributes[a] == Type.STRING):
+                self.isString(generator, len(attributes) + pos + a + 1, environment)
             elif(attributes[a] == Type.ARRAY):
                 self.isArray(a, attributes[a])
             if a != len(attributes) -1:
                 generator.addPrint("c", '44')
         generator.addPrint("c", '93')
-        generator.addComment("RECURSIVOOO")
+        generator.addComment("*********************************************")
+        # generator.addComment("RECURSIVOOO")
 
     def isString(self,generator, value, environment):
         generator.addComment('String print start')
