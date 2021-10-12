@@ -17,7 +17,7 @@ class Print(Instruction):
 
         for x in self.expression:
             symbol = x.compile(environment) # as Return
-            
+            generator.addComment("********-------------VALORES-------------*********")
             if(symbol.getType() == Type.BOOL):
                 tempLbl = generator.newLabel()
 
@@ -34,19 +34,30 @@ class Print(Instruction):
             elif(symbol.getType() == Type.INT64):
                 generator.addPrint("d", symbol.getValue())
             elif(symbol.getType() == Type.ARRAY):
+
                 temp = generator.addTemp()
+                temp2 = generator.addTemp()
+                
+                generator.addExp(temp2, symbol.getValue(), '', '') # guardando posición del arreglo
                 generator.getHeap(temp, symbol.getValue()) # recuperando el arreglo
                 generator.addPrint("c", '91')
                 for a in range(len(symbol.getAttributes())):
-                    generator.getHeap(temp, a)
+                    if a != 0:
+                        generator.addExp(temp2, temp2, 1, '+')
+                    generator.getHeap(temp, temp2)
+
                     if(symbol.getAttributes()[a] == Type.INT64):
                         generator.addPrint("d", temp)
                     elif(symbol.getAttributes()[a] == Type.STRING):
+                        generator.addPrint("c", '34')
                         self.isString(generator, temp, environment)
+                        generator.addPrint("c", '34')
                     elif(symbol.getAttributes()[a] == Type.ARRAY):
-                        self.isArray(a, temp, symbol.getValues()[a], environment)
+                        self.isArray(temp, symbol.getValues()[a], environment)
+
                     if a != len(symbol.getAttributes()) -1:
                         generator.addPrint("c", '44')
+                
                 generator.addPrint("c", '93')
             else:
                 generator.addPrint("f", symbol.getValue())
@@ -56,27 +67,34 @@ class Print(Instruction):
 
     # pos: posicion del arreglo en el heap
     # attributes: types de los valores
-    def isArray(self, pos, temp, attributes, environment):
+    def isArray(self, tempH, attributes, environment):
         auxG = Generator()
         generator = auxG.getInstance()
-        # generator.addComment("RECURSIVOOO")
-        generator.addComment("*********************************************")
-        # temp = generator.addTemp()
-        generator.getHeap(temp, pos) # recuperando el arreglo
+        
+        temp = generator.addTemp()
+        temp2 = generator.addTemp()
+        
+        generator.addExp(temp2, tempH, '', '')
+        # generator.getHeap(temp, tempH) # recuperando el arreglo
         generator.addPrint("c", '91')
         for a in range(len(attributes)):
-            generator.getHeap(temp, temp)
+            if a != 0:
+                generator.addExp(temp2, temp2, 1, '+')
+            generator.getHeap(temp, temp2)
+            
             if(attributes[a] == Type.INT64):
                 generator.addPrint("d", temp)
             elif(attributes[a] == Type.STRING):
-                self.isString(generator, len(attributes) + pos + a + 1, environment)
+                generator.addPrint("c", '34')
+                self.isString(generator, temp, environment)
+                generator.addPrint("c", '34')
             elif(attributes[a] == Type.ARRAY):
-                self.isArray(a, attributes[a])
+                self.isArray(temp, attributes[a], environment)
+            
             if a != len(attributes) -1:
                 generator.addPrint("c", '44')
+                
         generator.addPrint("c", '93')
-        generator.addComment("*********************************************")
-        # generator.addComment("RECURSIVOOO")
 
     def isString(self,generator, value, environment):
         generator.addComment('String print start')

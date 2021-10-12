@@ -23,12 +23,13 @@ class Array(Instruction):
         counter = 1
         for e in self.expressions:
             value = e.compile(environment) # compilando valor
+            
             generator.setHeap(tempH2, value.getValue()) # guardando valor
             if (counter != len(self.expressions)):
                 generator.addExp(tempH2, tempH2, '1', '+') # cambio de lugar
 
             counter += 1
-            auxTypes.append(value.getType());
+            auxTypes.append(value.getType())
             auxValues.append(value.getAttributes())        
 
         ret = Return(tempH, Type.ARRAY, True)
