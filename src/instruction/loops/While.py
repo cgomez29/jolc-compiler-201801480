@@ -1,3 +1,4 @@
+from src.ast.Environment import Environment
 from src.abstract.Instruction import Instruction
 from src.ast.Generator import Generator
 
@@ -12,17 +13,22 @@ class While(Instruction):
         generator = auxG.getInstance()
 
         generator.addComment("start while")
-
-        wlabel = generator.newLabel() #Label while
-        generator.putLabel(wlabel)
+        
+        continueLbl = generator.newLabel() # regresa a ka condición
+        generator.putLabel(continueLbl)
 
         rCondition = self.condition.compile(environment)
+        newEnv = Environment(environment)
+
+        newEnv.breakLbl = rCondition.falseLbl # break es la etiqueta false de mi condición para salirme.
+        newEnv.continueLbl = continueLbl 
+
         generator.putLabel(rCondition.trueLbl)
 
         for i in self.instructions:
-            i.compile(environment)
+            i.compile(newEnv)
         
-        generator.addGoto(wlabel)
+        generator.addGoto(continueLbl)
 
         generator.putLabel(rCondition.falseLbl)
 

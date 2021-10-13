@@ -17,7 +17,6 @@ class Print(Instruction):
 
         for x in self.expression:
             symbol = x.compile(environment) # as Return
-            generator.addComment("********-------------VALORES-------------*********")
             if(symbol.getType() == Type.BOOL):
                 tempLbl = generator.newLabel()
 
@@ -67,7 +66,7 @@ class Print(Instruction):
 
     # pos: posicion del arreglo en el heap
     # attributes: types de los valores
-    def isArray(self, tempH, attributes, environment):
+    def isArray(self, tempH, attribute, environment):
         auxG = Generator()
         generator = auxG.getInstance()
         
@@ -77,21 +76,21 @@ class Print(Instruction):
         generator.addExp(temp2, tempH, '', '')
         # generator.getHeap(temp, tempH) # recuperando el arreglo
         generator.addPrint("c", '91')
-        for a in range(len(attributes)):
+        for a in range(len(attribute.getAttributes())):
             if a != 0:
                 generator.addExp(temp2, temp2, 1, '+')
             generator.getHeap(temp, temp2)
             
-            if(attributes[a] == Type.INT64):
+            if(attribute.getAttributes()[a] == Type.INT64):
                 generator.addPrint("d", temp)
-            elif(attributes[a] == Type.STRING):
+            elif(attribute.getAttributes()[a] == Type.STRING):
                 generator.addPrint("c", '34')
                 self.isString(generator, temp, environment)
                 generator.addPrint("c", '34')
-            elif(attributes[a] == Type.ARRAY):
-                self.isArray(temp, attributes[a], environment)
+            elif(attribute.getAttributes()[a] == Type.ARRAY):
+                self.isArray(temp, attribute.getValues()[a], environment)
             
-            if a != len(attributes) -1:
+            if a != len(attribute.getAttributes()) -1:
                 generator.addPrint("c", '44')
                 
         generator.addPrint("c", '93')

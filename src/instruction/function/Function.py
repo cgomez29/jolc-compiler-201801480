@@ -15,7 +15,7 @@ class Function(Instruction):
         generator = auxG.getInstance()
         newEnv = Environment(environment)
 
-        exitLabel = generator.newLabel()
+        # exitLabel = generator.newLabel()
         environment.setFunction(self.id, self)
         generator.addBeginFunc(self.id)
 
@@ -28,10 +28,11 @@ class Function(Instruction):
             # generator.getStack(temp, tempParam)
 
         for i in self.instructions:
+            
             i.compile(newEnv)
 
-        generator.addGoto(exitLabel)
-        generator.putLabel(exitLabel)
+        # generator.addGoto(exitLabel)
+        # generator.putLabel(exitLabel)
 
         generator.addEndFunc()
 

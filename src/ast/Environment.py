@@ -12,10 +12,15 @@ class Environment:
 
         # Nuevo
         self.size = 0
+        self.breakLbl = ''
+        self.continueLbl = ''
+
         # print("ACTUAL", self.size)
         if(previous != None):
             # print("ES NUEVOO")
             self.size = self.previous.size
+            self.breakLbl = self.previous.breakLbl 
+            self.continueLbl = self.previous.continueLbl 
             # print("ES NUEVOO", self.size)
     
     def setName(self, name):
@@ -32,14 +37,21 @@ class Environment:
         return None
 
     def setVariable(self, id, type, inHeap, auxType = '', typeAttributes = [], values = []):
-        newSymbol = Symbol(id, type, self.size, self.previous == None, inHeap)
-        newSymbol.setAuxType(auxType)
-        newSymbol.setAttributes(typeAttributes)
-        newSymbol.setValues(values)
-        if( id not in self.variables.keys()):
+        if id in self.variables.keys():
+            print("Variable ya existe")
+        else:
+            newSymbol = Symbol(id, type, self.size, self.previous == None, inHeap)
+            newSymbol.setAuxType(auxType)
+            newSymbol.setAttributes(typeAttributes)
+            newSymbol.setValues(values)
             self.size += 1
-        self.variables[id] = newSymbol
+            self.variables[id] = newSymbol
         return self.variables[id]
+
+        # if( id not in self.variables.keys()):
+        #     self.size += 1
+        # self.variables[id] = newSymbol
+        # return self.variables[id]
 
     # Retorna el simbolo de la funcion guardada
     def getFunction(self, id):

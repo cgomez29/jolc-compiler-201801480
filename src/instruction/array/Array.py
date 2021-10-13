@@ -30,7 +30,7 @@ class Array(Instruction):
 
             counter += 1
             auxTypes.append(value.getType())
-            auxValues.append(value.getAttributes())        
+            auxValues.append(value)        
 
         ret = Return(tempH, Type.ARRAY, True)
         ret.setAttributes(auxTypes)

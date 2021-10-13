@@ -1,22 +1,32 @@
-# let x:number = 0;
+# if 5 > 1
+#     println("id normal");
+# end;
 
-# while (x < 2) {
-#     console.log(x);
-#     x = x+1;
-# }
-
-# if (5>6)
+# if 10 == 11
+#     println(0);
+# elseif 10 != 11
 #     println(1);
-# elseif (5>2)
-#     println(2);
 # else
 #     println(0);
 # end;
 
-# while (true) {
-#     console.log(1);
-#     break;
-# }
+# if 5 > 1
+#     println(1);
+#     if true 
+#         println(1);
+
+#         if false 
+#             println(0);
+#         else 
+#             println(1);
+#         end;
+#     elseif false
+#         println(0);
+#     else
+#         println(0);
+#     end;
+# end;
+
 
 
 # function x()
@@ -52,28 +62,105 @@
 # println(y(4,4));
 
 
-# mutable struct Cosa
+
+# mutable struct Juguete 
 #     name;
-#     edadCosa;
+#     precio;
+# end;
+
+# mutable struct Mascota
+#     name;
+#     juguete;
 #   end;
   
 # mutable struct Persona 
 #     nombre;
 #     edad;
-#     cosa;
+#     mascota;
 # end;
   
-# c = Cosa("c", 56);
-# p = Persona("cr", 22, c);
-# println(c.name);
-# println(p.cosa.name);
+# j = Juguete("j", 56);
+# m = Mascota("m", j);
+# p = Persona("cr", 22, m);
 
-# c.name = "cs";
+# println(p.mascota.juguete.name);
 
-# println(p.cosa.name);
 
-# x = "cris";
-# ==> 9
-x = [1,["cris"],"gomez",[4,5,"guzman"],7,8];
+# x = [1,["cris"],"gomez",[4,5,"guzman"],7,8];
+# x = [1,["cris",[22,23,["u","s","a","c"]]],"gomez"];
 
-println(x);
+# println(x);
+
+# function factorial(n)
+#     if(n == 0)
+#         return 1;
+#     end;
+
+#     # return n * factorial(n-1);
+# end;
+
+# println(factorial(5));
+
+# ======================================================
+
+# if 5 > 1
+#     println("id normal");
+# end;
+
+# if 10 == 11
+#     println(0);
+# elseif 10 != 11
+#     println(1);
+# else
+#     println(0);
+# end;
+
+# if 5 > 1
+#     println(1);
+#     if true 
+#         println(1);
+
+#         if false 
+#             println(0);
+#         else 
+#             println(1);
+#         end;
+#     elseif false
+#         println(0);
+#     else
+#         println(0);
+#     end;
+# end;
+
+
+# id normal
+# 1
+# 1
+# 1
+# 1
+# El valor de a es: 
+# 1
+# a
+# b
+
+# a = 0;
+
+# while a < 5
+#     a = a + 1;
+#     if a == 2
+#         println("a");
+#         continue;
+#     elseif a == 3
+#         println("b");
+#         break;
+#     end;
+#     println("v es: ");
+#     println(a);
+# end;
+
+
+a = 0;
+
+a = a + 1;
+
+println(a);

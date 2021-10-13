@@ -8,6 +8,7 @@ from src.instruction.variables.DataType import DataType
 from src.instruction.conditional.If import If
 from src.instruction.loops.While import While
 from src.instruction.loops.Break import Break
+from src.instruction.loops.Continue import Continue
 from src.instruction.loops.Return import Return
 from src.instruction.function.Function import Function
 from src.instruction.struct.Struct import Struct
@@ -311,6 +312,7 @@ def p_instruccion_evaluar(t):
                     | IF SEMICOLON
                     | WHILE SEMICOLON
                     | BREAK SEMICOLON
+                    | CONTINUE SEMICOLON
                     | RETURN SEMICOLON
                     | DECLARACION SEMICOLON'''
     t[0] = t[1]
@@ -440,9 +442,9 @@ def p_instruccion_break(t):
     '''BREAK : break'''
     t[0] = Break(t.lineno(1), find_column(t.slice[1]))
 
-# def p_instruccion_continue(t):
-#     '''CONTINUE : continue'''
-#     t[0] = Continue(t.lineno(1), find_column(t.slice[1]))
+def p_instruccion_continue(t):
+    '''CONTINUE : continue'''
+    t[0] = Continue(t.lineno(1), find_column(t.slice[1]))
 
 #=======================================================================================
 # DECLARATION

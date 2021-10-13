@@ -26,7 +26,7 @@ class RelationalOperation(Expression):
         if left.getType() != Type.BOOL:
             rigth = self.rigth.compile(environment)
             if ((left.getType() == Type.INT64 or left.getType() == Type.FLOAT64) and
-                (rigth.getType() == Type.INT64 or rigth.getType() == Type.FLOAT64)):
+                (rigth.getType() == Type.INT64 or rigth.getType() == Type.FLOAT64) or left.getType() == Type.ANY):
                 self.checkLabels()
                 generator.addIf(left.getValue(), rigth.getValue(), self.getOp(), self.trueLbl)
                 generator.addGoto(self.falseLbl)

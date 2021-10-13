@@ -1,5 +1,6 @@
 from src.abstract.Instruction import Instruction
 from src.ast.Generator import Generator
+from src.ast.Type import Type
 
 class If(Instruction):
     def __init__(self, condition, instructions, instrElse, instrElseIf, line, column):
@@ -18,6 +19,11 @@ class If(Instruction):
         #IF
         # Valuando condición 
         rCondition = self.condition.compile(environment)
+        
+        if(rCondition.getType() != Type.BOOL):
+            generator.setException(Exception("Semántico", f"La condición no es booleana", self.line, self.column))
+            return
+
         generator.putLabel(rCondition.trueLbl)
 
         for i in self.instructions:

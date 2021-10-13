@@ -1,3 +1,4 @@
+from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
 
 class Break(Instruction):
@@ -5,7 +6,10 @@ class Break(Instruction):
         super().__init__(line, column)
 
     def compile(self, environment):
-        pass
+        auxG = Generator()
+        generator = auxG.getInstance()
+        generator.addGoto(environment.breakLbl)
+
 
     def graph(self, g, father):
         pass
