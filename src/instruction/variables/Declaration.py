@@ -25,15 +25,16 @@ class Declaration(Instruction):
 
             #Guardado y obtencion de la variable
             #Contiene la posicion para asignarlo en el heap
-            if (val.type == Type.STRUCT or val.type == Type.MSTRUCT):
-                newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
-            elif (val.type == Type.ARRAY):
-                newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
-            else:
-                newVar = environment.setVariable(self.id, val.getType(), (val.type == Type.STRING))
+            if(isAssign == None): # Solo se debe de crear si no existe
+                if (val.type == Type.STRUCT or val.type == Type.MSTRUCT):
+                    newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
+                elif (val.type == Type.ARRAY):
+                    newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
+                else:
+                    newVar = environment.setVariable(self.id, val.getType(), False)
             
             # Obtencion de posicion de la variable 
-            if(isAssign == None): # solo se crea en el stack si es una declaración
+            if(isAssign == None): # Esta validacion se da solo si el id no se ha creado
                 tempPos = newVar.pos
                 if(not newVar.isGlobal):
                     tempPos = generator.addTemp()

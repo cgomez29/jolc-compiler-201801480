@@ -31,12 +31,12 @@ class Identifier(Expression):
         generator.getStack(temp, tempPos)
 
         if var.type != Type.BOOL:
-            generator.addSpace()
             ret = Return(temp, var.type, True)
             ret.setAuxType(var.getAuxType())
             ret.setAttributes(var.getAttributes())
             ret.setValues(var.getValues())
             generator.addComment("Fin identifier")
+            generator.addSpace()
             return ret  
 
         if self.trueLbl == '':

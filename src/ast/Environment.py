@@ -100,3 +100,9 @@ class Environment:
 
     def getSize(self):
         return self.size
+
+    def getGlobal(self):
+        env = self
+        while env.prev != None:
+            env = env.prev
+        return env

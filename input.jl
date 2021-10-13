@@ -27,6 +27,21 @@
 #     end;
 # end;
 
+# a = 0;
+# while a < 5
+#     global a = a + 1;
+#     if a == 2
+#         println("a");
+#         continue;
+#     elseif a == 3
+#         println("b");
+#         break;
+#     end;
+#     println("v es: ");
+#     println(a);
+# end;
+
+# ================================================
 
 
 # function x()
@@ -92,75 +107,18 @@
 # println(x);
 
 # function factorial(n)
-#     if(n == 0)
+#     if(n == 5)
 #         return 1;
 #     end;
 
-#     # return n * factorial(n-1);
+#     return n * factorial(n-1);
 # end;
 
 # println(factorial(5));
 
-# ======================================================
+function factorial(n)
+    return n;
+end;
 
-# if 5 > 1
-#     println("id normal");
-# end;
+println(factorial(5));
 
-# if 10 == 11
-#     println(0);
-# elseif 10 != 11
-#     println(1);
-# else
-#     println(0);
-# end;
-
-# if 5 > 1
-#     println(1);
-#     if true 
-#         println(1);
-
-#         if false 
-#             println(0);
-#         else 
-#             println(1);
-#         end;
-#     elseif false
-#         println(0);
-#     else
-#         println(0);
-#     end;
-# end;
-
-
-# id normal
-# 1
-# 1
-# 1
-# 1
-# El valor de a es: 
-# 1
-# a
-# b
-
-# a = 0;
-
-# while a < 5
-#     a = a + 1;
-#     if a == 2
-#         println("a");
-#         continue;
-#     elseif a == 3
-#         println("b");
-#         break;
-#     end;
-#     println("v es: ");
-#     println(a);
-# end;
-
-
-a = 0;
-
-a = a + 1;
-
-println(a);
