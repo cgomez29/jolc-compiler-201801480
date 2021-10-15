@@ -10,8 +10,11 @@ class Return(Expression):
         auxG = Generator()
         generator = auxG.getInstance()
 
+        generator.clearTemps() # TODO: Se modifico aca
         value = self.value.compile(environment).getValue()
         generator.setStack('P', value) 
+        generator.addGoto(environment.returnLbl)
+        generator.clearTemps() # TODO: Se modifico aca
 
 
     def graph(self, g, father):

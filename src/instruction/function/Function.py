@@ -13,28 +13,31 @@ class Function(Instruction):
     def compile(self, environment):
         auxG = Generator()
         generator = auxG.getInstance()
-        newEnv = Environment(environment)
+        generator.clearTemps()
 
-        # exitLabel = generator.newLabel()
-        environment.setFunction(self.id, self)
+        environment.setFunction(self.id, self) # guardando funcion en el entorno global
+        
+        newEnv = Environment(environment)
+        newEnv.setFunction(self.id, self)
+        newEnv.setName('function')
+
+        returnLabel = generator.newLabel()
+        newEnv.returnLbl = returnLabel
+
         generator.addBeginFunc(self.id)
 
-        # temp = generator.addTemp()
-        newEnv.size += 1##Contando cuantos valores ya hay
+        newEnv.size = 1 # new env 
         for p in self.parameters:
-            # tempParam = generator.addTemp()
-            # generator.addExp(tempParam, 'P', '1', '+')
             newEnv.setVariable(p, Type.ANY, False)
-            # generator.getStack(temp, tempParam)
 
         for i in self.instructions:
-            
             i.compile(newEnv)
 
-        # generator.addGoto(exitLabel)
-        # generator.putLabel(exitLabel)
+        # generator.addGoto(returnLabel)
+        generator.putLabel(returnLabel)
 
         generator.addEndFunc()
+        generator.clearTemps()
 
     def graph(self, g, father):
         pass

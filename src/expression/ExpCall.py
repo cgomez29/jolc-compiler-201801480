@@ -4,7 +4,7 @@ from src.abstract.Expression import Expression
 from src.abstract.Return import Return
 from src.ast.Type import Type
 
-class Call(Expression):
+class ExpCall(Expression):
     def __init__(self, id, parameters, line, column):
         super().__init__(line, column)
         self.id = id 
@@ -37,69 +37,86 @@ class Call(Expression):
             param1 = self.parameters[0].compile(environment)
             return Return(self.callTrunc(environment, param1.getValue()), Type.FLOAT64, False)
 
-        sizeActual = environment.size
-
         function = environment.getFunction(self.id)
-        struct = environment.getStruct(self.id) 
 
-        if(struct == None):
-            if(function == None):
-                generator.setException(Exception("Semántico", f"No existe la función '{self.id}'", self.line, self.column))
-                return
-            # debe de tener la misma cantidad de parametros
-            # if (len(function.getId().parameters) != len(self.parameters)):
-            #     generator.setException(Exception("Semántico", f"Cantidad de parámetros incorrectos en '{self.id}'", self.line, self.column))
-            #     return
-            generator.addComment("INICIO llamada a funcion")
-            generator.addSpace()
+        if(function == None):
+            generator.setException(Exception("Semántico", f"No existe la función '{self.id}'", self.line, self.column))
+            return
+       
+        generator.addSpace()
+        if environment.getName() != 'function': 
+            generator.addComment("INICIO llamada a funcion1 <====================")
             temp = generator.addTemp()
             returnType = None
-            
+
+            counter = 0     
+    
             for p in self.parameters:
-                environment.size += 1
-                generator.addExp(temp, 'P', environment.size, '+')
                 ret = p.compile(environment)
+                counter+=1
+                generator.addExp(temp, 'P', environment.size + counter, '+')
                 value = ret.getValue()
                 returnType = ret.getType()
                 generator.setStack(temp, value)
 
-            generator.newEnv(sizeActual)
+            generator.newEnv(environment.size)
             generator.callFun(self.id)
             generator.getStack(temp, 'P')
-            generator.retEnv(sizeActual)
+            generator.retEnv(environment.size)
+            generator.addComment("FIN llamada a funcion <====================")
             generator.addSpace()
-            generator.addComment("FIN llamada a funcion")
             return Return(temp, returnType, False)
+        else:
+            generator.addComment("INICIO llamada a funcion2 <====================")
+            temp_save = (generator.getSaveTemps())
+            returnType = None
 
-        else: # is struct
-            # Posicion de inicio en el heap
-            tempStruct = generator.addTemp()
-            tempH = generator.addTemp()
-            generator.addExp(tempStruct, 'H', '', '')
-            generator.addExp(tempH, tempStruct, '', '')
+            if len(temp_save) > 0:
+                generator.addComment("Guardando temporales")
+                saveSize = environment.size 
+                t = generator.addTemp()
+                generator.addExp(t, 'P', saveSize, '+')
+                generator.setStack(t, temp_save[-1])
+                generator.addComment("FIN Guardando temporales")
 
-            if(len(self.parameters) != len(struct.attributes)):
-                generator.setException(Exception("Semántico", f"Struct: cantidad de atributos incorrectos'{self.id}'", self.line, self.column))
-                return 
-            generator.addExp('H', 'H', len(self.parameters), '+') # creando las pos a las referencias hacia sus atributos
+            generator.clearTemps()
+            temp = generator.addTemp()
             
-            auxTypes = []
-            auxValues = []
+            flag = 1
+            currentSize = environment.size
             for p in self.parameters:
-                value = p.compile(environment)
-                generator.setHeap(tempH, value.getValue())
-                generator.addExp(tempH, tempH, '1', '+')
-                auxTypes.append(value.getType())   
-                auxValues.append(value)   
+                # generator.clearTemps()# eliminando temporales guardados en esta llamada
+                environment.size +=1
+                ret = p.compile(environment)
+                environment.size -=1
+                generator.addExp(temp, 'P', currentSize+flag, '+')
+                flag += 1
+                value = ret.getValue()
+                
+                generator.clearTemps() # borando temporales
+                generator.saveTemps(value) # agregando temporales
 
-            type = Type.STRUCT
-            if(struct.mutable):
-                type = Type.MSTRUCT
+                returnType = ret.getType()
+                generator.setStack(temp, value)
 
-            ret = Return(tempStruct, type, False, self.id)
-            ret.setAttributes(auxTypes)
-            ret.setValues(auxValues)
-            return ret 
+            generator.newEnv(currentSize)
+            generator.callFun(self.id)
+            generator.getStack(temp, 'P')
+            generator.retEnv(currentSize)    
+            
+            if len(temp_save) > 0:
+                generator.addComment("Recuperando temporales")
+                t = generator.addTemp()
+                generator.addExp(t, 'P', saveSize, '+')
+                generator.getStack(temp_save[-1], t)
+                generator.addComment("FIN Recuperando temporales")
+
+            generator.addComment("FIN llamada a funcion <====================")
+            generator.addSpace()
+            
+            # generator.setSaveTemps(temp_save)
+            generator.clearTemps() # TODO: Se modifico aca
+            return Return(temp, returnType, False)
 
     def callTrunc(self, environment, value):
         auxG = Generator()

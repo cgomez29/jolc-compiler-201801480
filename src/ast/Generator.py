@@ -27,6 +27,9 @@ class Generator:
         self.trunc = False
         self.exceptions = []
 
+        # temp-function
+        self.temp_save = []
+
     def getInstance(self):
         if Generator.generator == None:
             Generator.generator = Generator()
@@ -92,6 +95,7 @@ class Generator:
         temp = f't{self.countTemp}'
         self.countTemp += 1
         self.temps.append(temp)
+        # self.saveTemps(temp)
         return temp
     #================================
     # EXPRESIONES
@@ -228,6 +232,23 @@ class Generator:
 
     def nextHeap(self):
         self.codeIn('H = H + 1;\n')
+
+
+    #================================
+    # TEMP-FUNCTION
+    #================================
+
+    def saveTemps(self, temp):
+        self.temp_save.append(temp)
+
+    def getSaveTemps(self):
+        return self.temp_save
+
+    def setSaveTemps(self, temp_save):
+        self.temp_save = temp_save
+
+    def clearTemps(self):
+        self.temp_save = []
 
     #================================
     # NATIVES

@@ -1,4 +1,3 @@
-from sys import get_coroutine_origin_tracking_depth
 from src.abstract.Return import Return
 from src.ast.Generator import Generator
 from src.abstract.Expression import Expression 

@@ -106,19 +106,44 @@
 
 # println(x);
 
-# function factorial(n)
-#     if(n == 5)
+
+# function potencia(base, exp)
+#     if exp == 0 
 #         return 1;
 #     end;
+#     return base * potencia(base, exp-1);
+# end;
 
+# println(potencia(5, 2));
+
+# function factorial(n)
+
+#     if n == 0 
+#         return 1;
+#     end;
 #     return n * factorial(n-1);
 # end;
 
 # println(factorial(5));
 
-function factorial(n)
-    return n;
+
+# function potencia(base, exp)
+#     if exp == 0 
+#         return 1;
+#     end;
+#     return base * potencia(base, exp-1);
+# end;
+
+
+# println(potencia(5, 2));
+
+function ackerman(m, n)
+    if m == 0
+        return n + 1;
+    elseif m > 0 && n == 0
+        return ackerman(m - 1, 1);
+    else
+        return ackerman(m - 1, ackerman(m, n - 1));
+    end;
 end;
-
-println(factorial(5));
-
+println(ackerman(3, 4));

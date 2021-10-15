@@ -18,7 +18,9 @@ class If(Instruction):
            
         #IF
         # Valuando condición 
+        
         rCondition = self.condition.compile(environment)
+
         
         if(rCondition.getType() != Type.BOOL):
             generator.setException(Exception("Semántico", f"La condición no es booleana", self.line, self.column))
