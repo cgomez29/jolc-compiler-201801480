@@ -32,6 +32,8 @@ class Print(Instruction):
                 self.isString(generator, symbol.getValue(), environment)
             elif(symbol.getType() == Type.INT64):
                 generator.addPrint("d", symbol.getValue())
+            elif(symbol.getType() == Type.CHAR):
+                generator.addPrint("c", symbol.getValue())
             elif(symbol.getType() == Type.ARRAY):
 
                 temp = generator.addTemp()

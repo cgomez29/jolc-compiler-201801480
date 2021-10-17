@@ -452,10 +452,34 @@ def p_instruccion_continue(t):
 # DECLARATION
 #=======================================================================================
 def p_instruccion_declaration(t):
-    ''' DECLARACION     : ID IGUAL expresion
-                        | STRUCTGETS IGUAL expresion
+    ''' DECLARACION     :   local ID
+                        |   global ID
+                        |   ID IGUAL expresion
+                        |   global ID IGUAL expresion 
+                        |   local ID IGUAL expresion 
+                        |   ID IGUAL expresion TIPOVAR TIPO
+                        |   global ID IGUAL expresion TIPOVAR TIPO
+                        |   local ID IGUAL expresion TIPOVAR TIPO
+                        |   STRUCTGETS IGUAL expresion
     '''
-    t[0] = Declaration(None, t[1], t[3], t.lineno(1), find_column(t.slice[2]))
+    if(len(t) == 4): # ID IGUAL expresion
+        t[0] =  Declaration(None, t[1], t[3], t.lineno(1), find_column(t.slice[2]))
+    elif(len(t) == 5): # [global/local] ID IGUAL expresion 
+        if(str(t[1]) == "local" or str(t[1]) == "global"):
+            t[0] =  Declaration(t[1], t[2], t[4], t.lineno(1), find_column(t.slice[1]))
+        else:
+            # ID ARRAYGETS IGUAL expresion
+            value = [t[1], t[2]] # [id, arreglo de accesos]
+            t[0] =  Declaration(None, value, t[4], t.lineno(1), find_column(t.slice[3]))
+    
+    elif(len(t) == 6): # ID IGUAL expresion TIPOVAR TIPO
+        x = {"value": t[3], "tipo": t[5]}
+        t[0] =  Declaration(None, t[1], x, t.lineno(1), find_column(t.slice[1]), False)
+    elif(len(t) == 3):
+        t[0] =  Declaration(t[1], t[2], None, t.lineno(2), find_column(t.slice[2]), False)
+    else: # [global/local] ID IGUAL expresion TIPOVAR TIPO
+        x = {"value": t[4], "tipo": t[6]}
+        t[0] =  Declaration(t[1], t[2], x, t.lineno(3), find_column(t.slice[1]), False)
 
 #=======================================================================================
 # PRINT
@@ -622,17 +646,17 @@ def p_tipo(t):
             |   ID
             |   STRING'''
     if(t[1] == "Int64"):
-        t[0] = DataType("Int64", Type.INT64, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.INT64
     elif(t[1] == "Float64"):
-        t[0] = DataType("Float64",Type.FLOAT64, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.FLOAT64
     elif(t[1] == "Bool"):
-        t[0] = DataType("Bool",Type.BOOL, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.BOOL
     elif(t[1] == "Char"):
-        t[0] = DataType("Char",Type.CHAR, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.CHAR
     elif(t[1] == "String"):
-        t[0] = DataType("String",Type.STRING, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.STRING
     else:
-        t[0] = DataType(t[1],Type.IDENTIFICADOR, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.IDENTIFICADOR
 
 
 #=======================================================================================
