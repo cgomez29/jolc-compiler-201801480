@@ -14,7 +14,7 @@ class If(Instruction):
         auxG = Generator()
         generator = auxG.getInstance()
 
-        generator.addComment("Start if")
+        generator.addComment("BEGIN IF")
            
         #IF
         # Valuando condición 
@@ -51,7 +51,7 @@ class If(Instruction):
             generator.putLabel(rCondition.falseLbl)
 
 
-        generator.addComment("Fin if")
+        generator.addComment("END IF")
 
 
     def graph(self, g, father):

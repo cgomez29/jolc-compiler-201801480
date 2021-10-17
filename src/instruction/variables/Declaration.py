@@ -19,14 +19,20 @@ class Declaration(Instruction):
 
             isAssign = environment.getVariable(self.id)
 
-
             if (isinstance(self.value, str)):
                 val = self.value.compile(environment)   
             else:
-                val = self.value['value'].compile(environment)   
-                if(self.value['tipo'] != val.getType()):
-                    generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
-                    return 
+                if (self.type):
+                    val = self.value.compile(environment) 
+                else:
+                    val = self.value['value'].compile(environment)   
+                    if val.getType() == Type.MSTRUCT or val.getType() == Type.STRUCT:
+                        if self.value['tipo'] != val.auxType:    
+                            generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
+                            return 
+                    elif(self.value['tipo'] != val.getType()):
+                        generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
+                        return 
 
             #Guardado y obtencion de la variable
             #Contiene la posicion para asignarlo en el heap

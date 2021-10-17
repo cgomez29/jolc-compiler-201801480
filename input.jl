@@ -78,34 +78,6 @@
 
 
 
-# mutable struct Juguete 
-#     name;
-#     precio;
-# end;
-
-# mutable struct Mascota
-#     name;
-#     juguete;
-#   end;
-  
-# mutable struct Persona 
-#     nombre;
-#     edad;
-#     mascota;
-# end;
-  
-# j = Juguete("j", 56);
-# m = Mascota("m", j);
-# p = Persona("cr", 22, m);
-
-# println(p.mascota.juguete.name);
-
-
-# x = [1,["cris"],"gomez",[4,5,"guzman"],7,8];
-# x = [1,["cris",[22,23,["u","s","a","c"]]],"gomez"];
-
-# println(x);
-
 
 # function potencia(base, exp)
 #     if exp == 0 
@@ -137,6 +109,18 @@
 
 # # println(potencia(5, 2));
 
+# function ackerman(m::Int64, n::Int64)
+#     if m == 0
+#         return n + 1;
+#     elseif m > 0 && n == 0
+#         return ackerman(m - 1, 1);
+#     else
+#         return ackerman(m - 1, ackerman(m, n - 1));
+#     end;
+# end;
+# println(ackerman(3, 4));
+
+
 
 # function factorial(n::Int64)
 #     if n == 0 
@@ -148,13 +132,35 @@
 
 # println(factorial(5));
 
-# function ackerman(m::Int64, n::Int64)
-#     if m == 0
-#         return n + 1;
-#     elseif m > 0 && n == 0
-#         return ackerman(m - 1, 1);
-#     else
-#         return ackerman(m - 1, ackerman(m, n - 1));
-#     end;
+
+# mutable struct Juguete 
+#     name::String;
+#     precio::Int64;
 # end;
-# println(ackerman(3, 4));
+
+# mutable struct Mascota
+#     name::String;
+#     juguete::Juguete;
+# end;
+  
+# mutable struct Persona 
+#     nombre::String;
+#     edad::Int64;
+#     mascota::Mascota;
+# end;
+
+# j = Juguete("peluche", 56)::Juguete;
+# m = Mascota("lucas", j)::Mascota;
+# p = Persona("Cristian", 22, m)::Persona;
+
+# println(p.mascota.juguete.name);
+
+# j.name = "hueso";
+
+# println(p.mascota.juguete.name);
+# println(j.name);
+
+
+x = [1,["cris",[22,23,["u","s","a","c"]]],"gomez"];
+
+println(x);

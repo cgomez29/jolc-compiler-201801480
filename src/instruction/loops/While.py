@@ -12,7 +12,7 @@ class While(Instruction):
         auxG = Generator()
         generator = auxG.getInstance()
 
-        generator.addComment("start while")
+        generator.addComment("BEGIN WHILE")
         
         continueLbl = generator.newLabel() # regresa a ka condición
         generator.putLabel(continueLbl)
@@ -32,7 +32,7 @@ class While(Instruction):
 
         generator.putLabel(rCondition.falseLbl)
 
-        generator.addComment("fin while")
+        generator.addComment("END WHILE")
 
     def graph(self, g, father):
         pass
