@@ -22,14 +22,13 @@ class Identifier(Expression):
 
         # Temporal para guardar la variable
         temp = generator.addTemp()
-
+        
         #Obtencion de la posicion de la variable
         tempPos = var.pos 
         if(not var.isGlobal):
             tempPos = generator.addTemp()
+            generator.freeTemp(tempPos)
             generator.addExp(tempPos, 'P', var.pos, "+")
-        if(environment.getName() == 'function'):
-            generator.saveTemps(temp)
         generator.getStack(temp, tempPos)
 
         if var.type != Type.BOOL:
@@ -46,6 +45,7 @@ class Identifier(Expression):
         if self.falseLbl == '':
             self.falseLbl = generator.newLabel()
         
+        generator.freeTemp(temp)
         generator.addIf(temp, '1', '==', self.trueLbl)
         generator.addGoto(self.falseLbl)
 

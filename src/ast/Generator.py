@@ -28,7 +28,7 @@ class Generator:
         self.exceptions = []
 
         # temp-function
-        self.temp_save = []
+        self.tempStorage = {}
 
     def getInstance(self):
         if Generator.generator == None:
@@ -49,6 +49,7 @@ class Generator:
         self.temps = []
         # Lista de funciones nativas
         self.printString = False
+        self.tempStorage = {}
         Generator.generator = Generator()
     
     #================================
@@ -95,7 +96,7 @@ class Generator:
         temp = f't{self.countTemp}'
         self.countTemp += 1
         self.temps.append(temp)
-        # self.saveTemps(temp)
+        self.tempStorage[temp] = temp
         return temp
     #================================
     # EXPRESIONES
@@ -238,18 +239,68 @@ class Generator:
     # TEMP-FUNCTION
     #================================
 
-    def saveTemps(self, temp):
-        self.temp_save.append(temp)
+    # def saveCode(self):
+    #     return self.code
 
-    def getSaveTemps(self):
-        return self.temp_save
+    # def clearPrevious(self):
+    #     self.code = ''
 
-    def setSaveTemps(self, temp_save):
-        self.temp_save = temp_save
+    #================================
 
-    def clearTemps(self):
-        self.temp_save = []
+    def getTempStorage(self):
+        return self.tempStorage
 
+    def clearTempStorage(self):
+        self.tempStorage = {}
+
+    def setTempStorage(self, tempStorage):
+        self.tempStorage = tempStorage 
+
+    def freeTemp(self, temp):
+        if temp in self.tempStorage.keys():
+            del self.tempStorage[temp]
+
+    def addTempStorage(self, temp):
+        if not temp in self.tempStorage.keys():
+            self.tempStorage[temp] = temp
+
+    def saveTemps(self, environment):
+        if len(self.tempStorage) > 0:
+            temp = self.addTemp() 
+            self.freeTemp(temp)
+
+            size = 0
+            self.addComment('BEGIN SAVING TEMPS') 
+            self.addExp(temp, 'P', environment.size, '+')
+
+            for key in self.tempStorage:
+                size += 1 
+                self.setStack(temp, self.tempStorage[key])
+                if (size != len(self.tempStorage)):
+                    self.addExp(temp, temp, '1', '+')
+            self.addComment('END SAVING TEMPS') 
+
+        ptr = environment.size
+        environment.size = ptr + len(self.tempStorage)
+        return ptr
+
+    def recoverTemps(self, environment, pos):
+        if len(self.tempStorage) > 0:
+            temp = self.addTemp() 
+            self.freeTemp(temp)
+
+            size = 0
+            self.addComment('BEGIN RECOVERING TEMPS') 
+            self.addExp(temp, 'P', pos, '+')
+
+            for key in self.tempStorage:
+                size += 1 
+                self.getStack(self.tempStorage[key], temp)
+                if (size != len(self.tempStorage)):
+                    self.addExp(temp, temp, '1', '+')
+            self.addComment('END RECOVERING TEMPS') 
+        environment.size = pos
+        
     #================================
     # NATIVES
     #================================

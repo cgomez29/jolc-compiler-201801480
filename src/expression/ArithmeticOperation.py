@@ -48,6 +48,8 @@ class ArithmeticOperation(Expression):
             op = '%'
         
         # Comprobación dinámica
+        generator.freeTemp(left.getValue())
+        generator.freeTemp(rigth.getValue())
         if op == '/' or op == '%':
             lblTrue = generator.newLabel()
             lblExit = generator.newLabel()
