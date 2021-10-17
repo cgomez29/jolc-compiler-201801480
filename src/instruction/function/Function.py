@@ -1,4 +1,5 @@
 from src.ast.Environment import Environment
+from src.exception.Exception import Exception
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
 from src.ast.Type import Type
@@ -9,26 +10,38 @@ class Function(Instruction):
         self.id = id 
         self.parameters = parameters
         self.instructions = instructions 
+        self.preCompile = True
     
     def compile(self, environment):
         auxG = Generator()
         generator = auxG.getInstance()
-        generator.clearTemps()
+        if self.preCompile:
+            self.preCompile = False 
+            if self.validateParams():
+                generator.setException(Exception("Semántico", f"Duplicate identifier: '{self.id}'", self.line, self.column))
+                return 
+            if not environment.addFunction(self.id, self):
+                generator.setException(Exception("Semántico", f"Duplicate function implementation: {self.id}'", self.line, self.column))
+                return 
 
-        environment.setFunction(self.id, self) # guardando funcion en el entorno global
-        
+        # Creamos un  nuevo entorno
         newEnv = Environment(environment)
-        newEnv.setFunction(self.id, self)
         newEnv.setName('function')
 
+        symbolFunction = environment.getFunction(self.id)
         returnLabel = generator.newLabel()
-        newEnv.returnLbl = returnLabel
+        tempStorage = generator.getTempStorage()
 
+        newEnv.setEnvironmentFunction(symbolFunction, returnLabel)
+    
+        for i in self.parameters:
+            newEnv.setVariable(i['id'], i['tipo'], False)
+
+        generator.clearTempStorage()
+
+        # auxCode = generator.saveCode()
+        # generator.clearPrevious()
         generator.addBeginFunc(self.id)
-
-        newEnv.size = 1 # new env 
-        for p in self.parameters:
-            newEnv.setVariable(p, Type.ANY, False)
 
         for i in self.instructions:
             i.compile(newEnv)
@@ -37,7 +50,21 @@ class Function(Instruction):
         generator.putLabel(returnLabel)
 
         generator.addEndFunc()
-        generator.clearTemps()
+        generator.setTempStorage(tempStorage)
+
+
+    def validateParams(self):
+        params = []
+        for i in self.parameters:
+            if isinstance(i, str):
+                if i in params: 
+                    return True
+                params.append(i)
+            else:
+                if i['id'] in params: 
+                    return True
+                params.append(i['id'])
+        return False
 
     def graph(self, g, father):
         pass

@@ -7,7 +7,6 @@ class AST(Instruction):
         self.instructions = instrucions
 
     def compile(self, environment):
-        self.addNativeFunction(environment)
         for i in self.instructions: 
             i.compile(environment)
 
@@ -17,8 +16,3 @@ class AST(Instruction):
     def getNameSon(self):
         pass
 
-    def addNativeFunction(self, env):
-
-        # Funcion Uppercase Convierte a mayuculas el string ingresado
-        upperCase = Uppercase("uppercase", [1], [], 0, 0)
-        env.setFunction("uppercase", upperCase)

@@ -14,109 +14,82 @@ class ExpCall(Expression):
         aucG = Generator()
         generator = aucG.getInstance()
 
-        if(self.id == "uppercase"):
-            for p in self.parameters:
-                ret = p.compile(environment)
-                value = ret.getValue()
-                # returnType = ret.getType()
-            return Return(self.callUpperCase(environment, value), Type.STRING, False) 
-        elif(self.id == 'lowercase'):
-            for p in self.parameters:
-                ret = p.compile(environment)
-                value = ret.getValue()
-                # returnType = ret.getType()
-            return Return(self.callLowerCase(environment, value), Type.STRING, False) 
-        elif(self.id == 'parse'):
-            type = self.parameters[0].compile(environment)
-            if(type.getType() != Type.FLOAT64):
+        symbolFunction = environment.searchFunction(self.id)
+        if symbolFunction == None:
+            generator.setException(Exception("Semántico", f"Cannot find name: {self.id}'", self.line, self.column))
+            return 
+
+        paramsValues = []
+        # retorna el tamaño 
+        size = generator.saveTemps(environment) 
+
+        registeredLength = len(symbolFunction.params)
+        incomingLength = len(self.parameters)
+
+        if registeredLength != incomingLength:
+            generator.setException(Exception("Semántico", f"Expected {registeredLength} arguments, but got {incomingLength}", self.line, self.column))
+            return 
+
+        index = 0
+
+        for p in self.parameters:
+            compiledParam = p.compile(environment)
+            registeredType = symbolFunction.params[index]['tipo']
+            incomingType = compiledParam.getType()
+
+            if registeredType != incomingType:
+                generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
                 return 
-            param1 = self.parameters[1].compile(environment)
-            
-            return Return(self.callParse(environment, param1.getValue()), Type.FLOAT64, False)
-        elif(self.id == 'trunc'):
-            param1 = self.parameters[0].compile(environment)
-            return Return(self.callTrunc(environment, param1.getValue()), Type.FLOAT64, False)
 
-        function = environment.getFunction(self.id)
+            if incomingType == Type.BOOL:
+                temp = generator.addTemp()
+                generator.freeTemp(temp)
 
-        if(function == None):
-            generator.setException(Exception("Semántico", f"No existe la función '{self.id}'", self.line, self.column))
-            return
-       
-        generator.addSpace()
-        if environment.getName() != 'function': 
-            generator.addComment("INICIO llamada a funcion1 <====================")
-            temp = generator.addTemp()
-            returnType = None
+                tempLabel = generator.newLabel()
+                generator.putLabel(compiledParam.trueLbl)
+                generator.addExp(temp, 'P', environment.size + index + 1, '+')
+                generator.setStack(temp, '1')
+                generator.addGoto(tempLabel)
+                generator.putLabel(compiledParam.falseLbl)
+                generator.addExp(temp, 'P', environment.size + index + 1, '+')
+                generator.setStack(temp, '0')
+                generator.putLabel(tempLabel) 
 
-            counter = 0     
-    
-            for p in self.parameters:
-                ret = p.compile(environment)
-                counter+=1
-                generator.addExp(temp, 'P', environment.size + counter, '+')
-                value = ret.getValue()
-                returnType = ret.getType()
-                generator.setStack(temp, value)
+            paramsValues.append(compiledParam)
+            index +=1
 
-            generator.newEnv(environment.size)
-            generator.callFun(self.id)
-            generator.getStack(temp, 'P')
-            generator.retEnv(environment.size)
-            generator.addComment("FIN llamada a funcion <====================")
-            generator.addSpace()
-            return Return(temp, returnType, False)
-        else:
-            generator.addComment("INICIO llamada a funcion2 <====================")
-            temp_save = (generator.getSaveTemps())
-            returnType = None
+        temp = generator.addTemp()
+        generator.freeTemp(temp)
+        if (len(paramsValues) != 0):
+            generator.addExp(temp, 'P', environment.size + 1, '+')
+            i = 0
+            for value in paramsValues:
+                if(value.getType() != Type.BOOL):
+                    generator.freeTemp(value.getValue())
+                    generator.setStack(temp, value.getValue())
+                if i != len(paramsValues) -1:
+                    generator.addExp(temp, temp, '1', '+')
 
-            if len(temp_save) > 0:
-                generator.addComment("Guardando temporales")
-                saveSize = environment.size 
-                t = generator.addTemp()
-                generator.addExp(t, 'P', saveSize, '+')
-                generator.setStack(t, temp_save[-1])
-                generator.addComment("FIN Guardando temporales")
+        generator.newEnv(environment.size)
+        generator.callFun(self.id)
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.size)
+        generator.recoverTemps(environment, size)
+        generator.addTempStorage(temp) # TODO: addTemp
 
-            generator.clearTemps()
-            temp = generator.addTemp()
-            
-            flag = 1
-            currentSize = environment.size
-            for p in self.parameters:
-                # generator.clearTemps()# eliminando temporales guardados en esta llamada
-                environment.size +=1
-                ret = p.compile(environment)
-                environment.size -=1
-                generator.addExp(temp, 'P', currentSize+flag, '+')
-                flag += 1
-                value = ret.getValue()
-                
-                generator.clearTemps() # borando temporales
-                generator.saveTemps(value) # agregando temporales
+        if symbolFunction.getType() != Type.BOOL:
+            return Return(temp, symbolFunction.getType(), True)
 
-                returnType = ret.getType()
-                generator.setStack(temp, value)
-
-            generator.newEnv(currentSize)
-            generator.callFun(self.id)
-            generator.getStack(temp, 'P')
-            generator.retEnv(currentSize)    
-            
-            if len(temp_save) > 0:
-                generator.addComment("Recuperando temporales")
-                t = generator.addTemp()
-                generator.addExp(t, 'P', saveSize, '+')
-                generator.getStack(temp_save[-1], t)
-                generator.addComment("FIN Recuperando temporales")
-
-            generator.addComment("FIN llamada a funcion <====================")
-            generator.addSpace()
-            
-            # generator.setSaveTemps(temp_save)
-            generator.clearTemps() # TODO: Se modifico aca
-            return Return(temp, returnType, False)
+        auxReturn = Return('', symbolFunction.getType(), False)
+        if self.trueLbl == '':
+            self.trueLbl = generator.newLabel()
+        if self.falseLbl == '':
+            self.falseLbl = generator.newLabel()
+        generator.addIf(temp, '1', '==', self.trueLbl)
+        generator.addGoto(self.falseLbl)
+        auxReturn.trueLbl = self.trueLbl
+        auxReturn.falseLbl = self.falseLbl 
+        return auxReturn
 
     def callTrunc(self, environment, value):
         auxG = Generator()
@@ -156,7 +129,6 @@ class ExpCall(Expression):
         generator.retEnv(environment.getSize())
         return temp
 
-
     def callUpperCase(self, environment, value):
         auxG = Generator()
         generator = auxG.getInstance()
@@ -176,7 +148,6 @@ class ExpCall(Expression):
         generator.retEnv(environment.getSize())
         return temp
 
-    
     def callLowerCase(self, environment, value):
         auxG = Generator()
         generator = auxG.getInstance()
