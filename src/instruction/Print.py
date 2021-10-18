@@ -39,13 +39,11 @@ class Print(Instruction):
                 temp = generator.addTemp()
                 temp2 = generator.addTemp()
                 
-                generator.addExp(temp2, symbol.getValue(), '', '') # guardando posición del arreglo
-                generator.getHeap(temp, symbol.getValue()) # recuperando el arreglo
+                generator.addExp(temp2, symbol.getValue(), '1', '+') # guardando posición del arreglo
+                # generator.getHeap(temp, symbol.getValue()) # recuperando el arreglo
                 generator.addPrint("c", '91')
                 for a in range(len(symbol.getAttributes())):
-                    if a != 0:
-                        generator.addExp(temp2, temp2, 1, '+')
-                    generator.getHeap(temp, temp2)
+                    generator.getHeap(temp, temp2) # recuperando item 
 
                     if(symbol.getAttributes()[a] == Type.INT64):
                         generator.addPrint("d", temp)
@@ -58,6 +56,7 @@ class Print(Instruction):
 
                     if a != len(symbol.getAttributes()) -1:
                         generator.addPrint("c", '44')
+                    generator.addExp(temp2, temp2, 1, '+') # cambiando de posición 
                 
                 generator.addPrint("c", '93')
             else:
@@ -75,13 +74,11 @@ class Print(Instruction):
         temp = generator.addTemp()
         temp2 = generator.addTemp()
         
-        generator.addExp(temp2, tempH, '', '')
+        generator.addExp(temp2, tempH, '1', '+')
         # generator.getHeap(temp, tempH) # recuperando el arreglo
         generator.addPrint("c", '91')
         for a in range(len(attribute.getAttributes())):
-            if a != 0:
-                generator.addExp(temp2, temp2, 1, '+')
-            generator.getHeap(temp, temp2)
+            generator.getHeap(temp, temp2) # recuperando item 
             
             if(attribute.getAttributes()[a] == Type.INT64):
                 generator.addPrint("d", temp)
@@ -94,11 +91,12 @@ class Print(Instruction):
             
             if a != len(attribute.getAttributes()) -1:
                 generator.addPrint("c", '44')
+            generator.addExp(temp2, temp2, 1, '+') # cambiando de posición 
                 
         generator.addPrint("c", '93')
 
     def isString(self,generator, value, environment):
-        generator.addComment('String print start')
+        generator.addComment('END PRINT STRING')
         generator.fPrintString()
         paramTemp = generator.addTemp()
 
@@ -112,7 +110,7 @@ class Print(Instruction):
         temp = generator.addTemp()
         generator.getStack(temp, 'P')
         generator.retEnv(environment.getSize())
-        generator.addComment('String print end')
+        generator.addComment('END PRINT STRING')
 
     def graph(self, g, father):
         pass

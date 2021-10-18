@@ -313,7 +313,7 @@ class Generator:
         self.printString = True
         self.inNatives = True
 
-        self.addBeginFunc('printString')
+        self.addBeginFunc('native_print_string')
         # Label para salir de la funcion
         returnLbl = self.newLabel()
         # Label para la comparacion para buscar fin de cadena
@@ -356,7 +356,7 @@ class Generator:
         self.uppercase = True
         self.inNatives = True
 
-        self.addBeginFunc("uppercase")
+        self.addBeginFunc("native_uppercase")
         
         tempNewString = self.addTemp()
         self.addExp(tempNewString, 'H', '', '')
