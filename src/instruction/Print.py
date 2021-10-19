@@ -33,7 +33,9 @@ class Print(Instruction):
             elif(symbol.getType() == Type.INT64):
                 generator.addPrint("d", symbol.getValue())
             elif(symbol.getType() == Type.CHAR):
-                generator.addPrint("c", symbol.getValue())
+                temp = generator.addTemp()
+                generator.getHeap(temp, symbol.getValue())
+                generator.addPrint("c", temp)
             elif(symbol.getType() == Type.ARRAY):
 
                 temp = generator.addTemp()
@@ -105,7 +107,7 @@ class Print(Instruction):
         generator.setStack(paramTemp, value)
         
         generator.newEnv(environment.getSize())
-        generator.callFun('printString')
+        generator.callFun('native_print_string')
         
         temp = generator.addTemp()
         generator.getStack(temp, 'P')

@@ -17,7 +17,7 @@ class Type(Enum):
     NATIVE = 13
     STRUCT = 14
     MSTRUCT = 15 # Struct mutable
-    RANGO = 16
+    RANGE = 16
     ARRAY = 17
     ANY = 18
     TEMP = 19

@@ -161,7 +161,27 @@
 # println(j.name);
 
 
-x = [1,[5,[22,23,["cristian",13,14,15]]],18];
-# x = [4,5,6];
+# math. Esta únicamente aceptará la función 
+# math.Mod(VALOR1, VALOR2).
 
-println(x);
+
+# x = [1,[5,[22,23,["cristian",13,14,15]]],18];
+# # x = [4,5,6];
+
+# println(x);
+
+# for i in [1,2,3]
+#     println(i);
+# end;
+
+# for i in 1:3
+#     println(i);
+# end;
+
+println("");
+println("=======================================================================");
+println("=================================FOR-4=================================");
+println("=======================================================================");
+for letra in "Calificacion de Intermedio"
+    println(letra);
+end;

@@ -7,6 +7,8 @@ from src.instruction.variables.Declaration import Declaration
 from src.instruction.variables.DataType import DataType
 from src.instruction.conditional.If import If
 from src.instruction.loops.While import While
+from src.instruction.loops.For import For 
+from src.instruction.loops.Range import Range
 from src.instruction.loops.Break import Break
 from src.instruction.loops.Continue import Continue
 from src.instruction.loops.Return import Return
@@ -312,6 +314,7 @@ def p_instruccion_evaluar(t):
                     | call SEMICOLON
                     | STRUCTS SEMICOLON
                     | IF SEMICOLON
+                    | FOR SEMICOLON
                     | WHILE SEMICOLON
                     | BREAK SEMICOLON
                     | CONTINUE SEMICOLON
@@ -427,6 +430,23 @@ def p_instruccion_elseif(t):
         t[0] = If(t[2], t[3], t[5], None, t.lineno(1), find_column(t.slice[1]))
     else:
         t[0] = If(t[2], t[3], None, t[4], t.lineno(1), find_column(t.slice[1]))
+
+#=======================================================================================
+# FOR
+#=======================================================================================
+
+def p_instruccion_for(t):
+    '''FOR  :   for ID in expresion instrucciones FIN
+            |   for ID in expresion FIN'''
+    if(len(t) == 7):
+        t[0] = For(t[2], t[4], t[5], t.lineno(1), find_column(t.slice[1]))
+    else:
+        t[0] = For(t[2], t[4], [],t.lineno(1), find_column(t.slice[1]))
+
+def p_instruccion_rango(t):
+    '''RANGO    :   expresion COLON expresion'''
+    t[0] = Range(t[1], t[3], t.lineno(1), find_column(t.slice[2]))
+
 
 #=======================================================================================
 # WHILE
@@ -632,6 +652,10 @@ def p_expresion_boolean(t):
 
 def p_expresion_array(t):
     'expresion : ARREGLO'
+    t[0] = t[1]
+
+def p_expresion_rango(t):
+    'expresion : RANGO'
     t[0] = t[1]
 
 def p_expresion_tipo(t):
