@@ -43,9 +43,13 @@ class Literal(Expression):
             generator.setHeap('H', '-1') # fin de cadena
             generator.nextHeap()
             return Return(retTemp, Type.STRING, True)
-        else:
-            # Float64 and Int64
-            return Return(str(self.value), self.type, False)
+        elif self.type == Type.CHAR:
+            retTemp = generator.addTemp()
+            generator.addExp(retTemp, 'H', '', '')
+            generator.setHeap('H', ord(self.value))
+            generator.nextHeap()
+            return Return(retTemp, Type.CHAR, True)
+
         
     def graph(self, g, father):
         pass

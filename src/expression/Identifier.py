@@ -12,7 +12,7 @@ class Identifier(Expression):
     def compile(self, environment):
         auxG = Generator()
         generator =  auxG.getInstance()
-        generator.addComment("Start identifier")
+        # generator.addComment("Start identifier")
 
         var = environment.getVariable(self.id)   
 
@@ -22,11 +22,12 @@ class Identifier(Expression):
 
         # Temporal para guardar la variable
         temp = generator.addTemp()
-
+        
         #Obtencion de la posicion de la variable
         tempPos = var.pos 
         if(not var.isGlobal):
             tempPos = generator.addTemp()
+            generator.freeTemp(tempPos)
             generator.addExp(tempPos, 'P', var.pos, "+")
         generator.getStack(temp, tempPos)
 
@@ -35,7 +36,7 @@ class Identifier(Expression):
             ret.setAuxType(var.getAuxType())
             ret.setAttributes(var.getAttributes())
             ret.setValues(var.getValues())
-            generator.addComment("Fin identifier")
+            # generator.addComment("Fin identifier")
             generator.addSpace()
             return ret  
 
@@ -44,10 +45,11 @@ class Identifier(Expression):
         if self.falseLbl == '':
             self.falseLbl = generator.newLabel()
         
+        generator.freeTemp(temp)
         generator.addIf(temp, '1', '==', self.trueLbl)
         generator.addGoto(self.falseLbl)
 
-        generator.addComment("fin identifier")
+        # generator.addComment("fin identifier")
         generator.addSpace()
 
         ret = Return(None, Type.BOOL, False)

@@ -14,10 +14,15 @@ class Array(Instruction):
         # generator.addComment("----------------INIT ARRAY -----------------------")
         tempH = generator.addTemp() # puntero heap
         tempH2 = generator.addTemp() # posiciones del arreglo
+        length = len(self.expressions)
         generator.addExp(tempH, 'H', '', '') # guardando la pos del array 
         generator.addExp(tempH2, tempH, '', '')  # temp para saber las posiciones correspondientes a cada valor
-        generator.addExp('H', 'H', len(self.expressions), '+') # reservando posiciones del heap para cada valor a recorrer
+        generator.addExp('H', 'H', length + 1, '+') # reservando posiciones del heap para cada valor a recorrer y sumamos por que en la pos 1 va el tamaño del arreglo
         
+        # Guardando el tamaño del arreglo
+        generator.setHeap(tempH2, length) # guardando valor
+        generator.addExp(tempH2, tempH2, '1', '+') # cambio de lugar
+
         auxTypes = []
         auxValues = [] # guarda los atributos de los arreglos anidados
         counter = 1
@@ -25,7 +30,7 @@ class Array(Instruction):
             value = e.compile(environment) # compilando valor
             
             generator.setHeap(tempH2, value.getValue()) # guardando valor
-            if (counter != len(self.expressions)):
+            if (counter != length):
                 generator.addExp(tempH2, tempH2, '1', '+') # cambio de lugar
 
             counter += 1

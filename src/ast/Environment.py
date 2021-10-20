@@ -1,3 +1,5 @@
+from src.ast.Type import Type
+from src.ast.SymbolFunction import SymbolFunction
 from src.ast.Symbol import Symbol
 
 
@@ -14,14 +16,16 @@ class Environment:
         self.size = 0
         self.breakLbl = ''
         self.continueLbl = ''
+        self.returnLbl = '' 
 
-        # print("ACTUAL", self.size)
+        self.currentFunction = None
+
         if(previous != None):
-            # print("ES NUEVOO")
             self.size = self.previous.size
             self.breakLbl = self.previous.breakLbl 
             self.continueLbl = self.previous.continueLbl 
-            # print("ES NUEVOO", self.size)
+            self.returnLbl = self.previous.returnLbl 
+            self.currentFunction = self.previous.currentFunction
     
     def setName(self, name):
         self.name = name 
@@ -48,21 +52,9 @@ class Environment:
             self.variables[id] = newSymbol
         return self.variables[id]
 
-        # if( id not in self.variables.keys()):
-        #     self.size += 1
-        # self.variables[id] = newSymbol
-        # return self.variables[id]
-
-    # Retorna el simbolo de la funcion guardada
-    def getFunction(self, id):
-        env = self 
-        while env != None: 
-            if id in env.functions.keys(): return env.functions[id]
-            env = env.previous
-        return None
-
-    def setFunction(self, id, function):
-        self.functions[id] = function
+    # # Misma posición pero diferente tipo esto se hace para los arreglos
+    # def updateVariable(self, id, type): # 
+    #     self.variables[id] = self.variables[id].type = type
 
     def setStruct(self, id, struct):
         self.structs[id] = struct
@@ -106,3 +98,27 @@ class Environment:
         while env.prev != None:
             env = env.prev
         return env
+
+    def setEnvironmentFunction(self, currentFunction, returnLbl):
+        self.returnLbl = returnLbl
+        self.size = 1
+        self.currentFunction = currentFunction
+
+
+    def getFunction(self, id):
+        return self.functions[id]
+
+    # Retorna el simbolo de la funcion guardada
+    def searchFunction(self, id):
+        env = self 
+        while env != None: 
+            if id in env.functions.keys(): return env.functions[id]
+            env = env.previous
+        return None
+
+    def addFunction(self, id, func):
+        if( id not in self.functions.keys()):
+            # TODO: Tipo fijado para pruebas se debe de cambiar
+            self.functions[id] = SymbolFunction(id, Type.INT64, len(func.parameters), func.parameters, func.line, func.column)
+            return True
+        return False 

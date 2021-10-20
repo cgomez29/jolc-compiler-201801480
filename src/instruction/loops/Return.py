@@ -12,6 +12,7 @@ class Return(Expression):
 
         value = self.value.compile(environment).getValue()
         generator.setStack('P', value) 
+        generator.addGoto(environment.returnLbl)
 
 
     def graph(self, g, father):

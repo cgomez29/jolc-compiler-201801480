@@ -7,6 +7,8 @@ from src.instruction.variables.Declaration import Declaration
 from src.instruction.variables.DataType import DataType
 from src.instruction.conditional.If import If
 from src.instruction.loops.While import While
+from src.instruction.loops.For import For 
+from src.instruction.loops.Range import Range
 from src.instruction.loops.Break import Break
 from src.instruction.loops.Continue import Continue
 from src.instruction.loops.Return import Return
@@ -14,10 +16,12 @@ from src.instruction.function.Function import Function
 from src.instruction.struct.Struct import Struct
 from src.instruction.array.Array import Array
 from src.instruction.function.Call import Call
-from src.expression.ArithmeticOperation import ArithmeticOperation
-from src.instruction.struct.StructGet import StructGet
-from src.expression.RelationalOperation import RelationalOperation
 from src.expression.Identifier import Identifier 
+from src.expression.ExpCall import ExpCall
+from src.expression.ArithmeticOperation import ArithmeticOperation
+from src.expression.RelationalOperation import RelationalOperation
+from src.expression.LogicalOperation import LogicalOperation
+from src.instruction.struct.StructGet import StructGet
 from src.expression.Literal import Literal 
 
 reservadas = {
@@ -310,6 +314,7 @@ def p_instruccion_evaluar(t):
                     | call SEMICOLON
                     | STRUCTS SEMICOLON
                     | IF SEMICOLON
+                    | FOR SEMICOLON
                     | WHILE SEMICOLON
                     | BREAK SEMICOLON
                     | CONTINUE SEMICOLON
@@ -427,6 +432,23 @@ def p_instruccion_elseif(t):
         t[0] = If(t[2], t[3], None, t[4], t.lineno(1), find_column(t.slice[1]))
 
 #=======================================================================================
+# FOR
+#=======================================================================================
+
+def p_instruccion_for(t):
+    '''FOR  :   for ID in expresion instrucciones FIN
+            |   for ID in expresion FIN'''
+    if(len(t) == 7):
+        t[0] = For(t[2], t[4], t[5], t.lineno(1), find_column(t.slice[1]))
+    else:
+        t[0] = For(t[2], t[4], [],t.lineno(1), find_column(t.slice[1]))
+
+def p_instruccion_rango(t):
+    '''RANGO    :   expresion COLON expresion'''
+    t[0] = Range(t[1], t[3], t.lineno(1), find_column(t.slice[2]))
+
+
+#=======================================================================================
 # WHILE
 #=======================================================================================
 
@@ -450,10 +472,34 @@ def p_instruccion_continue(t):
 # DECLARATION
 #=======================================================================================
 def p_instruccion_declaration(t):
-    ''' DECLARACION     : ID IGUAL expresion
-                        | STRUCTGETS IGUAL expresion
+    ''' DECLARACION     :   local ID
+                        |   global ID
+                        |   ID IGUAL expresion
+                        |   global ID IGUAL expresion 
+                        |   local ID IGUAL expresion 
+                        |   ID IGUAL expresion TIPOVAR TIPO
+                        |   global ID IGUAL expresion TIPOVAR TIPO
+                        |   local ID IGUAL expresion TIPOVAR TIPO
+                        |   STRUCTGETS IGUAL expresion
     '''
-    t[0] = Declaration(None, t[1], t[3], t.lineno(1), find_column(t.slice[2]))
+    if(len(t) == 4): # ID IGUAL expresion
+        t[0] =  Declaration(None, t[1], t[3], t.lineno(1), find_column(t.slice[2]))
+    elif(len(t) == 5): # [global/local] ID IGUAL expresion 
+        if(str(t[1]) == "local" or str(t[1]) == "global"):
+            t[0] =  Declaration(t[1], t[2], t[4], t.lineno(1), find_column(t.slice[1]))
+        else:
+            # ID ARRAYGETS IGUAL expresion
+            value = [t[1], t[2]] # [id, arreglo de accesos]
+            t[0] =  Declaration(None, value, t[4], t.lineno(1), find_column(t.slice[3]))
+    
+    elif(len(t) == 6): # ID IGUAL expresion TIPOVAR TIPO
+        x = {"value": t[3], "tipo": t[5]}
+        t[0] =  Declaration(None, t[1], x, t.lineno(1), find_column(t.slice[1]), False)
+    elif(len(t) == 3):
+        t[0] =  Declaration(t[1], t[2], None, t.lineno(2), find_column(t.slice[2]), False)
+    else: # [global/local] ID IGUAL expresion TIPOVAR TIPO
+        x = {"value": t[4], "tipo": t[6]}
+        t[0] =  Declaration(t[1], t[2], x, t.lineno(3), find_column(t.slice[1]), False)
 
 #=======================================================================================
 # PRINT
@@ -503,6 +549,15 @@ def p_expresion_relacional(t):
     elif t[2] == '<=': t[0] = RelationalOperation(t[1],t[3], TypeOperation.MENORIQ, t.lineno(2), find_column(t.slice[2]))
     elif t[2] == '!=': t[0] = RelationalOperation(t[1],t[3], TypeOperation.DIFERENTE, t.lineno(2), find_column(t.slice[2]))
 
+def p_expresiones_logicas(t):
+    '''expresion : expresion AND expresion
+                | expresion OR expresion'''
+    if t[2] == '&&'  : t[0] = LogicalOperation(t[1],t[3], TypeOperation.AND, t.lineno(2), find_column(t.slice[2]))
+    elif t[2] == '||'  : t[0] = LogicalOperation(t[1],t[3], TypeOperation.OR, t.lineno(2), find_column(t.slice[2]))
+
+def p_expresiones_logicasNOT(t):
+    '''expresion : NOT expresion '''
+    if t[1] == '!'  : t[0] = LogicalOperation(t[2],None, TypeOperation.NOT, t.lineno(1), find_column(t.slice[1]))
 
 def p_expresion_agrupacion(t):
     'expresion : PARIZQ expresion PARDER'
@@ -512,7 +567,7 @@ def p_expresion_agrupacion(t):
 # CALL
 #=======================================================================================
 
-def p_expresion_call(t):
+def p_instruccion_call(t):
     '''call : ID PARIZQ PARDER
             | ID NOT PARIZQ PARDER
             | ID PARIZQ PARAMETROS PARDER  
@@ -530,8 +585,28 @@ def p_expresion_call(t):
         id = str(t[1]) + str(t[2])
         t[0] = Call(id, t[4], t.lineno(1), find_column(t.slice[1]))
 
+#=======================================================================================
+
+def p_expresion_call(t):
+    '''excall : ID PARIZQ PARDER
+            | ID NOT PARIZQ PARDER
+            | ID PARIZQ PARAMETROS PARDER  
+            | ID NOT PARIZQ PARAMETROS PARDER  
+            '''
+    if(len(t) == 4):
+        t[0] = ExpCall(t[1], [], t.lineno(1), find_column(t.slice[1]))
+    elif(len(t) == 5):
+        if(t[2] == '!'):
+            id = str(t[1]) + str(t[2])
+            t[0] = ExpCall(id, [], t.lineno(1), find_column(t.slice[1]))
+        else:
+            t[0] = ExpCall(t[1], t[3], t.lineno(1), find_column(t.slice[1]))
+    else: 
+        id = str(t[1]) + str(t[2])
+        t[0] = ExpCall(id, t[4], t.lineno(1), find_column(t.slice[1]))
+
 def p_expresion_calls(t):
-    'expresion : call'
+    'expresion : excall'
     t[0] = t[1]
 
 #=======================================================================================
@@ -579,6 +654,10 @@ def p_expresion_array(t):
     'expresion : ARREGLO'
     t[0] = t[1]
 
+def p_expresion_rango(t):
+    'expresion : RANGO'
+    t[0] = t[1]
+
 def p_expresion_tipo(t):
     'expresion : TIPO'
     t[0] = t[1]
@@ -591,17 +670,17 @@ def p_tipo(t):
             |   ID
             |   STRING'''
     if(t[1] == "Int64"):
-        t[0] = DataType("Int64", Type.INT64, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.INT64
     elif(t[1] == "Float64"):
-        t[0] = DataType("Float64",Type.FLOAT64, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.FLOAT64
     elif(t[1] == "Bool"):
-        t[0] = DataType("Bool",Type.BOOL, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.BOOL
     elif(t[1] == "Char"):
-        t[0] = DataType("Char",Type.CHAR, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.CHAR
     elif(t[1] == "String"):
-        t[0] = DataType("String",Type.STRING, t.lineno(1), find_column(t.slice[1]))
+        t[0] = Type.STRING
     else:
-        t[0] = DataType(t[1],Type.IDENTIFICADOR, t.lineno(1), find_column(t.slice[1]))
+        t[0] = t[1]
 
 
 #=======================================================================================

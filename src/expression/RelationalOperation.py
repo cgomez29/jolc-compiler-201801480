@@ -16,7 +16,7 @@ class RelationalOperation(Expression):
         auxG = Generator()
         generator = auxG.getInstance()
 
-        generator.addComment('Start relational expression')
+        # generator.addComment('Start relational expression')
 
         left = self.left.compile(environment)
         rigth = None
@@ -28,6 +28,8 @@ class RelationalOperation(Expression):
             if ((left.getType() == Type.INT64 or left.getType() == Type.FLOAT64) and
                 (rigth.getType() == Type.INT64 or rigth.getType() == Type.FLOAT64) or left.getType() == Type.ANY):
                 self.checkLabels()
+                generator.freeTemp(left.getValue())
+                generator.freeTemp(rigth.getValue())
                 generator.addIf(left.getValue(), rigth.getValue(), self.getOp(), self.trueLbl)
                 generator.addGoto(self.falseLbl)
             elif (left.getType() == Type.STRING and rigth.getType() == Type.STRING):
@@ -36,8 +38,9 @@ class RelationalOperation(Expression):
         else: 
             gotoRigth = generator.newLabel()
             leftTemp = generator.addTemp()
+            generator.freeTemp(leftTemp)
 
-            generator.putLabel(left.trueLbl)
+            generator.putLabel(left.trueLbl)    
             generator.addExp(leftTemp, '1', '','')
             generator.addGoto(gotoRigth)
 
@@ -48,10 +51,11 @@ class RelationalOperation(Expression):
 
             right = self.rigth.compile(environment)
             if right.type != Type.BOOL:
-                print("Error, no se pueden comparar")
+                # print("Error, no se pueden comparar")
                 return
             gotoEnd = generator.newLabel()
             rightTemp = generator.addTemp()
+            generator.freeTemp(right)
 
             generator.putLabel(right.trueLbl)
             
@@ -67,7 +71,7 @@ class RelationalOperation(Expression):
             generator.addIf(leftTemp, rightTemp, self.getOp(), self.trueLbl)
             generator.addGoto(self.falseLbl)
 
-        generator.addComment("FIN DE EXPRESION RELACIONAL")
+        # generator.addComment("FIN DE EXPRESION RELACIONAL")
         generator.addSpace()
         result.trueLbl = self.trueLbl
         result.falseLbl = self.falseLbl
