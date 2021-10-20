@@ -52,10 +52,9 @@ class Environment:
             self.variables[id] = newSymbol
         return self.variables[id]
 
-        # if( id not in self.variables.keys()):
-        #     self.size += 1
-        # self.variables[id] = newSymbol
-        # return self.variables[id]
+    # # Misma posición pero diferente tipo esto se hace para los arreglos
+    # def updateVariable(self, id, type): # 
+    #     self.variables[id] = self.variables[id].type = type
 
     def setStruct(self, id, struct):
         self.structs[id] = struct

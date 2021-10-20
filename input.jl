@@ -187,7 +187,10 @@
 #     println(i+1);
 # end;
 
+# for i in [1,20,3,5,6,[1,5],8]
+#     println(i);
+# end;
 
-for i in [1,2,3]
-    println(i);
-end;
+
+x = 21.1%2;
+println(x);
