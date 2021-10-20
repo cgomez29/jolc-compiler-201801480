@@ -170,18 +170,24 @@
 
 # println(x);
 
-# for i in [1,2,3]
-#     println(i);
+# for letra in "cris"
+#     println(letra);
+#     continue;
 # end;
 
-# for i in 1:3
-#     println(i);
+# x = "cris";
+
+# for letra in x
+#     println(letra);
 # end;
 
-println("");
-println("=======================================================================");
-println("=================================FOR-4=================================");
-println("=======================================================================");
-for letra in "Calificacion de Intermedio"
-    println(letra);
+# x = 21:30;
+
+# for i in x
+#     println(i+1);
+# end;
+
+
+for i in [1,2,3]
+    println(i);
 end;
