@@ -24,7 +24,7 @@ class If(Instruction):
 
         
         if(rCondition.getType() != Type.BOOL):
-            generator.setException(Exception("Semántico", f"La condición no es booleana", self.line, self.column))
+            generator.setException(Exception("Semántico", f"The condition is not of type BOOL", self.line, self.column))
             return
 
         generator.putLabel(rCondition.trueLbl)

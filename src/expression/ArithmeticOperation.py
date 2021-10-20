@@ -4,6 +4,7 @@ from src.ast.Type import TypeOperation
 from src.ast.TypeTable import TypeTable
 from src.ast.Type import Type
 from src.abstract.Return import Return
+from src.exception.Exception import Exception
 
 class ArithmeticOperation(Expression):
     def __init__(self, left, rigth, typeOperation, line, column):
@@ -30,8 +31,12 @@ class ArithmeticOperation(Expression):
             generator.fConcatString()
             return self.concatString(environment, left.getValue(), rigth.getValue())
         
-        # finalType = TypeTable()
-        # resultType = finalType.getType(left.getType(), rigth.getType()) 
+        finalType = TypeTable()
+        resultType = finalType.getType(left.getType(), rigth.getType()) 
+
+        if(resultType == Type.ERROR):
+            generator.setException(Exception("Semántico", f"Type error", self.line, self.column))
+            return
 
         temp = generator.addTemp()
 
@@ -44,7 +49,7 @@ class ArithmeticOperation(Expression):
             op = '*'
         elif (self.typeOperation == TypeOperation.DIVISION):
             op = '/'
-        elif (self.typeOperation == TypeOperation.DIVISION):
+        elif (self.typeOperation == TypeOperation.MODULO):
             op = '%'
         
         # Comprobación dinámica
@@ -58,12 +63,15 @@ class ArithmeticOperation(Expression):
             generator.addExp(temp, '0', '', '')
             generator.addGoto(lblExit)
             generator.putLabel(lblTrue)
-            generator.addExp(temp, left.getValue(), rigth.getValue(), op)
+            if resultType == Type.FLOAT64:
+                generator.addExpModulo(temp, left.getValue(), rigth.getValue())
+            else:
+                generator.addExp(temp, left.getValue(), rigth.getValue(), op)
             generator.putLabel(lblExit)
         else:
             generator.addExp(temp, left.getValue(), rigth.getValue(), op)
 
-        return Return(temp, Type.INT64, True)
+        return Return(temp, resultType, True)
 
     def repeatString(self, environment, param1, param2):
         auxG = Generator()

@@ -1,6 +1,8 @@
 from src.ast.Environment import Environment
 from src.abstract.Instruction import Instruction
 from src.ast.Generator import Generator
+from src.exception.Exception import Exception
+from src.ast.Type import Type
 
 class While(Instruction):
     def __init__(self, condition, instructions, line, column):
@@ -18,6 +20,10 @@ class While(Instruction):
         generator.putLabel(continueLbl)
 
         rCondition = self.condition.compile(environment)
+        if(rCondition.getType() != Type.BOOL):
+            generator.setException(Exception("Semántico", f"The condition is not of type BOOL", self.line, self.column))
+            return
+        
         newEnv = Environment(environment)
 
         newEnv.breakLbl = rCondition.falseLbl # break es la etiqueta false de mi condición para salirme.

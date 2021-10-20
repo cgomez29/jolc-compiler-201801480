@@ -104,6 +104,9 @@ class Generator:
     def addExp(self, result, left, right, op):
         self.codeIn(f'{result} = {left}{op}{right};\n')
 
+    def addExpModulo(self, result, left, right):
+        self.codeIn(f'{result} = math.Mod({left}, {right});\n')
+
     #==============================================================================
     # INSTRUCCIONES
     #==============================================================================
