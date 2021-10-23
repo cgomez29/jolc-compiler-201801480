@@ -21,7 +21,6 @@ class ArrayAccess(Instruction):
 
         auxAttributes = []
         auxValues = []
-
         
         finalType = None 
         tempItem = generator.addTemp() # guarda el valor encontrado
@@ -80,9 +79,8 @@ class ArrayAccess(Instruction):
                     auxAttributes = value.getValues()[index].getAttributes()
                     auxValues = value.getValues()[index].getValues()
 
-                # generator.getHeap(tempItem, tempItem) # recupendo el tamaño del arreglo
                 
-                generator.getHeap(tempIndex, tempItem) # recupendo el tamaño del arreglo
+                generator.getHeap(tempIndex, tempItem) # recuperando el tamaño del arreglo
 
                 # comprobando que no exeda los limites
                 generator.addIf(tempI, '1', '<', lblTrue) # limite inferior

@@ -69,30 +69,103 @@ class Declaration(Instruction):
                 generator.setStack(tempPos, val.value)
             generator.addSpace()
         else: # asignacion de un valor para un struct 
-            var_struct = environment.getVariable(self.id[0])
+            var = environment.getVariable(self.id[0])
 
-            if var_struct == None:
-                generator.setException(Exception("Semántico", f"No se definio un valor para'{self.id}'", self.line, self.column))
+            if var == None:
+                generator.setException(Exception("Semántico", f"'{self.id}' is not define", self.line, self.column))
                 return 
-            generator.addComment("init set struct")
 
-            # ejecutando nuevo valor
-            value = self.value.compile(environment)
-            struct = environment.getStruct(var_struct.getAuxType())
+            if var.getType() == Type.STRUCT or var.getType() == Type.MSTRUCT:
 
-            tempH = generator.addTemp()
-            for x in range(len(self.id)-1):
-                x =+ 1 # empieza en 1 por que el 0 es el struct 
-                counter = 0
-                for s in struct.attributes:
-                    if (s['id'] == self.id[x]):
-                        generator.getStack(tempH, var_struct.pos)
-                        generator.addExp(tempH, tempH, counter, '+')
-                        generator.setHeap(tempH, value.getValue())
-                        break
-                    counter +=1
+                generator.addComment("BEGIN STRUCT")
+
+                # ejecutando nuevo valor
+                value = self.value.compile(environment)
+                struct = environment.getStruct(var.getAuxType())
+
+                tempH = generator.addTemp()
+                for x in range(len(self.id)-1):
+                    x =+ 1 # empieza en 1 por que el 0 es el struct 
+                    counter = 0
+                    for s in struct.attributes:
+                        if (s['id'] == self.id[x]):
+                            generator.getStack(tempH, var.pos)
+                            generator.addExp(tempH, tempH, counter, '+')
+                            generator.setHeap(tempH, value.getValue())
+                            break
+                        counter +=1
+                    
+                generator.addComment("END STRUCT")
+            else: # is array
+                self.dec_array(var, environment, self.id[1])
+
+    def dec_array(self, value, environment, access):
+        auxGen = Generator()
+        generator = auxGen.getInstance()
+
+        size = len(access)
+        tempItem = generator.addTemp() # guardando el puntero la posición encontrada
+        for i in range(size):
+            if i == 0: # primera iteracion 
+                lblTrue = generator.newLabel()
+                lblFalse = generator.newLabel()
+                lblExit = generator.newLabel()
+
+                tempAccess = generator.addTemp() # valor de index a acceder
+                temp = generator.addTemp()
+
+                generator.addExp(tempAccess, access[i].value, '', '')
+
+                generator.addExp(temp, value.pos, '', '')
+                generator.getHeap(tempItem, temp)
+
+                # comprobando que no exeda los limites
+                generator.addIf(tempAccess, '1', '<', lblTrue) # limite inferior
+                generator.addIf(tempAccess, tempItem, '>', lblTrue) #
+                generator.addGoto(lblFalse)
+                generator.putLabel(lblTrue)
+                generator.printBoundsError()
+                generator.addExp(tempItem, '0', '', '') # default result
+                generator.addGoto(lblExit)
+                generator.putLabel(lblFalse)# no exedio los limites
                 
-            generator.addComment("fin set struct")
+                generator.addExp(tempItem, temp, tempAccess, '+')
+                val = self.value.compile(environment)
+                if i == size-1:
+                    generator.setHeap(tempItem, val.getValue()) # guardando nuevo valor
+                else:
+                    generator.getHeap(tempItem, tempItem) # retornando posición del nuevo arreglo
+                generator.putLabel(lblExit) # salida 
+            else: # mas accesos
+                lblTrue = generator.newLabel()
+                lblFalse = generator.newLabel()
+                lblExit = generator.newLabel()
+
+                tempAccess = generator.addTemp() # valor de index a acceder
+                temp = generator.addTemp()
+
+                generator.addExp(tempAccess, access[i].value, '', '')
+
+                generator.addExp(temp, tempItem, '', '') # accediendo al nuevo arreglo
+                generator.getHeap(tempItem, temp)
+
+                # comprobando que no exeda los limites
+                generator.addIf(tempAccess, '1', '<', lblTrue) # limite inferior
+                generator.addIf(tempAccess, tempItem, '>', lblTrue) #
+                generator.addGoto(lblFalse)
+                generator.putLabel(lblTrue)
+                generator.printBoundsError()
+                generator.addExp(tempItem, '0', '', '') # default result
+                generator.addGoto(lblExit)
+                generator.putLabel(lblFalse)# no exedio los limites
+                
+                generator.addExp(tempItem, temp, tempAccess, '+')
+                val = self.value.compile(environment)
+                if i == size-1:
+                    generator.setHeap(tempItem, val.getValue()) # guardando nuevo valor
+                else:
+                    generator.getHeap(tempItem, tempItem) # retornando posición del nuevo arreglo
+                generator.putLabel(lblExit) # salida 
 
 
     def graph(self, g, father):
