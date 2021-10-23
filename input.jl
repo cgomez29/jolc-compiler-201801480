@@ -192,6 +192,16 @@
 # end;
 
 
-x = 21.1 % 2;
+# function sumar(a::Float64)
+#     b = 2.0
+#     for i in 1:4
+#         b = b + a * i
+#     end;
+#     return b;
+# end;
 
-println(x);
+# print(sumar(5.5));
+
+x = [5,[9,[15,20]],7,8];
+
+println(x[2][2][1]);

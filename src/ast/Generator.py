@@ -148,6 +148,7 @@ class Generator:
         self.addPrint("c", 114) # r
         self.addPrint("c", 111) # o
         self.addPrint("c", 114) # r
+        self.addPrint("c", 10) # \n
 
     def printBoundsError(self):
         self.addPrint("c", 66) # B
@@ -161,6 +162,7 @@ class Generator:
         self.addPrint("c", 114) # r
         self.addPrint("c", 111) # o
         self.addPrint("c", 114) # r
+        self.addPrint("c", 10) # \n
     #==============================================================================
     # New line for comentary
     #==============================================================================

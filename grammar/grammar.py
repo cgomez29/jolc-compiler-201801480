@@ -15,6 +15,7 @@ from src.instruction.loops.Return import Return
 from src.instruction.function.Function import Function
 from src.instruction.struct.Struct import Struct
 from src.instruction.array.Array import Array
+from src.instruction.array.ArrayAccess import ArrayAccess
 from src.instruction.function.Call import Call
 from src.expression.Identifier import Identifier 
 from src.expression.ExpCall import ExpCall
@@ -481,6 +482,7 @@ def p_instruccion_declaration(t):
                         |   global ID IGUAL expresion TIPOVAR TIPO
                         |   local ID IGUAL expresion TIPOVAR TIPO
                         |   STRUCTGETS IGUAL expresion
+                        |   ID ARRAYGETS IGUAL expresion
     '''
     if(len(t) == 4): # ID IGUAL expresion
         t[0] =  Declaration(None, t[1], t[3], t.lineno(1), find_column(t.slice[2]))
@@ -646,9 +648,9 @@ def p_expresion_boolean(t):
 
 #=======================================================================================
 
-# def p_expresion_arrayget(t):
-#     'expresion : ID ARRAYGETS'
-#     t[0] = ArrayAccess(t[1], t[2], t.lineno(1), find_column(t.slice[1]))
+def p_expresion_arrayget(t):
+    'expresion : ID ARRAYGETS'
+    t[0] = ArrayAccess(t[1], t[2], t.lineno(1), find_column(t.slice[1]))
 
 def p_expresion_array(t):
     'expresion : ARREGLO'
