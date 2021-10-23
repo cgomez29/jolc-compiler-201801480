@@ -102,6 +102,9 @@ class Declaration(Instruction):
     def dec_array(self, value, environment, access):
         auxGen = Generator()
         generator = auxGen.getInstance()
+        tempIdenfifier = generator.addTemp()
+        generator.addExp(tempIdenfifier, 'P', value.pos, '+')
+        generator.getStack(tempIdenfifier, tempIdenfifier)
 
         size = len(access)
         tempItem = generator.addTemp() # guardando el puntero la posición encontrada
@@ -116,7 +119,7 @@ class Declaration(Instruction):
 
                 generator.addExp(tempAccess, access[i].value, '', '')
 
-                generator.addExp(temp, value.pos, '', '')
+                generator.addExp(temp, tempIdenfifier, '', '')
                 generator.getHeap(tempItem, temp)
 
                 # comprobando que no exeda los limites

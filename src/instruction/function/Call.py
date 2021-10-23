@@ -44,13 +44,13 @@ class Call(Expression):
 
         if(struct == None):
             if(function == None):
-                generator.setException(Exception("Semántico", f"No existe la función '{self.id}'", self.line, self.column))
+                generator.setException(Exception("Semántico", f"'{self.id}', is not define", self.line, self.column))
                 return
             # debe de tener la misma cantidad de parametros
             # if (len(function.getId().parameters) != len(self.parameters)):
             #     generator.setException(Exception("Semántico", f"Cantidad de parámetros incorrectos en '{self.id}'", self.line, self.column))
             #     return
-            generator.addComment("INICIO llamada a funcion")
+            generator.addComment("BEGIN FUNCTION CALL")
             generator.addSpace()
             temp = generator.addTemp()
             returnType = None
@@ -68,7 +68,7 @@ class Call(Expression):
             generator.getStack(temp, 'P')
             generator.retEnv(sizeActual)
             generator.addSpace()
-            generator.addComment("FIN llamada a funcion")
+            generator.addComment("END CALL FUNCTION")
             return Return(temp, returnType, False)
 
         else: # is struct
@@ -139,7 +139,6 @@ class Call(Expression):
         generator.retEnv(environment.getSize())
         return temp
 
-
     def callUpperCase(self, environment, value):
         auxG = Generator()
         generator = auxG.getInstance()
@@ -159,7 +158,6 @@ class Call(Expression):
         generator.retEnv(environment.getSize())
         return temp
 
-    
     def callLowerCase(self, environment, value):
         auxG = Generator()
         generator = auxG.getInstance()

@@ -1,5 +1,5 @@
 from src.ast.Environment import Environment
-from grammar import grammar
+from grammar.compiler import grammar
 from src.ast.Generator import Generator
 
 f = open("./input.jl", "r", encoding="utf-8")

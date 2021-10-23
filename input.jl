@@ -192,18 +192,32 @@
 # end;
 
 
+
+# x = [5,[9,10],7,8];
+
+# x[2][3] = 6; 
+
+# println(x);
+
 # function sumar(a::Float64)
-#     b = 2.0
+#     b = 2.0;
 #     for i in 1:4
-#         b = b + a * i
+#         b = b + a * i;
 #     end;
 #     return b;
 # end;
 
 # print(sumar(5.5));
 
+
+# function valores(x)
+#     println(x);
+# end;
+# valores(5);
+    
+function valores(x)
+    x[2][2] = 3;
+end;
 x = [5,[9,10],7,8];
-
-x[2][3] = 6; 
-
-println(x);
+valores(x);
+print(x);

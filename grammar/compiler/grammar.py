@@ -4,7 +4,6 @@ from src.ast.Type import Type, TypeOperation
 
 from src.instruction.Print import Print
 from src.instruction.variables.Declaration import Declaration
-from src.instruction.variables.DataType import DataType
 from src.instruction.conditional.If import If
 from src.instruction.loops.While import While
 from src.instruction.loops.For import For 
@@ -17,6 +16,7 @@ from src.instruction.struct.Struct import Struct
 from src.instruction.array.Array import Array
 from src.instruction.array.ArrayAccess import ArrayAccess
 from src.instruction.function.Call import Call
+from src.expression.Unary import Unary
 from src.expression.Identifier import Identifier 
 from src.expression.ExpCall import ExpCall
 from src.expression.ArithmeticOperation import ArithmeticOperation
@@ -204,9 +204,9 @@ precedence = (
     ('left','POR','DIVIDIDO', 'MODULO'),
     ('right','POTENCIA'),
     ('right','NOT'),
-    # ('right','UMENOS'),
+    ('right','UMENOS'),
     ('left','DOT'),
-    )
+)
 
 
 # Definición de la gramática
@@ -291,12 +291,10 @@ def p_parametrotipo_valor(t):
                         |   ID TIPOVAR ID
                         |   ID'''
     if(len(t) == 2):
-        t[0] = t[1]
+        t[0] = {"id":t[1],"tipo": Type.ANY}
     else: 
-        # ID TIPOVAR TIPO
-        # ID TIPOVAR ID
-        x = {"id": t[1], "tipo": t[3]}
-        t[0] = x
+        t[0] = {"id": t[1], "tipo": t[3]}
+        
 
 #=======================================================================================
 # INSTRUCCIONES
@@ -564,6 +562,10 @@ def p_expresiones_logicasNOT(t):
 def p_expresion_agrupacion(t):
     'expresion : PARIZQ expresion PARDER'
     t[0] = t[2]
+
+def p_expresion_unaria(t):
+    'expresion : MENOS expresion %prec UMENOS'
+    t[0] = Unary(t[2], t.lineno(1), find_column(t.slice[1]))
 
 #=======================================================================================
 # CALL

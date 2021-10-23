@@ -46,7 +46,7 @@ class Function(Instruction):
         for i in self.instructions:
             i.compile(newEnv)
 
-        # generator.addGoto(returnLabel)
+        generator.addGoto(returnLabel)
         generator.putLabel(returnLabel)
 
         generator.addEndFunc()
