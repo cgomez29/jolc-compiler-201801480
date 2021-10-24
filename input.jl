@@ -214,10 +214,14 @@
 #     println(x);
 # end;
 # valores(5);
-    
+
+y = 5 + 6 * 2 % 2;
+println(y);
+
 function valores(x)
     x[2][2] = 3;
 end;
 x = [5,[9,10],7,8];
 valores(x);
 print(x);
+

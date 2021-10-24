@@ -14,6 +14,29 @@ class ExpCall(Expression):
         aucG = Generator()
         generator = aucG.getInstance()
 
+        if(self.id == "uppercase"):
+            for p in self.parameters:
+                ret = p.compile(environment)
+                value = ret.getValue()
+                # returnType = ret.getType()
+            return Return(self.callUpperCase(environment, value), Type.STRING, False) 
+        elif(self.id == 'lowercase'):
+            for p in self.parameters:
+                ret = p.compile(environment)
+                value = ret.getValue()
+                # returnType = ret.getType()
+            return Return(self.callLowerCase(environment, value), Type.STRING, False) 
+        elif(self.id == 'parse'):
+            type = self.parameters[0].compile(environment)
+            if(type.getType() != Type.FLOAT64):
+                return 
+            param1 = self.parameters[1].compile(environment)
+            
+            return Return(self.callParse(environment, param1.getValue()), Type.FLOAT64, False)
+        elif(self.id == 'trunc'):
+            param1 = self.parameters[0].compile(environment)
+            return Return(self.callTrunc(environment, param1.getValue()), Type.FLOAT64, False)
+
         symbolFunction = environment.searchFunction(self.id)
         struct = environment.getStruct(self.id) 
 

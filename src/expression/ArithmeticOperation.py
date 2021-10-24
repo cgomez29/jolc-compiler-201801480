@@ -66,7 +66,8 @@ class ArithmeticOperation(Expression):
             if resultType == Type.FLOAT64:
                 generator.addExpModulo(temp, left.getValue(), rigth.getValue())
             else:
-                generator.addExp(temp, left.getValue(), rigth.getValue(), op)
+                generator.addExpModulo(temp, left.getValue(), rigth.getValue()) 
+                # generator.addExp(temp, left.getValue(), rigth.getValue(), op) 
             generator.putLabel(lblExit)
         else:
             generator.addExp(temp, left.getValue(), rigth.getValue(), op)
