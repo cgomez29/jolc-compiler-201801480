@@ -15,29 +15,37 @@ class LogicalOperation(Expression):
         auxG = Generator()
         generator = auxG.getInstance()
 
+        self.checkLabels()
+        lblAndOr = ''
+        ret = Return(None, Type.BOOL, False)
+
+        if self.typeOperation == TypeOperation.AND:
+            lblAndOr = self.left.trueLbl = generator.newLabel()
+            self.right.trueLbl = self.trueLbl
+            self.left.falseLbl = self.right.falseLbl = self.falseLbl
+        elif self.typeOperation == TypeOperation.OR:
+            self.left.trueLbl = self.right.trueLbl = self.trueLbl
+            lblAndOr = self.left.falseLbl = generator.newLabel()
+            self.right.falseLbl = self.falseLbl
+        else:
+            ret.trueLbl = self.falseLbl
+            ret.falseLbl = self.trueLbl
+            return ret  
+
         left = self.left.compile(environment)
-        rigth = None
-        result = Return(None, Type.BOOL, False)
-        if(self.typeOperation == TypeOperation.OR):
-            # Etiqueta compartida true
-            self.right.trueLbl = left.trueLbl
-            generator.putLabel(left.falseLbl) # etiqueta false
-            rigth = self.right.compile(environment)
+        if left.getType() != Type.BOOL:
+            generator.setException(Exception("Semántico", f"Cannot be used in Boolean expression", self.line, self.column))
+            return
+        generator.putLabel(lblAndOr)
+        right = self.right.compile(environment)
+        if right.getType() != Type.BOOL:
+            generator.setException(Exception("Semántico", f"Cannot be used in Boolean expression", self.line, self.column))
+            return
 
-            result.trueLbl = left.trueLbl
-            result.falseLbl = rigth.falseLbl
-        elif(self.typeOperation == TypeOperation.AND):
-            self.right.falseLbl = left.falseLbl
-            generator.putLabel(left.trueLbl) # etiqueta false
-            rigth = self.right.compile(environment)
-
-            result.trueLbl = rigth.trueLbl
-            result.falseLbl = rigth.falseLbl
-        elif(self.typeOperation == TypeOperation.NOT):
-            result.trueLbl = left.falseLbl
-            result.falseLbl = left.trueLbl
-        
-        return result
+        generator.addSpace()
+        ret.trueLbl = self.trueLbl
+        ret.falseLbl = self.falseLbl
+        return ret
 
     def checkLabels(self):
         auxG = Generator()

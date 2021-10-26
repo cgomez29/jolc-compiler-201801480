@@ -30,16 +30,21 @@ class ArithmeticOperation(Expression):
             self.typeOperation == TypeOperation.MULTIPLICACION): # String * String
             generator.fConcatString()
             return self.concatString(environment, left.getValue(), rigth.getValue())
-        
+
+        # power
+        if self.typeOperation == TypeOperation.POTENCIA:
+            generator.fPower()
+            return self.callPower(environment, left.getValue(), rigth.getValue())
+
         finalType = TypeTable()
         resultType = finalType.getType(left.getType(), rigth.getType()) 
+
 
         if(resultType == Type.ERROR):
             generator.setException(Exception("Semántico", f"Type error", self.line, self.column))
             return
 
         temp = generator.addTemp()
-
         op = '' 
         if (self.typeOperation == TypeOperation.SUMA):
             op = '+'
@@ -63,9 +68,7 @@ class ArithmeticOperation(Expression):
             generator.addExp(temp, '0', '', '')
             generator.addGoto(lblExit)
             generator.putLabel(lblTrue)
-            # if resultType == Type.FLOAT64:
-            #     generator.addExpModulo(temp, left.getValue(), rigth.getValue())
-            # else:
+
             if op == '%':
                 generator.math = True # coloca la libreria en las importaciones
                 generator.addExpModulo(temp, left.getValue(), rigth.getValue()) 
@@ -76,6 +79,29 @@ class ArithmeticOperation(Expression):
             generator.addExp(temp, left.getValue(), rigth.getValue(), op)
 
         return Return(temp, resultType, True)
+
+    def callPower(self, environment, param1, param2):
+        auxG = Generator()
+        generator = auxG.getInstance()
+        # paso de parámetros
+        # Parametro 1 
+        paramTemp = generator.addTemp()
+        generator.addExp(paramTemp, 'P', environment.getSize(), '+')
+        generator.addExp(paramTemp, paramTemp, '1', '+')
+        generator.setStack(paramTemp, param1)
+        # Parametro 2 
+        paramTemp1 = generator.addTemp()
+        generator.addExp(paramTemp1, paramTemp, '1', '+')
+        generator.setStack(paramTemp1, param2)
+        
+        # Cambio y llamada a entorno
+        generator.newEnv(environment.getSize())
+        generator.callFun('native_power')
+        temp = generator.addTemp()
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.getSize())
+        return Return(temp, Type.INT64, True)
+
 
     def repeatString(self, environment, param1, param2):
         auxG = Generator()

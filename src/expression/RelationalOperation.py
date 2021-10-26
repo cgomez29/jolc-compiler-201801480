@@ -35,6 +35,8 @@ class RelationalOperation(Expression):
             elif (left.getType() == Type.STRING and rigth.getType() == Type.STRING):
                 self.checkLabels()
                 generator.fCompareString()
+                generator.freeTemp(left.getValue())
+                generator.freeTemp(rigth.getValue())
                 generator.addIf(self.compareString(environment, left.getValue(), rigth.getValue()), '1', '==', self.trueLbl)
                 generator.addGoto(self.falseLbl)
 

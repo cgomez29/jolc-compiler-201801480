@@ -1,7 +1,7 @@
-from os import symlink
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
 from src.ast.Type import Type
+from src.exception.Exception import Exception
 
 class Print(Instruction):
     def __init__(self, expression, line, column, jump=False):

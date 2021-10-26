@@ -242,13 +242,18 @@
 # println(val1, " ", val2, " ", val3);
 # println("---------------------------------");
 
-# TODO: POTENCIA PENDIENTE
-
 # val1 = 1::Int64;
 # val2 = 10::Int64;
 # val3 = 2021.2020::Float64;
 
+
+# f = ((0 == 0) != ((532 > 532)) == ("Hola" == "Hola"));
+
+# println(f);
+
+
 # rel1 = (((val1 - val2) == 24) && (true && (false || 5 >= 5))) || ((7*7) != (15+555) || -61 > 51);
 # rel3 = ((0 == 0) != ((532 > 532)) == ("Hola" == "Hola")) && (false || (false == true));
+rel3 = (("Hola" == "Hola") && (false || true));
 
-println("Hola" == "Hola");
+println(rel3);

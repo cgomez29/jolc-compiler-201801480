@@ -23,6 +23,7 @@ class Generator:
         self.lowercase = False
         self.concatString = False
         self.compareString = False
+        self.power = False
         self.repeatString = False
         self.math = False
         self.parse = False
@@ -782,9 +783,9 @@ class Generator:
         self.addEndFunc()
         self.inNatives = False
 
-
+    #==============================================================================
     def fCompareString(self):
-        if(self.repeatString):
+        if(self.compareString):
             return
         self.compareString = True
         self.inNatives = True
@@ -838,6 +839,47 @@ class Generator:
 
         # FIN
         self.putLabel(returnLbl)
+        self.addEndFunc()
+        self.inNatives = False
+
+    #==============================================================================
+    def fPower(self):
+        if(self.power):
+            return
+        self.power = True
+        self.inNatives = True
+        self.addBeginFunc("native_power")
+
+        tempP = self.addTemp()
+        tempP1 = self.addTemp()
+        tempP2 = self.addTemp()
+
+        # label de inicio
+        initLbl = self.newLabel()
+        # label de salida
+        returnLbl = self.newLabel()
+
+        # extrayendo parametros
+        # Parametro1
+        self.addExp(tempP, 'P', '1', '+')
+        self.getStack(tempP1, tempP)
+        # Parametro1
+        self.addExp(tempP, tempP, '1', '+')
+        self.getStack(tempP2, tempP)
+
+        self.addExp(tempP, tempP1, '', '') # guardando base
+
+        # Inicio
+        self.putLabel(initLbl)
+        
+        self.addIf(tempP2, '1', '<=', returnLbl)
+        self.addExp(tempP1, tempP1, tempP, '*')
+        self.addExp(tempP2, tempP2, '1', '-')
+        self.addGoto(initLbl)
+        # FIN
+        self.putLabel(returnLbl)
+        self.setStack('P', tempP1)
+
         self.addEndFunc()
         self.inNatives = False
 
