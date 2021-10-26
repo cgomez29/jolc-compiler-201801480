@@ -22,7 +22,9 @@ class Generator:
         self.uppercase = False
         self.lowercase = False
         self.concatString = False
+        self.compareString = False
         self.repeatString = False
+        self.math = False
         self.parse = False
         self.trunc = False
         self.exceptions = []
@@ -56,7 +58,12 @@ class Generator:
     # CODE
     #==============================================================================
     def getHeader(self):
-        ret = '/*----HEADER----*/\npackage main;\n\nimport (\n\t"fmt"\n)\n\n'
+        if self.math:
+            ret = '/*----HEADER----*/\npackage main;\n\nimport (\n\t"fmt"\n\t"math"\n)\n\n'
+        else:
+            ret = '/*----HEADER----*/\npackage main;\n\nimport (\n\t"fmt"\n)\n\n'
+
+
         if len(self.temps) > 0:
             ret += 'var '
             for temp in range(len(self.temps)):
@@ -772,6 +779,65 @@ class Generator:
 
         # valor de retorno
         self.setStack('P', tempNum)
+        self.addEndFunc()
+        self.inNatives = False
+
+
+    def fCompareString(self):
+        if(self.repeatString):
+            return
+        self.compareString = True
+        self.inNatives = True
+        self.addBeginFunc("compareString")
+
+        tempP = self.addTemp()
+        tempP1 = self.addTemp()
+        tempP2 = self.addTemp()
+
+        # label de inicio
+        initLbl = self.newLabel()
+        # label de true
+        trueLbl = self.newLabel()
+        # label de false
+        falseLbl = self.newLabel()
+        # label de salida
+        returnLbl = self.newLabel()
+
+
+        # extrayendo parametros
+        # Parametro1
+        self.addExp(tempP, 'P', '1', '+')
+        self.getStack(tempP1, tempP)
+        # Parametro1
+        self.addExp(tempP, tempP, '1', '+')
+        self.getStack(tempP2, tempP)
+
+        # Inicio
+        tempValue1 = self.addTemp()
+        tempValue2 = self.addTemp()
+
+        self.putLabel(initLbl)
+        self.getHeap(tempValue1, tempP1)
+        self.getHeap(tempValue2, tempP2)
+        
+        self.addIf(tempValue1, tempValue2, '!=', falseLbl)
+        self.addIf(tempValue1, '-1', '==', trueLbl) # termino
+
+        self.addExp(tempP1, tempP1, '1', '+')
+        self.addExp(tempP2, tempP2, '1', '+')
+        self.addGoto(initLbl)
+
+        # TRUE
+        self.putLabel(trueLbl)
+        self.setStack('P', '1') # 1 => true
+        self.addGoto(returnLbl)
+
+        # FALSE
+        self.putLabel(falseLbl)
+        self.setStack('P', '0') # 0 => falso
+
+        # FIN
+        self.putLabel(returnLbl)
         self.addEndFunc()
         self.inNatives = False
 

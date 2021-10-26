@@ -249,12 +249,6 @@
 # val3 = 2021.2020::Float64;
 
 # rel1 = (((val1 - val2) == 24) && (true && (false || 5 >= 5))) || ((7*7) != (15+555) || -61 > 51);
-rel2 = (7*7) <= (15+555) && 1 < 2;
 # rel3 = ((0 == 0) != ((532 > 532)) == ("Hola" == "Hola")) && (false || (false == true));
-println("Probando relacionales y logicas");
-println(" ", rel2, " ");
-println("---------------------------------");
 
-println("OPERACIONES " * "CON " * "Cadenas"^3);
-despedida = "Adios mundo :c";
-println(uppercase("Hola Mundo! ") * lowercase(despedida));
+println("Hola" == "Hola");

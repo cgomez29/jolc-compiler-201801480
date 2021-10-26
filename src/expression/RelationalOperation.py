@@ -33,7 +33,10 @@ class RelationalOperation(Expression):
                 generator.addIf(left.getValue(), rigth.getValue(), self.getOp(), self.trueLbl)
                 generator.addGoto(self.falseLbl)
             elif (left.getType() == Type.STRING and rigth.getType() == Type.STRING):
-                print("Comparacion de cadenas")
+                self.checkLabels()
+                generator.fCompareString()
+                generator.addIf(self.compareString(environment, left.getValue(), rigth.getValue()), '1', '==', self.trueLbl)
+                generator.addGoto(self.falseLbl)
 
         else: 
             gotoRigth = generator.newLabel()
@@ -77,6 +80,28 @@ class RelationalOperation(Expression):
         result.falseLbl = self.falseLbl
 
         return result     
+
+    def compareString(self, environment, param1, param2):
+        auxG = Generator()
+        generator = auxG.getInstance()
+        # paso de parámetros
+        # Parametro 1 
+        paramTemp = generator.addTemp()
+        generator.addExp(paramTemp, 'P', environment.getSize(), '+')
+        generator.addExp(paramTemp, paramTemp, '1', '+')
+        generator.setStack(paramTemp, param1)
+        # Parametro 2 
+        paramTemp1 = generator.addTemp()
+        generator.addExp(paramTemp1, paramTemp, '1', '+')
+        generator.setStack(paramTemp1, param2)
+        
+        # Cambio y llamada a entorno
+        generator.newEnv(environment.getSize())
+        generator.callFun('compareString')
+        temp = generator.addTemp()
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.getSize())
+        return temp
 
     def checkLabels(self):
         auxG = Generator()

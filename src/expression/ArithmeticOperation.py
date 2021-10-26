@@ -67,6 +67,7 @@ class ArithmeticOperation(Expression):
             #     generator.addExpModulo(temp, left.getValue(), rigth.getValue())
             # else:
             if op == '%':
+                generator.math = True # coloca la libreria en las importaciones
                 generator.addExpModulo(temp, left.getValue(), rigth.getValue()) 
             else:
                 generator.addExp(temp, left.getValue(), rigth.getValue(), op) 
