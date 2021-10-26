@@ -393,13 +393,14 @@ class Generator:
 
         # Si temp = -1 llegamos al final de la cadena
         self.addIf(tempC, "-1", "==", returnLbl)
-        self.addIf(tempC, "97", ">", labelEx)
-        self.addIf(tempC, "122", "<", labelEx)
+        self.addIf(tempC, "97", "<", labelEx)
+        self.addIf(tempC, "122", ">", labelEx)
+        
+        # para convertirlo a mayuscula
+        self.addExp(tempC, tempC, '32', '-') 
         
         self.putLabel(labelEx)
 
-        # para convertirlo a mayuscula
-        self.addExp(tempC, tempC, '32', '-') 
        
         # Guardamos en una posicion nueva del heap
         self.setHeap('H', tempC)
@@ -431,7 +432,7 @@ class Generator:
         self.lowercase = True
         self.inNatives = True
 
-        self.addBeginFunc("lowercase")
+        self.addBeginFunc("native_lowercase")
         
         tempNewString = self.addTemp()
         self.addExp(tempNewString, 'H', '', '')
@@ -463,13 +464,13 @@ class Generator:
 
         # Si temp = -1 llegamos al final de la cadena
         self.addIf(tempC, "-1", "==", returnLbl)
-        self.addIf(tempC, "65", ">", labelEx)
-        self.addIf(tempC, "90", "<", labelEx)
+        self.addIf(tempC, "65", "<", labelEx)
+        self.addIf(tempC, "90", ">", labelEx)
         
-        self.putLabel(labelEx)
-
         # para convertirlo a mayuscula
         self.addExp(tempC, tempC, '32', '+') 
+
+        self.putLabel(labelEx)
        
         # Guardamos en una posicion nueva del heap
         self.setHeap('H', tempC)

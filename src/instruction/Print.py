@@ -64,8 +64,8 @@ class Print(Instruction):
             else:
                 generator.addPrint("f", symbol.getValue())
 
-            if self.jump:
-                generator.newLine()
+        if self.jump:
+            generator.newLine()
 
     # pos: posicion del arreglo en el heap
     # attributes: types de los valores
@@ -98,7 +98,7 @@ class Print(Instruction):
         generator.addPrint("c", '93')
 
     def isString(self,generator, value, environment):
-        generator.addComment('END PRINT STRING')
+        generator.addComment('BEGIN PRINT STRING')
         generator.fPrintString()
         paramTemp = generator.addTemp()
 

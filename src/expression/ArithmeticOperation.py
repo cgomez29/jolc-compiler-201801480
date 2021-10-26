@@ -63,11 +63,13 @@ class ArithmeticOperation(Expression):
             generator.addExp(temp, '0', '', '')
             generator.addGoto(lblExit)
             generator.putLabel(lblTrue)
-            if resultType == Type.FLOAT64:
-                generator.addExpModulo(temp, left.getValue(), rigth.getValue())
-            else:
+            # if resultType == Type.FLOAT64:
+            #     generator.addExpModulo(temp, left.getValue(), rigth.getValue())
+            # else:
+            if op == '%':
                 generator.addExpModulo(temp, left.getValue(), rigth.getValue()) 
-                # generator.addExp(temp, left.getValue(), rigth.getValue(), op) 
+            else:
+                generator.addExp(temp, left.getValue(), rigth.getValue(), op) 
             generator.putLabel(lblExit)
         else:
             generator.addExp(temp, left.getValue(), rigth.getValue(), op)
@@ -85,8 +87,7 @@ class ArithmeticOperation(Expression):
         generator.setStack(paramTemp, param1)
         # Parametro 2 
         paramTemp1 = generator.addTemp()
-        generator.addExp(paramTemp1, paramTemp, environment.getSize(), '+')
-        generator.addExp(paramTemp1, paramTemp1, '1', '+')
+        generator.addExp(paramTemp1, paramTemp, '1', '+')
         generator.setStack(paramTemp1, param2)
         
         # Cambio y llamada a entorno
@@ -108,13 +109,13 @@ class ArithmeticOperation(Expression):
         generator.setStack(paramTemp, param1)
         # Parametro 2 
         paramTemp1 = generator.addTemp()
-        generator.addExp(paramTemp1, paramTemp, environment.getSize(), '+')
-        generator.addExp(paramTemp1, paramTemp1, '1', '+')
+        generator.addExp(paramTemp1, paramTemp, '1', '+')
         generator.setStack(paramTemp1, param2)
         
         # Cambio y llamada a entorno
         generator.newEnv(environment.getSize())
         generator.callFun('concatString')
+
         temp = generator.addTemp()
         generator.getStack(temp, 'P')
         generator.retEnv(environment.getSize())

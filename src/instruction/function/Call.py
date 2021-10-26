@@ -151,7 +151,7 @@ class Call(Expression):
         generator.setStack(paramTemp, value)
 
         generator.newEnv(environment.getSize())
-        generator.callFun('uppercase')
+        generator.callFun('native_uppercase')
 
         temp = generator.addTemp()
         generator.getStack(temp, 'P')
@@ -170,7 +170,7 @@ class Call(Expression):
         generator.setStack(paramTemp, value)
 
         generator.newEnv(environment.getSize())
-        generator.callFun('lowercase')
+        generator.callFun('native_lowercase')
 
         temp = generator.addTemp()
         generator.getStack(temp, 'P')
