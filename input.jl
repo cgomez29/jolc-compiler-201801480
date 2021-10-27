@@ -247,13 +247,41 @@
 # val3 = 2021.2020::Float64;
 
 
-# f = ((0 == 0) != ((532 > 532)) == ("Hola" == "Hola"));
-
-# println(f);
 
 
 # rel1 = (((val1 - val2) == 24) && (true && (false || 5 >= 5))) || ((7*7) != (15+555) || -61 > 51);
 # rel3 = ((0 == 0) != ((532 > 532)) == ("Hola" == "Hola")) && (false || (false == true));
-rel3 = (("Hola" == "Hola") && (false || true));
+# rel3 = (("Hola" == "Hola") && (false || true));
 
-println(rel3);
+# println(rel3);
+
+# f = ((0 == 0) != ((532 > 532)) == (true));
+
+# println(f);
+
+mutable struct Juguete 
+    name::String;
+    precio::Int64;
+end;
+
+mutable struct Mascota
+    name::String;
+    juguete::Juguete;
+end;
+  
+mutable struct Persona 
+    nombre::String;
+    edad::Int64;
+    mascota::Mascota;
+end;
+
+j = Juguete("peluche", 56)::Juguete;
+m = Mascota("lucas", j)::Mascota;
+p = Persona("Cristian", 22, m)::Persona;
+
+println(p.mascota.juguete.name);
+
+j.name = "hueso";
+
+println(p.mascota.juguete.name);
+println(j.name);

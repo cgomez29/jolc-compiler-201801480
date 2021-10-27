@@ -36,6 +36,9 @@ class Call(Expression):
         elif(self.id == 'trunc'):
             param1 = self.parameters[0].compile(environment)
             return Return(self.callTrunc(environment, param1.getValue()), Type.FLOAT64, False)
+        elif(self.id == 'length'):
+            param1 = self.parameters[0].compile(environment)
+            return Return(self.callLength(environment, param1.getValue()), Type.INT64, False)
 
         sizeActual = environment.size
 
@@ -100,6 +103,25 @@ class Call(Expression):
             ret.setAttributes(auxTypes)
             ret.setValues(auxValues)
             return ret 
+
+    def callLength(self, environment, value):
+        auxG = Generator()
+        generator = auxG.getInstance()
+        generator.fLength()
+
+        paramTemp = generator.addTemp()
+
+        generator.addExp(paramTemp, 'P', environment.getSize(), '+')
+        generator.addExp(paramTemp, paramTemp, '1', '+')
+        generator.setStack(paramTemp, value)
+
+        generator.newEnv(environment.getSize())
+        generator.callFun('native_length')
+
+        temp = generator.addTemp()
+        generator.getStack(temp, 'P')
+        generator.retEnv(environment.getSize())
+        return temp
 
     def callTrunc(self, environment, value):
         auxG = Generator()

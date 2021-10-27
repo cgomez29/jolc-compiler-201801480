@@ -24,6 +24,7 @@ class Generator:
         self.concatString = False
         self.compareString = False
         self.power = False
+        self.length = False
         self.repeatString = False
         self.math = False
         self.parse = False
@@ -880,6 +881,33 @@ class Generator:
         self.putLabel(returnLbl)
         self.setStack('P', tempP1)
 
+        self.addEndFunc()
+        self.inNatives = False
+
+    def fLength(self):
+        if(self.length):
+            return
+        self.length = True
+        self.inNatives = True
+
+        self.addBeginFunc("native_length")
+        
+        temp = self.addTemp()
+
+        returnLbl = self.newLabel() 
+
+        # extrayendo parametros
+        # Parametro1
+        self.addExp(temp, 'P', '1', '+')
+        self.getStack(temp, temp)
+
+        self.getHeap(temp, temp)
+
+        self.addGoto(returnLbl)
+        self.putLabel(returnLbl)
+        #Guardamos el retono
+        self.setStack('P', temp)
+        
         self.addEndFunc()
         self.inNatives = False
 
