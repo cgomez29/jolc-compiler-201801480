@@ -1,0 +1,10 @@
+.CodeMirror * {
+    font-size: 15px;
+}
+
+.CodeMirror {
+  height: 500px;
+  max-height: 500px;
+  min-height: 300px;
+}
+

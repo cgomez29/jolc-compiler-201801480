@@ -920,3 +920,10 @@ class Generator:
         data = f"\"column1\": \"{self.count_exception}\", \"column2\": \"{value.getDescription()}\", \"column3\": \"{value.getLine()}\", \"column4\": \"{value.getColumn()}\", \"column5\": \"{value.getTime()}\""
         data = "{" + data + "},"
         self.exceptions.append(data)
+
+    def getExpetions(self):
+        errors = ''
+        for x in self.exceptions:
+            errors += x 
+        errors = "[" + errors[:-1] +"]" #Quitando la ultima ','
+        return errors

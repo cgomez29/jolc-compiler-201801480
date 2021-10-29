@@ -74,9 +74,9 @@ class ArrayAccess(Instruction):
                 generator.addExp(tempI, self.access[i].value, '', '')
                 index = self.access[i].value - 1 # obteniendo la posición que se desea acceder 
                 if index <= size:
-                    finalType = value.getAttributes()[index] # obteniendo typo del item buscado
 
                     auxAttributes = value.getValues()[index].getAttributes()
+                    finalType = auxAttributes[index] # obteniendo typo del item buscado
                     auxValues = value.getValues()[index].getValues()
 
                 

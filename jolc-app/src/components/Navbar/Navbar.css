@@ -1,0 +1,12 @@
+.init-paper {
+  height: 60vh;
+  text-align: center;
+  background-color: black;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="init-paper"] {
+    width: 100%;
+  }
+}

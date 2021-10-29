@@ -71,7 +71,7 @@ class Call(Expression):
             generator.getStack(temp, 'P')
             generator.retEnv(sizeActual)
             generator.addSpace()
-            generator.addComment("END CALL FUNCTION")
+            generator.addComment("END FUNCTION CALL")
             return Return(temp, returnType, False)
 
         else: # is struct

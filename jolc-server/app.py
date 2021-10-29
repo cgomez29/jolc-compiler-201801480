@@ -15,14 +15,16 @@ route = "/api"
 def index():
     return jsonify({"message": "Cristian Gomez - 201801480"})
 
-@app.route(f"{route}/execute", methods=['POST'])
+@app.route(f"{route}/compile", methods=['POST'])
 def get_user():
     errors = ""
     symbols = ""
-    dotGraph = ""
     resulCompile = ""
 
     try:
+        ## Recuperando code recibido
+        input = request.json['input']
+
         auxG = Generator()
         auxG.cleanAll()
         generator = auxG.getInstance()
@@ -34,12 +36,22 @@ def get_user():
         result.compile(env)
 
         resulCompile = generator.getCode()
+
+
+        errors = generator.getExpetions()
+
+
+        # ## Recorriendo symbols para retornar json
+        # for key in tree.getSymbol():
+        #     symbols += tree.getSymbol()[key]
+        
+        # symbols = "[" + symbols[:-1] +"]" #Quitando la ultima ','
+
     
         ## Preparando el jon de respuesta
         result = {
                     "result": resulCompile,
                     "err": errors, 
-                    "dot": dotGraph,
                     "symbol": symbols
                 }
 
@@ -47,7 +59,6 @@ def get_user():
         result = {
                 "result": resulCompile,
                 "err": errors, 
-                "dot": dotGraph,
                 "symbol": symbols
             }
 
