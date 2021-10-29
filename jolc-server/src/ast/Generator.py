@@ -40,7 +40,7 @@ class Generator:
         return Generator.generator
         
     def cleanAll(self):
-         # Contadores
+        # Contadores
         self.countTemp = 0
         self.countLabel = 0
         # Code

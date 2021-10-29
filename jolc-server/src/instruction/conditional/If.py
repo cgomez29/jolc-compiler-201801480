@@ -21,8 +21,6 @@ class If(Instruction):
         # Valuando condición 
         
         rCondition = self.condition.compile(environment)
-
-        
         if(rCondition.getType() != Type.BOOL):
             generator.setException(Exception("Semántico", f"The condition is not of type BOOL", self.line, self.column))
             return

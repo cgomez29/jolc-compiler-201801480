@@ -259,29 +259,31 @@
 
 # println(f);
 
-mutable struct Juguete 
-    name::String;
-    precio::Int64;
-end;
+# mutable struct Juguete 
+#     name::String;
+#     precio::Int64;
+# end;
 
-mutable struct Mascota
-    name::String;
-    juguete::Juguete;
-end;
+# mutable struct Mascota
+#     name::String;
+#     juguete::Juguete;
+# end;
   
-mutable struct Persona 
-    nombre::String;
-    edad::Int64;
-    mascota::Mascota;
-end;
 
-j = Juguete("peluche", 56)::Juguete;
-m = Mascota("lucas", j)::Mascota;
-p = Persona("Cristian", 22, m)::Persona;
+# j = Juguete("peluche", 56)::Juguete;
+# m = Mascota("lucas", j)::Mascota;
+# p = Persona("Cristian", 22, m)::Persona;
 
-println(p.mascota.juguete.name);
+# println(p.mascota.juguete.name);
 
-j.name = "hueso";
+# j.name = "hueso";
 
-println(p.mascota.juguete.name);
-println(j.name);
+# println(p.mascota.juguete.name);
+# println(j.name);
+
+# x = "efesita";
+# println(x);
+# y = 5;
+# x = 5:9;
+
+println(4);

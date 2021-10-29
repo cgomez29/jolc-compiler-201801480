@@ -19,7 +19,6 @@ class Literal(Expression):
                 self.trueLbl = generator.newLabel()
             if self.falseLbl == '':
                 self.falseLbl = generator.newLabel()
-            
             if(self.value):
                 generator.addGoto(self.trueLbl)
                 generator.addComment("goto -> evitar error de GO")
