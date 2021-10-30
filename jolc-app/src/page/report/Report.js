@@ -7,6 +7,7 @@ import "./Report.css";
 export const Report = () => {
   const { symbols } = useContext(UserContext);
 
+  console.log(symbols)
   const headers = {
     head1: "Name",
     head2: "Type",

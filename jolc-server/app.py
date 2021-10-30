@@ -1,3 +1,4 @@
+import re
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 # for interprete 
@@ -16,7 +17,7 @@ def index():
     return jsonify({"message": "Cristian Gomez - 201801480"})
 
 @app.route(f"{route}/compile", methods=['POST'])
-def get_user():
+def get_compile():
     errors = ""
     symbols = ""
     resulCompile = ""
@@ -30,25 +31,52 @@ def get_user():
         generator = auxG.getInstance()
 
         result = grammar.parse(input) # as AST
+        
 
         env = Environment(None)
         env.setName("global")
         result.compile(env)
 
-        resulCompile = generator.getCode()
+        #obteniendo tabla de simbolos
+        result.getSymbols()
 
+        resulCompile = generator.getCode()
 
         errors = generator.getExpetions()
 
 
-        # ## Recorriendo symbols para retornar json
-        # for key in tree.getSymbol():
-        #     symbols += tree.getSymbol()[key]
-        
-        # symbols = "[" + symbols[:-1] +"]" #Quitando la ultima ','
+        for key in result.getSymbols():
+            symbols += result.getSymbols()[key]
 
-    
+        symbols = "[" + symbols[:-1] +"]" #Quitando la ultima ','
+
         ## Preparando el jon de respuesta
+        result = {
+                    "result": resulCompile,
+                    "err": errors, 
+                    "symbol": symbols
+                }
+
+    except:
+        result = {
+                "result": resulCompile,
+                "err": errors, 
+                "symbol": symbols
+            }
+
+    return  jsonify(result)
+
+
+@app.route(f"{route}/mirilla", methods=['POST'])
+def get_mirilla():
+    errors = ""
+    symbols = ""
+    resulCompile = ""
+
+    try:
+        ## Recuperando code recibido
+        input = request.json['input']
+
         result = {
                     "result": resulCompile,
                     "err": errors, 

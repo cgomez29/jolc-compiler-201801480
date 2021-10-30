@@ -19,7 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 export const Dashboard = () => {
   const { inputText, setInputText } = useContext(UserContext);
   const { outputText, setOutputText } = useContext(UserContext);
-  const { setDot, setErr, err, setSymbols } = useContext(UserContext);
+  const { setErr, err, setSymbols } = useContext(UserContext);
 
   const [code] = useState(inputText);
 
@@ -30,6 +30,7 @@ export const Dashboard = () => {
     await axios
       .post(`${url}/compile`, { input: inputText })
       .then((res) => {
+ 
         if (res.data.err !== "[]") {
           notifyError();
           setErr(res.data.err);
@@ -39,8 +40,8 @@ export const Dashboard = () => {
           setErr("");
         }
         setOutputText(res.data.result);
-        setDot(res.data.dot);
         setSymbols(res.data.symbol);
+        
       })
       .catch((err) => {});
   };

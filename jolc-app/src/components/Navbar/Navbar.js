@@ -1,14 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export const Navbar = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <NavLink className="navbar-brand" to="/" activeClassName="active">
             JOLC
-          </Link>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -23,19 +23,19 @@ export const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link" to="/">
+                <NavLink className="nav-link" to="/" activeClassName="active">
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/analyze">
+                <NavLink className="nav-link" to="/analyze" activeClassName="active">
                   Analyze
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/report">
+                <NavLink className="nav-link" to="/report" activeClassName="active">
                   Report
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </div>

@@ -11,6 +11,7 @@ class Environment:
         self.variables = {}
         self.functions = {}
         self.structs = {}
+        self.symbolStructs = {}
 
         # Nuevo
         self.size = 0
@@ -33,6 +34,15 @@ class Environment:
     def getName(self):
         return self.name
 
+    def getVariables(self):
+        return self.variables
+
+    def getStructs(self):
+        return self.structs
+
+    def getFunctions(self):
+        return self.functions
+
     def getVariable(self, id):
         env = self 
         while env != None: 
@@ -48,13 +58,10 @@ class Environment:
             newSymbol.setAuxType(auxType)
             newSymbol.setAttributes(typeAttributes)
             newSymbol.setValues(values)
+            newSymbol.setEnviroment(self.name)
             self.size += 1
             self.variables[id] = newSymbol
         return self.variables[id]
-
-    # # Misma posición pero diferente tipo esto se hace para los arreglos
-    # def updateVariable(self, id, type): # 
-    #     self.variables[id] = self.variables[id].type = type
 
     def setStruct(self, id, struct):
         self.structs[id] = struct
@@ -118,7 +125,12 @@ class Environment:
 
     def addFunction(self, id, func):
         if( id not in self.functions.keys()):
-            # TODO: Tipo fijado para pruebas se debe de cambiar
-            self.functions[id] = SymbolFunction(id, Type.INT64, len(func.parameters), func.parameters, func.line, func.column)
+            if func.type == Type.ANY:
+                type = Type.INT64
+            else:
+                type = func.type 
+            sfunc = SymbolFunction(id, type, len(func.parameters), func.parameters, func.line, func.column)
+            sfunc.setEnviroment(self.name)
+            self.functions[id] = sfunc
             return True
         return False 

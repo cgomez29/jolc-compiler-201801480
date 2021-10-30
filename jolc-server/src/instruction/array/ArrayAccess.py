@@ -27,6 +27,7 @@ class ArrayAccess(Instruction):
         size = len(self.access)
 
 
+        posAnterior = 0
         for i in range(size):
             finalType = Type.INT64 # default int 
             if i == 0: # primera iteracion 
@@ -38,11 +39,12 @@ class ArrayAccess(Instruction):
                 tempIndex = generator.addTemp() # guardando el puntero al arreglo encontrado
                 generator.addExp(tempI, self.access[i].value, '', '')
                 index = self.access[i].value - 1 # obteniendo la posición que se desea acceder 
+                posAnterior = index
                 if index <= size:
                     finalType = value.getAttributes()[index] # obteniendo typo del item buscado
 
                     auxAttributes = value.getValues()[index].getAttributes()
-                    auxValues = value.getValues()[index].getValues()
+                    auxValues = value.getValues()[index]
 
                 generator.getStack(tempItem, value.pos)
                 generator.addExp(tempIndex, tempItem, '', '') # guardando el puntero al arreglo encontrado
@@ -74,10 +76,14 @@ class ArrayAccess(Instruction):
                 generator.addExp(tempI, self.access[i].value, '', '')
                 index = self.access[i].value - 1 # obteniendo la posición que se desea acceder 
                 if index <= size:
-
-                    auxAttributes = value.getValues()[index].getAttributes()
-                    finalType = auxAttributes[index] # obteniendo typo del item buscado
-                    auxValues = value.getValues()[index].getValues()
+                    # auxAttributes = value.getValues()[posAnterior].getAttributes()
+                    # finalType = auxAttributes[index] # obteniendo type del item buscado
+                    # posAnterior = index
+                    # auxValues = value.getValues()[index].getValues()
+                    
+                    auxAttributes = auxValues.getAttributes()
+                    finalType = auxAttributes[index] # obteniendo type del item buscado
+                    auxValues = auxValues.getValues()[index]
 
                 
                 generator.getHeap(tempIndex, tempItem) # recuperando el tamaño del arreglo

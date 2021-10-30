@@ -11,7 +11,7 @@ class Array(Instruction):
     def compile(self, environment):
         auxG = Generator()
         generator = auxG.getInstance()
-        # generator.addComment("----------------INIT ARRAY -----------------------")
+        generator.addComment("BEGIN ARRAY")
         tempH = generator.addTemp() # puntero heap
         tempH2 = generator.addTemp() # posiciones del arreglo
         length = len(self.expressions)
@@ -40,7 +40,7 @@ class Array(Instruction):
         ret = Return(tempH, Type.ARRAY, True)
         ret.setAttributes(auxTypes)
         ret.setValues(auxValues)
-        # generator.addComment("----------------FIN ARRAY -----------------------")
+        generator.addComment("END ARRAY")
         return ret
 
     def graph(self, g, father):

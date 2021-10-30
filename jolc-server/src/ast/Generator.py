@@ -1,5 +1,4 @@
-from re import T
-
+from src.ast.Type import Type 
 
 class Generator:
     generator = None
@@ -335,9 +334,10 @@ class Generator:
 
         # Temporal puntero a Stack
         tempP = self.addTemp()
-
+        self.freeTemp(tempP)
         # Temporal puntero a Heap
         tempH = self.addTemp()
+        self.freeTemp(tempH)
 
         self.addExp(tempP, 'P', '1', '+')
 
@@ -345,6 +345,7 @@ class Generator:
 
         # Temporal para comparar
         tempC = self.addTemp()
+        self.freeTemp(tempC)
 
         self.putLabel(compareLbl)
 
@@ -380,9 +381,11 @@ class Generator:
 
         # puntero stack
         tempP = self.addTemp()
+        self.freeTemp(tempP)
 
         # puntero heap
         tempH = self.addTemp()
+        self.freeTemp(tempH)
 
         self.addExp(tempP, 'P', '1', '+')
         self.getStack(tempH, tempP)
@@ -394,6 +397,7 @@ class Generator:
 
         #temporal para extraer caracter´
         tempC = self.addTemp()
+        self.freeTemp(tempC)
 
         self.getHeap(tempC, tempH)
 
@@ -451,9 +455,11 @@ class Generator:
 
         # puntero stack
         tempP = self.addTemp()
+        self.freeTemp(tempP)
 
         # puntero heap
         tempH = self.addTemp()
+        self.freeTemp(tempH)
 
         self.addExp(tempP, 'P', '1', '+')
         self.getStack(tempH, tempP)
@@ -465,6 +471,7 @@ class Generator:
 
         #temporal para extraer caracter´
         tempC = self.addTemp()
+        self.freeTemp(tempC)
 
         self.getHeap(tempC, tempH)
 
@@ -515,8 +522,11 @@ class Generator:
         tempNewString = self.addTemp()
 
         tempP = self.addTemp()
+        self.freeTemp(tempP)
         tempP2 = self.addTemp()
+        self.freeTemp(tempP2)
         tempH = self.addTemp()
+        self.freeTemp(tempH)
 
         # label de salida
         returnLbl = self.newLabel()
@@ -596,15 +606,21 @@ class Generator:
         self.addBeginFunc("repeatString")
         # temp new String
         tempNewString = self.addTemp()
+        self.freeTemp(tempNewString)
+
         # temp counter iteraciones
         tempCounter = self.addTemp()
+        self.freeTemp(tempCounter)
 
         # Guardando pos del string a repetir
         tempR = self.addTemp() 
-        
+        self.freeTemp(tempR)
         tempP = self.addTemp()
+        self.freeTemp(tempP)
         tempP2 = self.addTemp()
+        self.freeTemp(tempP2)
         tempH = self.addTemp()
+        self.freeTemp(tempH)
 
         # label de salida
         returnLbl = self.newLabel()
@@ -675,9 +691,13 @@ class Generator:
         self.addBeginFunc("parse")
 
         tempP = self.addTemp()
+        self.freeTemp(tempP)
         tempH = self.addTemp()
+        self.freeTemp(tempH)
         tempNum = self.addTemp()
+        self.freeTemp(tempNum)
         tempBase = self.addTemp()
+        self.freeTemp(tempBase)
 
         self.addExp(tempBase, '10', '', '')
 
@@ -793,8 +813,11 @@ class Generator:
         self.addBeginFunc("compareString")
 
         tempP = self.addTemp()
+        self.freeTemp(tempP)
         tempP1 = self.addTemp()
+        self.freeTemp(tempP1)
         tempP2 = self.addTemp()
+        self.freeTemp(tempP2)
 
         # label de inicio
         initLbl = self.newLabel()
@@ -852,8 +875,11 @@ class Generator:
         self.addBeginFunc("native_power")
 
         tempP = self.addTemp()
+        self.freeTemp(tempP)
         tempP1 = self.addTemp()
+        self.freeTemp(tempP1)
         tempP2 = self.addTemp()
+        self.freeTemp(tempP2)
 
         # label de inicio
         initLbl = self.newLabel()
@@ -893,6 +919,7 @@ class Generator:
         self.addBeginFunc("native_length")
         
         temp = self.addTemp()
+        self.freeTemp(temp)
 
         returnLbl = self.newLabel() 
 

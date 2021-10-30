@@ -42,37 +42,85 @@ class Call(Expression):
 
         sizeActual = environment.size
 
-        function = environment.getFunction(self.id)
+        symbolFunction = environment.getFunction(self.id)
         struct = environment.getStruct(self.id) 
 
         if(struct == None):
-            if(function == None):
+            if(symbolFunction == None):
                 generator.setException(Exception("Semántico", f"'{self.id}', is not define", self.line, self.column))
                 return
-            # debe de tener la misma cantidad de parametros
-            # if (len(function.getId().parameters) != len(self.parameters)):
-            #     generator.setException(Exception("Semántico", f"Cantidad de parámetros incorrectos en '{self.id}'", self.line, self.column))
-            #     return
-            generator.addComment("BEGIN FUNCTION CALL")
-            generator.addSpace()
-            temp = generator.addTemp()
-            returnType = None
-            
-            for p in self.parameters:
-                environment.size += 1
-                generator.addExp(temp, 'P', environment.size, '+')
-                ret = p.compile(environment)
-                value = ret.getValue()
-                returnType = ret.getType()
-                generator.setStack(temp, value)
 
-            generator.newEnv(sizeActual)
+            paramsValues = []
+            # retorna el tamaño 
+            size = generator.saveTemps(environment) 
+
+            registeredLength = len(symbolFunction.params)
+            incomingLength = len(self.parameters)
+
+            if registeredLength != incomingLength:
+                generator.setException(Exception("Semántico", f"Expected {registeredLength} arguments, but got {incomingLength}", self.line, self.column))
+                return 
+
+            index = 0
+
+            for p in self.parameters:
+                compiledParam = p.compile(environment)
+                registeredType = symbolFunction.params[index]['tipo']
+                incomingType = compiledParam.getType()
+
+                if registeredType != incomingType:
+                    generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                    return 
+
+                if incomingType == Type.BOOL:
+                    temp = generator.addTemp()
+                    generator.freeTemp(temp)
+
+                    tempLabel = generator.newLabel()
+                    generator.putLabel(compiledParam.trueLbl)
+                    generator.addExp(temp, 'P', environment.size + index + 1, '+')
+                    generator.setStack(temp, '1')
+                    generator.addGoto(tempLabel)
+                    generator.putLabel(compiledParam.falseLbl)
+                    generator.addExp(temp, 'P', environment.size + index + 1, '+')
+                    generator.setStack(temp, '0')
+                    generator.putLabel(tempLabel) 
+
+                paramsValues.append(compiledParam)
+                index +=1
+
+            temp = generator.addTemp()
+            generator.freeTemp(temp)
+            if (len(paramsValues) != 0):
+                generator.addExp(temp, 'P', environment.size + 1, '+')
+                i = 0
+                for value in paramsValues:
+                    if(value.getType() != Type.BOOL):
+                        generator.freeTemp(value.getValue())
+                        generator.setStack(temp, value.getValue())
+                    if i != len(paramsValues) -1:
+                        generator.addExp(temp, temp, '1', '+')
+
+            generator.newEnv(environment.size)
             generator.callFun(self.id)
             generator.getStack(temp, 'P')
-            generator.retEnv(sizeActual)
-            generator.addSpace()
-            generator.addComment("END FUNCTION CALL")
-            return Return(temp, returnType, False)
+            generator.retEnv(environment.size)
+            generator.recoverTemps(environment, size)
+            generator.addTempStorage(temp) 
+
+            if symbolFunction.getType() != Type.BOOL:
+                return Return(temp, symbolFunction.getType(), True)
+
+            auxReturn = Return('', symbolFunction.getType(), False)
+            if self.trueLbl == '':
+                self.trueLbl = generator.newLabel()
+            if self.falseLbl == '':
+                self.falseLbl = generator.newLabel()
+            generator.addIf(temp, '1', '==', self.trueLbl)
+            generator.addGoto(self.falseLbl)
+            auxReturn.trueLbl = self.trueLbl
+            auxReturn.falseLbl = self.falseLbl 
+            return auxReturn
 
         else: # is struct
             # Posicion de inicio en el heap

@@ -5,12 +5,13 @@ from src.abstract.Instruction import Instruction
 from src.ast.Type import Type
 
 class Function(Instruction):
-    def __init__(self, id, parameters, instructions, line, column):
+    def __init__(self, id, parameters, type, instructions, line, column):
         Instruction.__init__(self, line, column)
         self.id = id 
         self.parameters = parameters
         self.instructions = instructions 
         self.preCompile = True
+        self.type = type
     
     def compile(self, environment):
         auxG = Generator()

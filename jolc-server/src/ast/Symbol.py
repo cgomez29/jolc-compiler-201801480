@@ -13,12 +13,18 @@ class Symbol:
         self.pos = position
         self.attributes = [] # types attributes
         self.values = []
-
+        self.line = 0
+        self.column = 0
+        self.enviroment = ""
+    
     def getId(self):
         return self.id
             
-    # def getValue(self):
-    #     return self.value 
+    def getLine(self):
+        return self.line
+
+    def getColumn(self):
+        return self.column
 
     def getAuxType(self):
         return self.auxType
@@ -40,6 +46,12 @@ class Symbol:
 
     def getAttributes(self):        
         return self.attributes
+
+    def setEnviroment(self, enviroment):
+        self.enviroment = enviroment
+
+    def getEnviroment(self):
+        return self.enviroment
 
     def setValues(self, values):
         self.values = values 

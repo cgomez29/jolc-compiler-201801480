@@ -28,8 +28,8 @@ const Table = ({ headers, data }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map(({ column1, column2, column3, column4, column5 }) => (
-          <tr class="table-light">
+        {data.map(({ column1, column2, column3, column4, column5 }, i) => (
+          <tr class="table-light" key={i}>
             <th scope="row">{column1}</th>
             <td>{column2}</td>
             <td>{column3}</td>

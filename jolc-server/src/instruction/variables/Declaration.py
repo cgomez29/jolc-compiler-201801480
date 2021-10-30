@@ -108,16 +108,18 @@ class Declaration(Instruction):
 
         size = len(access)
         tempItem = generator.addTemp() # guardando el puntero la posición encontrada
+        posAnterior = 0
         for i in range(size):
             if i == 0: # primera iteracion 
+                generator.addComment("BEGIN ACCESS ARRAY")
                 lblTrue = generator.newLabel()
                 lblFalse = generator.newLabel()
                 lblExit = generator.newLabel()
 
                 tempAccess = generator.addTemp() # valor de index a acceder
                 temp = generator.addTemp()
-
-                generator.addExp(tempAccess, access[i].value, '', '')
+                index = access[i].value
+                generator.addExp(tempAccess, index, '', '')
 
                 generator.addExp(temp, tempIdenfifier, '', '')
                 generator.getHeap(tempItem, temp)
@@ -139,7 +141,9 @@ class Declaration(Instruction):
                 else:
                     generator.getHeap(tempItem, tempItem) # retornando posición del nuevo arreglo
                 generator.putLabel(lblExit) # salida 
+                generator.addComment("END ACCESS ARRAY")
             else: # mas accesos
+                generator.addComment("BEGIN ACCESS ARRAY")
                 lblTrue = generator.newLabel()
                 lblFalse = generator.newLabel()
                 lblExit = generator.newLabel()
@@ -169,6 +173,7 @@ class Declaration(Instruction):
                 else:
                     generator.getHeap(tempItem, tempItem) # retornando posición del nuevo arreglo
                 generator.putLabel(lblExit) # salida 
+                generator.addComment("END ACCESS ARRAY")
 
 
     def graph(self, g, father):
