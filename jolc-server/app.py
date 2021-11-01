@@ -5,6 +5,7 @@ from flask_cors import CORS
 from src.ast.Generator import Generator
 from src.ast.Environment import Environment
 from grammar.compiler import grammar
+from grammar.optimization import optimization 
 
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ def index():
 def get_compile():
     errors = ""
     symbols = ""
-    resulCompile = ""
+    resultCompile = ""
 
     try:
         ## Recuperando code recibido
@@ -40,7 +41,7 @@ def get_compile():
         #obteniendo tabla de simbolos
         result.getSymbols()
 
-        resulCompile = generator.getCode()
+        resultCompile = generator.getCode()
 
         errors = generator.getExpetions()
 
@@ -52,14 +53,14 @@ def get_compile():
 
         ## Preparando el jon de respuesta
         result = {
-                    "result": resulCompile,
+                    "result": resultCompile,
                     "err": errors, 
                     "symbol": symbols
                 }
 
     except:
         result = {
-                "result": resulCompile,
+                "result": resultCompile,
                 "err": errors, 
                 "symbol": symbols
             }
@@ -69,23 +70,32 @@ def get_compile():
 
 @app.route(f"{route}/mirilla", methods=['POST'])
 def get_mirilla():
-    errors = ""
-    symbols = ""
-    resulCompile = ""
+    errors = '[]'
+    symbols = ''
+    result = ''
 
     try:
         ## Recuperando code recibido
         input = request.json['input']
+        print(input)
+
+        instrucciones = optimization.parse(input)
+
+        instrucciones.mirilla()
+
+        # result = instrucciones.getCode()
+        result = input
+
 
         result = {
-                    "result": resulCompile,
+                    "result": result,
                     "err": errors, 
                     "symbol": symbols
                 }
 
     except:
         result = {
-                "result": resulCompile,
+                "result": result,
                 "err": errors, 
                 "symbol": symbols
             }

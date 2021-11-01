@@ -3,7 +3,7 @@ from optimization.C3DInstruction import C3DInstruction
 class Expression(C3DInstruction):
 
     def __init__(self, left, right, typeOp, line, column):
-        super.__init__(self, line, column)
+        C3DInstruction.__init__(self, line, column)
         self.left = left
         self.right = right
         self.typeOp = typeOp

@@ -17,6 +17,7 @@ from optimization.expression.Access import Access
 from optimization.expression.Expression import Expression
 from optimization.expression.Literal import Literal
 
+
 # LEXICAL ANALYSIS
 rw = {
     "FLOAT64": "FLOAT64",
@@ -145,7 +146,7 @@ lexer1 = lex.lex()
 
 def p_start(t):
     '''start :  PACKAGE ID SEMICOLON IMPORT LEPAR STRINGLITERAL RIPAR SEMICOLON declarations codeList'''
-    t[0] = Optimizador(t[6], t[9], t[10])
+    t[0] = Optimization(t[6], t[9], t[10])
 
 def p_declarations(t):
     '''declarations : declarations declaration
@@ -194,11 +195,11 @@ def p_code(t):
     t[0] = Function(t[5], t[2], t.lineno(1), t.lexpos(1))
 
 def p_statement(t):
-    '''statement : LEKEY instruction RIKEY'''
+    '''statement : LEKEY instructions RIKEY'''
     t[0] = t[2]
 
-def p_instruction(t):
-    '''instruction : instruction instruction
+def p_instructions(t):
+    '''instructions : instructions instruction
                     | instruction'''
     if len(t) == 2:
         t[0] = [t[1]]

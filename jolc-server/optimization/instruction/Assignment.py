@@ -4,7 +4,7 @@ from optimization.expression.Literal import Literal
 class Assignment(C3DInstruction):
 
     def __init__(self, place, exp, line, column):
-        super.__init__(self, line, column)
+        C3DInstruction.__init__(self, line, column)
         self.place = place
         self.exp = exp
 

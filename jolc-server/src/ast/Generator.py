@@ -60,9 +60,9 @@ class Generator:
     #==============================================================================
     def getHeader(self):
         if self.math:
-            ret = '/*----HEADER----*/\npackage main;\n\nimport (\n\t"fmt"\n\t"math"\n)\n\n'
+            ret = '/*----HEADER----*/\npackage main;\n\nimport (\n\t"fmt"\n\t"math"\n);\n\n'
         else:
-            ret = '/*----HEADER----*/\npackage main;\n\nimport (\n\t"fmt"\n)\n\n'
+            ret = '/*----HEADER----*/\npackage main;\n\nimport (\n\t"fmt"\n);\n\n'
 
 
         if len(self.temps) > 0:
@@ -77,7 +77,8 @@ class Generator:
 
 
     def getCode(self):
-        return f'{self.getHeader()}{self.natives}\n{self.funcs}\nfunc main(){{\n{self.code}\n\treturn;\n}}'
+        # return f'{self.getHeader()}{self.natives}\n{self.funcs}\nfunc main(){{\n{self.code}\n\treturn;\n}}'
+        return f'{self.getHeader()}{self.natives}\n{self.funcs}\nfunc main(){{\n{self.code}\n\t\n}}'
 
     def codeIn(self, code, tab="\t"):
         if(self.inNatives):

@@ -22,6 +22,7 @@ export const Dashboard = () => {
   const { setErr, err, setSymbols } = useContext(UserContext);
 
   const [code] = useState(inputText);
+  const [outcode, setOutCode] = useState(outputText);
 
   const notifySuccessful = () => toast("Successful!");
   const notifyError = () => toast("Error!");
@@ -39,12 +40,48 @@ export const Dashboard = () => {
           notifySuccessful();
           setErr("");
         }
-        setOutputText(res.data.result);
+        // setOutputText(res.data.result);
+        setOutCode(res.data.result)
         setSymbols(res.data.symbol);
         
       })
       .catch((err) => {});
   };
+
+  const mirilla = async () => {
+    await axios
+    .post(`${url}/mirilla`, { input: outputText })
+    .then((res) => {
+      if (res.data.err !== "[]") {
+        notifyError();
+        setErr(res.data.err);
+        // setOutputText('');
+      } else {
+        notifySuccessful();
+        setErr("")
+      }
+      // setOutputText(res.data.result);
+      setOutCode(res.data.result)
+    })
+    .catch((err) => {});
+  }
+
+  const bloque = async () => {
+    await axios
+    .post(`${url}/bloque`, { input: outputText })
+    .then((res) => {
+      if (res.data.err !== "[]") {
+        notifyError();
+        setErr(res.data.err);
+        // setOutputText('');
+      } else {
+        notifySuccessful();
+        setErr("")
+      }
+      setOutputText(res.data.result);
+    })
+    .catch((err) => {});
+  }
 
   const headers = {
     head1: "Index",
@@ -62,10 +99,10 @@ export const Dashboard = () => {
             <button type="button" onClick={execute} className="btn btn-dark">
               Execute
             </button>
-            <button type="button" onClick={execute} className="btn btn-dark">
+            <button type="button" onClick={mirilla} className="btn btn-dark">
               Mirilla
             </button>
-            <button type="button" onClick={execute} className="btn btn-dark">
+            <button type="button" onClick={bloque} className="btn btn-dark">
               Bloque
             </button>
             <button
@@ -92,15 +129,15 @@ export const Dashboard = () => {
           </div>
           <div className="col-md-6">
             <CodeMirror
-              value={outputText}
+              value={outcode}
               options={{
                 lineNumbers: true,
                 mode: "go",
                 theme: "blackboard",
-                readOnly: true,
+                readOnly: false,
               }}
               onChange={(editor, data, value) => {
-                setOutputText(value);
+                setOutputText(editor.getValue());
               }}
             />
           </div>

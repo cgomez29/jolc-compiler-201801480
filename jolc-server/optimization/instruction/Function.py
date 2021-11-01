@@ -3,7 +3,7 @@ from optimization.C3DInstruction import C3DInstruction
 class Function(C3DInstruction):
 
     def __init__(self, instr, id, line, column):
-        super.__init__(self, line, column)
+        C3DInstruction.__init__(self, line, column)
         self.instr = instr
         self.id = id
     
