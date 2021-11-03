@@ -1,3 +1,4 @@
+from src.expression.Identifier import Identifier
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
 from src.ast.Type import Type
@@ -37,8 +38,13 @@ class ArrayAccess(Instruction):
 
                 tempI = generator.addTemp() # valor de index a acceder
                 tempIndex = generator.addTemp() # guardando el puntero al arreglo encontrado
-                generator.addExp(tempI, self.access[i].value, '', '')
-                index = self.access[i].value - 1 # obteniendo la posición que se desea acceder 
+                if type(self.access[i]) is Identifier:
+                    # FIXME: Repara no se puede acceder cuando el arr[i] es un identificador
+                    val = environment.getVariable(self.access[i].id)
+                    generator.addExp(tempI, self.access[i].value, '', '')
+                else: 
+                    generator.addExp(tempI, self.access[i].value, '', '')
+                    index = self.access[i].value - 1 # obteniendo la posición que se desea acceder 
                 posAnterior = index
                 if index <= size:
                     finalType = value.getAttributes()[index] # obteniendo typo del item buscado

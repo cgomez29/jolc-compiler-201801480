@@ -42,12 +42,31 @@ class Optimization:
                 for i in range(10):
                     aux = 0
                     while (size + aux) <= len(func.instr):
+                        flagOpt = flagOpt or self.regla1(func.instr[0+aux: size +aux])
                         flagOpt = flagOpt or self.regla3(func.instr[0+aux: size +aux])
+                        flagOpt = flagOpt or self.regla4(func.instr[0+aux: size +aux])
                         flagOpt = flagOpt or self.regla6(func.instr[0+aux: size +aux])
                         aux += 1
                 # si no hubo optimizacion en las pasadas, se aumenta el size
                 if not flagOpt:
                     size += 20
+
+    def regla1(self, array):
+        ret = False 
+        for i in range(len(array)):
+            actual = array[i]
+            
+            if type(actual) is Assignment and not actual.deleted:
+                next = array[i+1]
+
+                if type(next) is Assignment and not next.deleted:
+                    if type(next.exp) is not Literal: continue
+
+                    if actual.place.value == next.exp.value and actual.exp.value == next.place.value:
+                        next.deleted = True 
+                        ret = True 
+
+        return ret 
 
 
     def regla3(self, array):
@@ -68,6 +87,24 @@ class Optimization:
                     ret = True
 
         return ret
+
+    # Propagación de constantes
+    def regla4(self, array):
+        ret = False 
+        for i in range(len(array)):
+            actual = array[i]
+            
+            if type(actual) is Assignment and not actual.deleted:
+                next = array[i+1]
+
+                if type(next) is Assignment and not next.deleted:
+                    if type(next.exp) is not Literal: continue
+
+                    if actual.place.value == next.exp.value and actual.exp.value == next.place.value:
+                        next.deleted = True 
+                        ret = True 
+
+        return ret 
 
     def regla6(self, array):
         ret = False  
