@@ -21,6 +21,7 @@ class Type(Enum):
     ARRAY = 17
     ANY = 18
     TEMP = 19
+    VECTOR = 20
 
 class TypeOperation(Enum):
     SUMA = 0

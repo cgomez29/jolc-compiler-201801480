@@ -23,8 +23,6 @@ class StructGet(Instruction):
         if(left != None):
             if(left.getType() == Type.STRUCT or left.getType() == Type.MSTRUCT):
                 temp = generator.addTemp()
-                # tempValue = generator.addTemp()
-                # generator.getStack(temp, left.getValue())
                 
                 struct = environment.getStruct(left.getAuxType())
                 counter = 0

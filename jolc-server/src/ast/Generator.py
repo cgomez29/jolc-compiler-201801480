@@ -111,6 +111,8 @@ class Generator:
     # EXPRESIONES
     #==============================================================================
     def addExp(self, result, left, right, op):
+        self.freeTemp(left)
+        self.freeTemp(right)
         self.codeIn(f'{result} = {left}{op}{right};\n')
 
     def addExpModulo(self, result, left, right):
@@ -120,6 +122,7 @@ class Generator:
     # INSTRUCCIONES
     #==============================================================================
     def addPrint(self, type, value):
+        self.freeTemp(value)
         if(type == 'f'):
             self.codeIn(f'fmt.Printf("%{type}", {value});\n')
         else:
@@ -212,15 +215,19 @@ class Generator:
     # IF
     #==============================================================================
     def addIf(self, left, rigth, op, label):
+        self.freeTemp(left)
+        self.freeTemp(rigth)
         self.codeIn(f'if {left} {op} {rigth} {{goto {label};}}\n')
 
     #==============================================================================
     # STACK
     #==============================================================================
     def setStack(self, pos, value):
+        # self.freeTemp(pos)
         self.codeIn(f'stack[int({pos})] = {value};\n')
     
     def getStack(self, place, pos):
+        self.freeTemp(pos)
         self.codeIn(f'{place} = stack[int({pos})];\n')
 
     #==============================================================================
@@ -240,9 +247,12 @@ class Generator:
     # HEAP
     #==============================================================================
     def setHeap(self, pos, value):
+        self.freeTemp(pos)
+        self.freeTemp(value)
         self.codeIn(f'heap[int({pos})] = {value};\n')
 
     def getHeap(self, place, pos):
+        self.freeTemp(pos)
         self.codeIn(f'{place} = heap[int({pos})];\n')
 
     def nextHeap(self):
@@ -886,6 +896,8 @@ class Generator:
         initLbl = self.newLabel()
         # label de salida
         returnLbl = self.newLabel()
+        # Label exponente 0
+        exponente = self.newLabel()
 
         # extrayendo parametros
         # Parametro1
@@ -897,6 +909,9 @@ class Generator:
 
         self.addExp(tempP, tempP1, '', '') # guardando base
 
+        # Si el exponente = 0
+        self.addIf(tempP2, '0', '==', exponente)
+
         # Inicio
         self.putLabel(initLbl)
         
@@ -904,6 +919,10 @@ class Generator:
         self.addExp(tempP1, tempP1, tempP, '*')
         self.addExp(tempP2, tempP2, '1', '-')
         self.addGoto(initLbl)
+        # exponente 0
+        self.putLabel(exponente)
+        self.addExp(tempP1, '1', '', '')
+
         # FIN
         self.putLabel(returnLbl)
         self.setStack('P', tempP1)

@@ -25,7 +25,7 @@ symbols = "[" + symbols[:-1] +"]" #Quitando la ultima ','
 
 # imprime el codigo generado
 output = generator.getCode()
-# print(output)
+print(output)
 
 prueba = '''
     /*----HEADER----*/
@@ -35,7 +35,7 @@ import (
 	"fmt"
 );
 
-var t0 float64;
+var t0, t1 float64;
 var P, H float64;
 var stack [29101998]float64;
 var heap [29101998]float64;
@@ -43,6 +43,8 @@ var heap [29101998]float64;
 
 
 func main(){
+	t0 = t1;
+	t1 = t0;
 	t0 = 5+0;
 	t0 = t0+0;
 	t0 = t0-0;
@@ -71,7 +73,7 @@ func main(){
 '''
 
 
-instrucciones = optimization.parse(prueba)
-instrucciones.mirilla()
+# instrucciones = optimization.parse(prueba)
+# instrucciones.mirilla()
 
-print(instrucciones.getCode())
+# print(instrucciones.getCode())
