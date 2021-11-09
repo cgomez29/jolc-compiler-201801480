@@ -1,8 +1,11 @@
+from typing import Literal
+from src.instruction.array.TypeArray import TypeArray
 from src.expression.Identifier import Identifier
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
 from src.ast.Type import Type
 from src.abstract.Return import Return
+from src.exception.Exception import Exception
 
 class ArrayAccess(Instruction):
     def __init__(self, id, access, line, column):
@@ -23,42 +26,36 @@ class ArrayAccess(Instruction):
         auxAttributes = []
         auxValues = []
         
-        finalType = None 
+        finalType = Type.INT64 # default int 
+        
         tempItem = generator.addTemp() # guarda el valor encontrado
+        tempI = generator.addTemp() # guardando el puntero 
+        tempIndex = generator.addTemp() # guardando el puntero al arreglo encontrado
+
         size = len(self.access)
 
+        ty = value.getType()
 
-        posAnterior = 0
+        while ty.value != None:
+            finalType = ty.value
+            if type(finalType) is not TypeArray: break  
+            ty = ty.value 
+
         for i in range(size):
-            finalType = Type.INT64 # default int 
             if i == 0: # primera iteracion 
                 lblTrue = generator.newLabel()
                 lblFalse = generator.newLabel()
                 lblExit = generator.newLabel()
 
-                tempI = generator.addTemp() # valor de index a acceder
-                tempIndex = generator.addTemp() # guardando el puntero al arreglo encontrado
-                if type(self.access[i]) is Identifier:
-                    # FIXME: Repara no se puede acceder cuando el arr[i] es un identificador
-                    val = environment.getVariable(self.access[i].id)
-                    generator.addExp(tempI, self.access[i].value, '', '')
-                else: 
-                    generator.addExp(tempI, self.access[i].value, '', '')
-                    index = self.access[i].value - 1 # obteniendo la posición que se desea acceder 
-                posAnterior = index
-                if index <= size:
-                    finalType = value.getAttributes()[index] # obteniendo typo del item buscado
+                val = self.access[i].compile(environment) # compilando valor
+                generator.addExp(tempI, val.getValue(), '', '') # guardando posición a acceder
 
-                    auxAttributes = value.getValues()[index].getAttributes()
-                    auxValues = value.getValues()[index]
-
-                generator.getStack(tempItem, value.pos)
-                generator.addExp(tempIndex, tempItem, '', '') # guardando el puntero al arreglo encontrado
-                generator.getHeap(tempItem, tempItem)
+                generator.getStack(tempIndex, value.pos) # recuperando el arreglo
+                generator.getHeap(tempItem, tempIndex) # recuperando tamaño
 
                 # comprobando que no exeda los limites
                 generator.addIf(tempI, '1', '<', lblTrue) # limite inferior
-                generator.addIf(tempI, tempItem, '>', lblTrue) #
+                generator.addIf(tempI, tempItem, '>', lblTrue) # limite superior
                 generator.addGoto(lblFalse)
                 generator.putLabel(lblTrue)
                 generator.printBoundsError()
@@ -75,28 +72,15 @@ class ArrayAccess(Instruction):
                 lblFalse = generator.newLabel()
                 lblExit = generator.newLabel()
 
-                tempI = generator.addTemp() # valor de index a acceder
-                # tempItem = generator.addTemp() # guarda el valor encontrado
-                tempIndex = generator.addTemp() # guardando el puntero al arreglo encontrado
+                val = self.access[i].compile(environment) # compilando valor
+                generator.addExp(tempI, val.getValue(), '', '') # recuperando index
 
-                generator.addExp(tempI, self.access[i].value, '', '')
-                index = self.access[i].value - 1 # obteniendo la posición que se desea acceder 
-                if index <= size:
-                    # auxAttributes = value.getValues()[posAnterior].getAttributes()
-                    # finalType = auxAttributes[index] # obteniendo type del item buscado
-                    # posAnterior = index
-                    # auxValues = value.getValues()[index].getValues()
-                    
-                    auxAttributes = auxValues.getAttributes()
-                    finalType = auxAttributes[index] # obteniendo type del item buscado
-                    auxValues = auxValues.getValues()[index]
-
-                
-                generator.getHeap(tempIndex, tempItem) # recuperando el tamaño del arreglo
+                generator.addExp(tempIndex, tempItem, '', '') # guardando posición anterior
+                generator.getHeap(tempItem, tempItem) # recuperando el tamaño del arreglo
 
                 # comprobando que no exeda los limites
                 generator.addIf(tempI, '1', '<', lblTrue) # limite inferior
-                generator.addIf(tempI, tempIndex, '>', lblTrue) #
+                generator.addIf(tempI, tempItem, '>', lblTrue) #
                 generator.addGoto(lblFalse)
                 generator.putLabel(lblTrue)
                 generator.printBoundsError()
@@ -104,11 +88,11 @@ class ArrayAccess(Instruction):
                 generator.addGoto(lblExit)
                 generator.putLabel(lblFalse)# no exedio los limites
                 
-                generator.addExp(tempIndex, tempItem, tempI, '+')
+                generator.addExp(tempIndex, tempIndex, tempI, '+')
                 generator.getHeap(tempItem, tempIndex)
                 
                 generator.putLabel(lblExit) # salida 
-        
+
         ret = Return(tempItem, finalType, True)
         ret.setAttributes(auxAttributes)
         ret.setValues(auxValues)

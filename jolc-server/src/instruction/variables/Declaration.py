@@ -1,3 +1,4 @@
+from src.instruction.array.TypeArray import TypeArray
 from src.exception.Exception import Exception
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
@@ -30,9 +31,15 @@ class Declaration(Instruction):
                         if self.value['tipo'] != val.auxType:    
                             generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
                             return 
-                    elif(self.value['tipo'] != val.getType()):
-                        generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
-                        return 
+                    else:
+                        if type(self.value['tipo']) == TypeArray:
+                            if(self.value['tipo'].type != val.getType()):
+                                generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
+                                return 
+                        else:
+                            if(self.value['tipo'] != val.getType()):
+                                generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
+                                return 
 
             #Guardado y obtencion de la variable
             #Contiene la posicion para asignarlo en el heap
@@ -40,7 +47,11 @@ class Declaration(Instruction):
                 if (val.type == Type.STRUCT or val.type == Type.MSTRUCT):
                     newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
                 elif (val.type == Type.ARRAY):
-                    newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
+                    if type(self.value['tipo']) == TypeArray:
+                        tipo = self.value['tipo']
+                    else:
+                        tipo = Type.ARRAY
+                    newVar = environment.setVariable(self.id, tipo, True, val.getAuxType(), val.getAttributes(), val.getValues())
                 else:
                     newVar = environment.setVariable(self.id, val.getType(), False)
             

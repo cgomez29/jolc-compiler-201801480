@@ -15,6 +15,7 @@ from src.instruction.function.Function import Function
 from src.instruction.struct.Struct import Struct
 from src.instruction.array.Array import Array
 from src.instruction.array.ArrayAccess import ArrayAccess
+from src.instruction.array.TypeArray import TypeArray
 from src.instruction.function.Call import Call
 from src.expression.Unary import Unary
 from src.expression.Identifier import Identifier 
@@ -51,6 +52,7 @@ reservadas = {
     'String' : 'STRING',
     'struct' : 'STRUCT',
     'mutable' : 'MUTABLE',
+    'Vector' : 'VECTOR',
 }
 
 tokens  = [
@@ -61,6 +63,8 @@ tokens  = [
     'CORDER',
     'PARIZQ',
     'PARDER',
+    'LLAVEIZQ',
+    'LLAVEDER',
     'MAS',
     'MENOS',
     'POR',
@@ -91,6 +95,8 @@ t_CORIZQ    = r'\['
 t_CORDER    = r'\]'
 t_PARIZQ    = r'\('
 t_PARDER    = r'\)'
+t_LLAVEIZQ    = r'\{'
+t_LLAVEDER    = r'\}'
 t_COMMA  = r'\,'
 t_DOT  = r'\.'
 t_SEMICOLON    = r'\;'
@@ -390,6 +396,7 @@ def p_array_list(t):
     t[1].append(t[2])
     t[0] = t[1]
 #=======================================================================================
+
 def p_array_item(t):
     '''ARRAYGETS   :    ARRAYGET'''
     t[0] = [t[1]]
@@ -397,6 +404,11 @@ def p_array_item(t):
 def p_array_value(t):
     '''ARRAYGET    :  CORIZQ expresion CORDER'''
     t[0] = t[2] 
+
+#=======================================================================================
+def p_array_type(t):
+    '''ARRAYTYPE    : VECTOR LLAVEIZQ TIPO LLAVEDER'''
+    t[0] = TypeArray( t[3], Type.ARRAY, t.lineno(1), find_column(t.slice[1]))
 
 #=======================================================================================
 # IF
@@ -497,7 +509,6 @@ def p_instruccion_declaration(t):
             # ID ARRAYGETS IGUAL expresion
             value = [t[1], t[2]] # [id, arreglo de accesos]
             t[0] =  Declaration(None, value, t[4], t.lineno(1), find_column(t.slice[3]))
-    
     elif(len(t) == 6): # ID IGUAL expresion TIPOVAR TIPO
         x = {"value": t[3], "tipo": t[5]}
         t[0] =  Declaration(None, t[1], x, t.lineno(1), find_column(t.slice[1]), False)
@@ -678,7 +689,9 @@ def p_tipo(t):
             |   BOOL 
             |   CHAR
             |   ID
-            |   STRING'''
+            |   STRING
+            |   ARRAYTYPE
+    '''
     if(t[1] == "Int64"):
         t[0] = Type.INT64
     elif(t[1] == "Float64"):
@@ -689,6 +702,8 @@ def p_tipo(t):
         t[0] = Type.CHAR
     elif(t[1] == "String"):
         t[0] = Type.STRING
+    elif(type(t[1]) == TypeArray):
+        t[0] = t[1]
     else:
         t[0] = t[1]
 
