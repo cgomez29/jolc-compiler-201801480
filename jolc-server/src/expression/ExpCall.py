@@ -3,6 +3,7 @@ from src.ast.Generator import Generator
 from src.abstract.Expression import Expression 
 from src.abstract.Return import Return
 from src.ast.Type import Type
+from src.instruction.array.TypeArray import TypeArray
 
 class ExpCall(Expression):
     def __init__(self, id, parameters, line, column):
@@ -67,9 +68,14 @@ class ExpCall(Expression):
                 registeredType = symbolFunction.params[index]['tipo']
                 incomingType = compiledParam.getType()
 
-                if registeredType != incomingType:
-                    generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
-                    return 
+                if isinstance(registeredType, TypeArray):
+                    if registeredType.type != incomingType.type:
+                        generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                        return                     
+                else:
+                    if registeredType != incomingType:
+                        generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                        return 
 
                 if incomingType == Type.BOOL:
                     temp = generator.addTemp()
