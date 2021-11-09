@@ -40,9 +40,7 @@ class Call(Expression):
             param1 = self.parameters[0].compile(environment)
             return Return(self.callLength(environment, param1.getValue()), Type.INT64, False)
 
-        sizeActual = environment.size
-
-        symbolFunction = environment.getFunction(self.id)
+        symbolFunction = environment.searchFunction(self.id)
         struct = environment.getStruct(self.id) 
 
         if(struct == None):
