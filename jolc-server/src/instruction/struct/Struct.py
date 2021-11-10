@@ -1,4 +1,5 @@
 from src.abstract.Instruction import Instruction
+from src.ast.Type import Type
 
 class Struct(Instruction):
     def __init__(self, id, attributes, line, column, mutable = False):
@@ -8,7 +9,10 @@ class Struct(Instruction):
         self.mutable = mutable  
 
     def compile(self, environment):
-        environment.setStruct(self.id, self)
+        if self.mutable:
+            environment.setStruct(self.id, self, Type.MSTRUCT)
+        else:
+            environment.setStruct(self.id, self, Type.STRUCT)
 
     def graph(self, g, father):
         pass

@@ -36,12 +36,15 @@ class Function(Instruction):
         newEnv.setEnvironmentFunction(symbolFunction, returnLabel)
     
         for i in self.parameters:
+            tipo = i['tipo']
+            if isinstance(tipo, str):
+                struct = newEnv.getStruct(tipo)
+                newEnv.setVariable(i['id'], struct.getType() , False, tipo, struct.getAttributes())
+                continue
             newEnv.setVariable(i['id'], i['tipo'], False)
 
         generator.clearTempStorage()
 
-        # auxCode = generator.saveCode()
-        # generator.clearPrevious()
         generator.addBeginFunc(self.id)
 
         for i in self.instructions:

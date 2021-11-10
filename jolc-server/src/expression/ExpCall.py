@@ -147,11 +147,8 @@ class ExpCall(Expression):
                 auxTypes.append(value.getType())   
                 auxValues.append(value)   
 
-            type = Type.STRUCT
-            if(struct.mutable):
-                type = Type.MSTRUCT
 
-            ret = Return(tempStruct, type, False, self.id)
+            ret = Return(tempStruct, struct.getType(), False, self.id)
             ret.setAttributes(auxTypes)
             ret.setValues(auxValues)
             return ret 

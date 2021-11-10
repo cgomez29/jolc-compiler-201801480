@@ -28,7 +28,7 @@ class StructGet(Instruction):
                 counter = 0
                 for s in struct.attributes:
                     if (s['id'] == right):
-                        type = left.getAttributes()[counter]
+                        type = left.getAttributes()[counter]['tipo']
                         generator.addExp(left.getValue(), left.getValue(), counter, '+')
                         generator.getHeap(temp, left.getValue())
                         if(type == Type.STRUCT or type == Type.MSTRUCT):
