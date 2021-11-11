@@ -127,13 +127,19 @@ class Environment:
         return None
 
     def addFunction(self, id, func):
+        auxType = ''
         if( id not in self.functions.keys()):
             if func.type == Type.ANY:
                 type = Type.INT64
             else:
                 type = func.type 
+                auxType = type 
+                if isinstance(type, str):
+                    type = self.getStruct(type).getType()
+
             sfunc = SymbolFunction(id, type, len(func.parameters), func.parameters, func.line, func.column)
             sfunc.setEnviroment(self.name)
+            sfunc.setAuxType(auxType)
             self.functions[id] = sfunc
             return True
         return False 

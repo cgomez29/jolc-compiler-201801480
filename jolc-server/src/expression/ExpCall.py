@@ -67,13 +67,19 @@ class ExpCall(Expression):
                 compiledParam = p.compile(environment)
                 registeredType = symbolFunction.params[index]['tipo']
                 incomingType = compiledParam.getType()
-
+                
                 if isinstance(registeredType, TypeArray):
                     if registeredType.type != incomingType.type:
                         generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
                         return                     
                 else:
-                    if registeredType != incomingType:
+
+                    if isinstance(registeredType, str):
+                        struct = environment.getStruct(registeredType)
+                        if struct.getType() != incomingType:
+                            generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                            return
+                    elif registeredType != incomingType:
                         generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
                         return 
 
@@ -114,7 +120,9 @@ class ExpCall(Expression):
             generator.addTempStorage(temp) 
 
             if symbolFunction.getType() != Type.BOOL:
-                return Return(temp, symbolFunction.getType(), True)
+                ret = Return(temp, symbolFunction.getType(), True)
+                ret.setAuxType(symbolFunction.getAuxType())
+                return ret  
 
             auxReturn = Return('', symbolFunction.getType(), False)
             if self.trueLbl == '':

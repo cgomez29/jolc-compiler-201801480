@@ -12,35 +12,45 @@ class StructGet(Instruction):
     def compile(self, environment):
         auxG = Generator()
         generator = auxG.getInstance()
+        generator.addComment("BEGIN STRUCT ACCESS")
         
         left = self.left.compile(environment)
 
         if self.right != None:
             right = self.right.getId()
 
-        temp = None
+        temp = generator.addTemp()
         type = None
         if(left != None):
             if(left.getType() == Type.STRUCT or left.getType() == Type.MSTRUCT):
-                temp = generator.addTemp()
-                
                 struct = environment.getStruct(left.getAuxType())
                 counter = 0
                 for s in struct.attributes:
                     if (s['id'] == right):
-                        type = left.getAttributes()[counter]['tipo']
-                        generator.addExp(left.getValue(), left.getValue(), counter, '+')
-                        generator.getHeap(temp, left.getValue())
+                        type = s['tipo'] 
+                        if isinstance(type, str):
+                            right = environment.getStruct(type)
+                            type = right.getType()
+
                         if(type == Type.STRUCT or type == Type.MSTRUCT):
-                            right = left.getValues()[counter]
+                            generator.addExp(temp, left.getValue(), counter, '+')
+                            generator.getHeap(temp, temp)
+                            # generator.getHeap(temp, temp)
+
                             ret = Return(temp, type, True)
                             ret.setAuxType(right.getAuxType())
                             ret.setAttributes(right.getAttributes())
                             ret.setValues(right.getValues())
                             return ret
-                        break
+                        else: 
+                            generator.addExp(temp, left.getValue(), counter, '+')
+                            generator.getHeap(temp, temp)
+                            break
+                
                     counter += 1
 
+
+        generator.addComment("END STRUCT ACCESS")
         return Return(temp, type, True)
 
     def graph(self, g, father):

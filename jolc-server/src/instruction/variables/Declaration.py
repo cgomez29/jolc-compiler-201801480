@@ -26,18 +26,23 @@ class Declaration(Instruction):
                 if (self.type):
                     val = self.value.compile(environment) 
                 else:
-                    val = self.value['value'].compile(environment)   
+                    val = self.value['value'].compile(environment) 
+                    tipo = self.value['tipo']
+
+                    if isinstance(tipo, str):
+                        tipo = environment.getStruct(tipo).getType()
+        
                     if val.getType() == Type.MSTRUCT or val.getType() == Type.STRUCT:
                         if self.value['tipo'] != val.auxType:    
                             generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
                             return 
                     else:
-                        if type(self.value['tipo']) == TypeArray:
-                            if(self.value['tipo'].type != val.getType()):
+                        if type(tipo) == TypeArray:
+                            if(tipo.type != val.getType()):
                                 generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
                                 return 
                         else:
-                            if(self.value['tipo'] != val.getType()):
+                            if(tipo != val.getType()):
                                 generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
                                 return 
 

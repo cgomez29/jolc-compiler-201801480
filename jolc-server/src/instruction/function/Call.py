@@ -119,7 +119,9 @@ class Call(Expression):
             generator.addTempStorage(temp) 
 
             if symbolFunction.getType() != Type.BOOL:
-                return Return(temp, symbolFunction.getType(), True)
+                ret = Return(temp, symbolFunction.getType(), True)
+                ret.setAuxType(symbolFunction.getAuxType())
+                return ret  
 
             auxReturn = Return('', symbolFunction.getType(), False)
             if self.trueLbl == '':

@@ -223,7 +223,7 @@ class Generator:
     # STACK
     #==============================================================================
     def setStack(self, pos, value):
-        # self.freeTemp(pos)
+        self.freeTemp(pos)
         self.codeIn(f'stack[int({pos})] = {value};\n')
     
     def getStack(self, place, pos):

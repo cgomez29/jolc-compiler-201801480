@@ -29,11 +29,70 @@ fmt.Printf("%c", int(10));
 fmt.Printf("%d", int(heap[int(14)]));
 fmt.Printf("%c", int(10));
 fmt.Printf("%d", int(heap[int(15)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(16)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(17)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(18)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(19)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(20)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(21)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(22)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(23)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(24)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(25)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(26)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(27)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(28)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(29)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(30)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(31)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(32)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(33)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(34)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(35)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(36)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(37)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(38)]));
+fmt.Printf("%c", int(10));
+fmt.Printf("%d", int(heap[int(39)]));
+fmt.Printf("%c", int(10));
+
+for i := 0; i < 80; i++ {
+        fmt.Printf("%d", i);
+        fmt.Printf("%c", ' ');
+        fmt.Printf("%d", int(heap[int(i)]));
+        fmt.Printf("%c", int(10));
+
+    }
 
 
 
 
 
+
+i = 25 terminan los arreglos
 
 
 
