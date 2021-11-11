@@ -35,14 +35,15 @@ class ArrayAccess(Instruction):
         size = len(self.access)
 
         ty = value.getType()
-
-        while ty.value != None:
-            finalType = ty.value
-            if type(finalType) is not TypeArray: break  
-            ty = ty.value 
+        
+        # while ty.value != None:
+        #     finalType = ty.value
+        #     if type(finalType) is not TypeArray: break  
+        #     ty = ty.value 
 
         for i in range(size):
             if i == 0: # primera iteracion 
+                finalType = ty.value 
                 lblTrue = generator.newLabel()
                 lblFalse = generator.newLabel()
                 lblExit = generator.newLabel()
@@ -68,6 +69,9 @@ class ArrayAccess(Instruction):
                 
                 generator.putLabel(lblExit) # salida 
             else: # mas accesos 
+                finalType = ty.value
+                ty = ty.value 
+
                 lblTrue = generator.newLabel()
                 lblFalse = generator.newLabel()
                 lblExit = generator.newLabel()
