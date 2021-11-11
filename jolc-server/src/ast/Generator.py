@@ -223,7 +223,7 @@ class Generator:
     # STACK
     #==============================================================================
     def setStack(self, pos, value):
-        self.freeTemp(pos)
+        # self.freeTemp(pos)
         self.codeIn(f'stack[int({pos})] = {value};\n')
     
     def getStack(self, place, pos):
@@ -776,44 +776,39 @@ class Generator:
         self.addBeginFunc("trunc")
 
         tempP = self.addTemp()
-        tempH = self.addTemp()
+        tempCount = self.addTemp()
         tempNum = self.addTemp()
 
-        # # label de salida
-        # returnLbl = self.newLabel()
-        # # label de inicio
-        # initLbl = self.newLabel()
-
-        # #extrayendo parametros
-        # #Parametro1
-        # self.addExp(tempP, 'P', '1', '+')
-        # self.getStack(tempP, tempP)
-
-        # #inicio recorrido
-        # self.putLabel(initLbl)
-
-        # # extrayendo digito
-        # self.getHeap(tempH, tempP)
-
-        # # es numero
-        # self.addIf(tempH, '46', '==', returnLbl)
-        # # self.addIf(tempH, '48', '<', lblTrue)
-        # # self.addIf(tempH, '57', '>', lblTrue)
-
-        # self.addExp(tempH, tempH, '48', '-')
-        # self.addExp(tempNum, tempNum, tempH, '+')
-        # self.addExp(tempP, tempP, '1', '+')
-
-        # self.addGoto(initLbl)
-
-        
         # label de salida
-        # self.putLabel(returnLbl)
+        returnLbl = self.newLabel()
+        # label de inicio
+        initLbl = self.newLabel()
+
+
+        #extrayendo parametros
+        #Parametro1
+        self.addExp(tempP, 'P', '1', '+')
+        self.getStack(tempNum, tempP)
+        self.addExp(tempCount, '0', '', '')
+
+        #inicio recorrido 
+        self.putLabel(initLbl)
+        self.addExp(tempCount, tempCount, '1', '+')
+        self.addIf(tempCount, tempNum, '>', returnLbl)
+        # count ++
+        self.addGoto(initLbl)
+
+        # label de salida
+        self.putLabel(returnLbl)
 
         # valor de retorno
-        self.setStack('P', tempNum)
+        self.addExp(tempCount, tempCount, '1', '-')
+        self.setStack('P', tempCount)
         self.addEndFunc()
         self.inNatives = False
+        self.freeTemp(tempCount)
+        self.freeTemp(tempNum)
+        self.freeTemp(tempP)
 
     #==============================================================================
     def fCompareString(self):

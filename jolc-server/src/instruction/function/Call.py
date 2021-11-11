@@ -10,6 +10,8 @@ class Call(Expression):
         super().__init__(line, column)
         self.id = id 
         self.parameters = parameters
+        self.line = line 
+        self.column = column
 
     def compile(self, environment):
         aucG = Generator()
@@ -68,9 +70,14 @@ class Call(Expression):
                 incomingType = compiledParam.getType()
                 
                 if isinstance(registeredType, TypeArray):
-                    if registeredType.type != incomingType.type:
-                        generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
-                        return                     
+                    if isinstance(incomingType, TypeArray):
+                        if registeredType.type != incomingType.type:
+                            generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                            return
+                    else:    
+                        if registeredType.type != incomingType.type:
+                            generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                            return                     
                 else:
 
                     if isinstance(registeredType, str):
