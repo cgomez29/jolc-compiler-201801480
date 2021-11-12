@@ -215,8 +215,8 @@ class Generator:
     # IF
     #==============================================================================
     def addIf(self, left, rigth, op, label):
-        self.freeTemp(left)
-        self.freeTemp(rigth)
+        # self.freeTemp(left)
+        # self.freeTemp(rigth)
         self.codeIn(f'if {left} {op} {rigth} {{goto {label};}}\n')
 
     #==============================================================================
@@ -227,7 +227,7 @@ class Generator:
         self.codeIn(f'stack[int({pos})] = {value};\n')
     
     def getStack(self, place, pos):
-        self.freeTemp(pos)
+        # self.freeTemp(pos)
         self.codeIn(f'{place} = stack[int({pos})];\n')
 
     #==============================================================================
@@ -247,12 +247,12 @@ class Generator:
     # HEAP
     #==============================================================================
     def setHeap(self, pos, value):
-        self.freeTemp(pos)
-        self.freeTemp(value)
+        # self.freeTemp(pos)
+        # self.freeTemp(value)
         self.codeIn(f'heap[int({pos})] = {value};\n')
 
     def getHeap(self, place, pos):
-        self.freeTemp(pos)
+        # self.freeTemp(pos)
         self.codeIn(f'{place} = heap[int({pos})];\n')
 
     def nextHeap(self):
@@ -934,7 +934,6 @@ class Generator:
         self.addBeginFunc("native_length")
         
         temp = self.addTemp()
-        self.freeTemp(temp)
 
         returnLbl = self.newLabel() 
 
@@ -952,6 +951,7 @@ class Generator:
         
         self.addEndFunc()
         self.inNatives = False
+        self.freeTemp(temp)
 
     #==============================================================================
     # EXCEPTION

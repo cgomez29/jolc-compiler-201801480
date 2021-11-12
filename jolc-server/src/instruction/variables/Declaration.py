@@ -18,8 +18,6 @@ class Declaration(Instruction):
 
         if isinstance(self.id, str):# es solo un id
 
-            isAssign = environment.getVariable(self.id)
-
             if (isinstance(self.value, str)):
                 val = self.value.compile(environment)   
             else:
@@ -46,9 +44,11 @@ class Declaration(Instruction):
                                 generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
                                 return 
 
+
+            newVar = environment.getVariable(self.id)
             #Guardado y obtencion de la variable
             #Contiene la posicion para asignarlo en el heap
-            if(isAssign == None): # Solo se debe de crear si no existe
+            if(newVar == None): # Solo se debe de crear si no existe
                 if (val.type == Type.STRUCT or val.type == Type.MSTRUCT):
                     newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
                 elif (val.type == Type.ARRAY):
@@ -61,13 +61,13 @@ class Declaration(Instruction):
                     newVar = environment.setVariable(self.id, val.getType(), False)
             
             # Obtencion de posicion de la variable 
-            if(isAssign == None): # Esta validacion se da solo si el id no se ha creado
-                tempPos = newVar.pos
-                if(not newVar.isGlobal):
-                    tempPos = generator.addTemp()
-                    generator.addExp(tempPos, 'P', newVar.pos, "+")
-            else: 
-                tempPos = isAssign.pos
+            # if(isAssign == None): # Esta validacion se da solo si el id no se ha creado
+            tempPos = newVar.pos
+            if(not newVar.isGlobal):
+                tempPos = generator.addTemp()
+                generator.addExp(tempPos, 'P', newVar.pos, "+")
+            # else: 
+            #     tempPos = isAssign.pos
 
             if(val.type == Type.BOOL):
                 tempLbl = generator.newLabel()

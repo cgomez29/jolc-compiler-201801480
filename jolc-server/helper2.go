@@ -79,6 +79,8 @@ fmt.Printf("%c", int(10));
 fmt.Printf("%d", int(heap[int(39)]));
 fmt.Printf("%c", int(10));
 
+
+fmt.Printf("%c", int(10));
 for i := 0; i < 80; i++ {
         fmt.Printf("%d", i);
         fmt.Printf("%c", ' ');
