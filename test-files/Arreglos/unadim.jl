@@ -26,13 +26,23 @@ function selectionSort(arr::Vector{Int64})
     end;
 end;
 
+
+function printArray(arr::Vector{Int64}) 
+    for i in 1:length(arr)
+        print(arr[i], " ");
+    end;
+    println();
+end;
+
 arreglo = [32,7*3,7,89,56,909,109,2,9,98,44,3,820*10,11,8*0+8,10]::Vector{Int64};
-println(arreglo);
+printArray(arreglo);
 bubbleSort(arreglo);
-println("BubbleSort => ",arreglo);
+print("BubbleSort => ");
+printArray(arreglo);
 
 arreglo = [32,7*3,7,89,56,909,109,2,9,987,44,3,820*10,11,8*0+8,10];
 arreglo[1] = 1;
-println(arreglo);
+printArray(arreglo);
 selectionSort(arreglo);
-print("selectionSort => ",arreglo);
+print("BubbleSort => ");
+printArray(arreglo);
