@@ -102,9 +102,6 @@ export const Dashboard = () => {
             <button type="button" onClick={mirilla} className="btn btn-dark">
               Mirilla
             </button>
-            <button type="button" onClick={bloque} className="btn btn-dark">
-              Bloque
-            </button>
             <button
               type="button"
               data-bs-toggle="modal"

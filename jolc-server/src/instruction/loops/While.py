@@ -15,28 +15,29 @@ class While(Instruction):
         generator = auxG.getInstance()
 
         generator.addComment("BEGIN WHILE")
-        
-        continueLbl = generator.newLabel() # regresa a ka condición
+
+        continueLbl = generator.newLabel()  # regresa a la condición
         generator.putLabel(continueLbl)
 
-        rCondition = self.condition.compile(environment)
-        if(rCondition.getType() != Type.BOOL):
+        condition = self.condition.compile(environment)
+        if(condition.getType() != Type.BOOL):
             generator.setException(Exception("Semántico", f"The condition is not of type BOOL", self.line, self.column))
             return
         
         newEnv = Environment(environment)
 
-        newEnv.breakLbl = rCondition.falseLbl # break es la etiqueta false de mi condición para salirme.
-        newEnv.continueLbl = continueLbl 
+        newEnv.breakLbl = condition.falseLbl  # break es la etiqueta false de mi condición para salirme.
+        newEnv.continueLbl = continueLbl
 
-        generator.putLabel(rCondition.trueLbl)
+        generator.putLabel(condition.trueLbl)
+
 
         for i in self.instructions:
             i.compile(newEnv)
         
         generator.addGoto(continueLbl)
 
-        generator.putLabel(rCondition.falseLbl)
+        generator.putLabel(condition.falseLbl)
 
         generator.addComment("END WHILE")
 

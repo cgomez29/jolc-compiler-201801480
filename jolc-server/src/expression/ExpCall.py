@@ -3,6 +3,7 @@ from src.ast.Generator import Generator
 from src.abstract.Expression import Expression 
 from src.abstract.Return import Return
 from src.ast.Type import Type
+from src.instruction.array.TypeArray import TypeArray
 
 class ExpCall(Expression):
     def __init__(self, id, parameters, line, column):
@@ -66,10 +67,21 @@ class ExpCall(Expression):
                 compiledParam = p.compile(environment)
                 registeredType = symbolFunction.params[index]['tipo']
                 incomingType = compiledParam.getType()
+                
+                if isinstance(registeredType, TypeArray):
+                    if registeredType.type != incomingType.type:
+                        generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                        return                     
+                else:
 
-                if registeredType != incomingType:
-                    generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
-                    return 
+                    if isinstance(registeredType, str):
+                        struct = environment.getStruct(registeredType)
+                        if struct.getType() != incomingType:
+                            generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                            return
+                    elif registeredType != incomingType:
+                        generator.setException(Exception("Semántico", f"Argument of type {incomingType} is not assignable to parameter of type {registeredType}", self.line, self.column))
+                        return 
 
                 if incomingType == Type.BOOL:
                     temp = generator.addTemp()
@@ -108,7 +120,9 @@ class ExpCall(Expression):
             generator.addTempStorage(temp) 
 
             if symbolFunction.getType() != Type.BOOL:
-                return Return(temp, symbolFunction.getType(), True)
+                ret = Return(temp, symbolFunction.getType(), True)
+                ret.setAuxType(symbolFunction.getAuxType())
+                return ret  
 
             auxReturn = Return('', symbolFunction.getType(), False)
             if self.trueLbl == '':
@@ -141,11 +155,8 @@ class ExpCall(Expression):
                 auxTypes.append(value.getType())   
                 auxValues.append(value)   
 
-            type = Type.STRUCT
-            if(struct.mutable):
-                type = Type.MSTRUCT
 
-            ret = Return(tempStruct, type, False, self.id)
+            ret = Return(tempStruct, struct.getType(), False, self.id)
             ret.setAttributes(auxTypes)
             ret.setValues(auxValues)
             return ret 

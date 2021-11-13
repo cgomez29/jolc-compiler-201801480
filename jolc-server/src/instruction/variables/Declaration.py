@@ -18,32 +18,37 @@ class Declaration(Instruction):
 
         if isinstance(self.id, str):# es solo un id
 
-            isAssign = environment.getVariable(self.id)
-
             if (isinstance(self.value, str)):
                 val = self.value.compile(environment)   
             else:
                 if (self.type):
                     val = self.value.compile(environment) 
                 else:
-                    val = self.value['value'].compile(environment)   
+                    val = self.value['value'].compile(environment) 
+                    tipo = self.value['tipo']
+
+                    if isinstance(tipo, str):
+                        tipo = environment.getStruct(tipo).getType()
+        
                     if val.getType() == Type.MSTRUCT or val.getType() == Type.STRUCT:
                         if self.value['tipo'] != val.auxType:    
                             generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
                             return 
                     else:
-                        if type(self.value['tipo']) == TypeArray:
-                            if(self.value['tipo'].type != val.getType()):
+                        if type(tipo) == TypeArray:
+                            if(tipo.type != val.getType()):
                                 generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
                                 return 
                         else:
-                            if(self.value['tipo'] != val.getType()):
+                            if(tipo != val.getType()):
                                 generator.setException(Exception("Semántico", f"Tipo incorrecto'{self.id}'", self.line, self.column))
                                 return 
 
+
+            newVar = environment.getVariable(self.id)
             #Guardado y obtencion de la variable
             #Contiene la posicion para asignarlo en el heap
-            if(isAssign == None): # Solo se debe de crear si no existe
+            if(newVar == None): # Solo se debe de crear si no existe
                 if (val.type == Type.STRUCT or val.type == Type.MSTRUCT):
                     newVar = environment.setVariable(self.id, val.getType(), True, val.getAuxType(), val.getAttributes(), val.getValues())
                 elif (val.type == Type.ARRAY):
@@ -56,13 +61,13 @@ class Declaration(Instruction):
                     newVar = environment.setVariable(self.id, val.getType(), False)
             
             # Obtencion de posicion de la variable 
-            if(isAssign == None): # Esta validacion se da solo si el id no se ha creado
-                tempPos = newVar.pos
-                if(not newVar.isGlobal):
-                    tempPos = generator.addTemp()
-                    generator.addExp(tempPos, 'P', newVar.pos, "+")
-            else: 
-                tempPos = isAssign.pos
+            # if(isAssign == None): # Esta validacion se da solo si el id no se ha creado
+            tempPos = newVar.pos
+            if(not newVar.isGlobal):
+                tempPos = generator.addTemp()
+                generator.addExp(tempPos, 'P', newVar.pos, "+")
+            # else: 
+            #     tempPos = isAssign.pos
 
             if(val.type == Type.BOOL):
                 tempLbl = generator.newLabel()
@@ -129,8 +134,12 @@ class Declaration(Instruction):
 
                 tempAccess = generator.addTemp() # valor de index a acceder
                 temp = generator.addTemp()
-                index = access[i].value
-                generator.addExp(tempAccess, index, '', '')
+                
+                
+                index = access[i].compile(environment) # compilando acceso
+
+
+                generator.addExp(tempAccess, index.getValue(), '', '')
 
                 generator.addExp(temp, tempIdenfifier, '', '')
                 generator.getHeap(tempItem, temp)

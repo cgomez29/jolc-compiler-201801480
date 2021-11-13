@@ -3,6 +3,7 @@ from src.ast.Type import Type
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
 from src.exception.Exception import Exception
+from src.instruction.array.TypeArray import TypeArray
 
 class For(Instruction):
     def __init__(self, id, expression, instructions, line, column):
@@ -88,47 +89,62 @@ class For(Instruction):
             generator.addGoto(continueLbl)        
             generator.putLabel(breakLbl)
 
-        elif value.getType() ==  Type.ARRAY:
-            generator.addSpace()
-            var = newEnv.setVariable(self.id, Type.ANY, True) # TODO: CORREGIR TIPOS 
-            generator.freeTemp(value.getValue())
-            # generator.setStack(temp, value.getValue())
+        else:   
+            ty = value.getType()
+            finalType = None
+            if isinstance(value.getType(), TypeArray):
 
-            continueLbl = generator.newLabel()
-            breakLbl = generator.newLabel() 
+                while ty.value != None:
+                    finalType = ty.value
+                    if type(finalType) is not TypeArray: break  
+                    ty = ty.value 
 
-            newEnv.continueLbl = continueLbl
-            newEnv.breakLbl = breakLbl
+                generator.addSpace()
+                var = newEnv.setVariable(self.id, finalType, True)
+                generator.freeTemp(value.getValue())
+                # generator.setStack(temp, value.getValue())
 
-            tempI = generator.addTemp()
-            temp2 = generator.addTemp()
-            tempEnd = generator.addTemp()
-            generator.freeTemp(tempEnd)
-            generator.freeTemp(temp2)
-            generator.freeTemp(tempI)
+                continueLbl = generator.newLabel()
+                breakLbl = generator.newLabel() 
 
-            generator.getHeap(tempEnd, value.getValue()) # Recuperando el length del arreglo    
-            generator.addExp(temp2, value.getValue(), '1', '+') # Aumentendo para en 1 para recuperar el End 
+                newEnv.continueLbl = continueLbl
+                newEnv.breakLbl = breakLbl
 
-            generator.putLabel(continueLbl) # inicio iteraciones
-            generator.getHeap(tempI, temp2) # Recuperando item   
+                tempEnd = generator.addTemp()
+                temp2 = generator.addTemp()
+                tempCount = generator.addTemp()
+                tempI = generator.addTemp()
 
-            generator.addExp(temp, 'P', var.pos, '+')
-            generator.setStack(temp, tempI) # cambiando valor del la variable I 
-            generator.addIf(temp2, tempEnd, '>', breakLbl) # condición
-            generator.addExp(temp2, temp2, '1', '+') # index = index  + 1
+                generator.freeTemp(tempEnd)
+                generator.freeTemp(temp2)
+                generator.freeTemp(tempI)
+                generator.freeTemp(tempCount)
 
-            # compilando 
-            for x in self.instructions:
-                x.compile(newEnv)
+                generator.getHeap(tempEnd, value.getValue()) # Recuperando el length del arreglo    
+                generator.addExp(temp2, value.getValue(), '1', '+') # Aumentendo para en 1 para recuperar el End 
 
-            generator.addGoto(continueLbl) # otra iteración 
-            generator.putLabel(breakLbl) # salida
+                generator.addExp(tempCount, '1', '', '') # contador
 
-            generator.addSpace()
-        else:
-            generator.setException(Exception("Semántico", f"The expression must be RANGE||STRING||ARRAY", self.line, self.column))
-            return
+                generator.putLabel(continueLbl) # inicio iteraciones
+                generator.getHeap(tempI, temp2) # Recuperando item   
+
+                generator.addExp(temp, 'P', var.pos, '+')
+                generator.setStack(temp, tempI) # cambiando valor del la variable I 
+                generator.addIf(tempCount, tempEnd, '>', breakLbl) # condición
+                generator.addExp(temp2, temp2, '1', '+') # index = index  + 1
+                generator.addExp(tempCount, tempCount, '1', '+') # index = index  + 1
+
+                # compilando 
+                for x in self.instructions:
+                    x.compile(newEnv)
+
+                generator.addGoto(continueLbl) # otra iteración 
+                generator.putLabel(breakLbl) # salida
+
+                generator.addSpace()
+            else:
+                generator.setException(Exception("Semántico", f"The expression must be RANGE||STRING||ARRAY", self.line, self.column))
+                return
         generator.addComment("END FOR")
 
     def graph(self, g, father):

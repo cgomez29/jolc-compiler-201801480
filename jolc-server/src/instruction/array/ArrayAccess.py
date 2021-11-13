@@ -1,6 +1,3 @@
-from typing import Literal
-from src.instruction.array.TypeArray import TypeArray
-from src.expression.Identifier import Identifier
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
 from src.ast.Type import Type
@@ -16,6 +13,7 @@ class ArrayAccess(Instruction):
     def compile(self, environment):
         auxG = Generator()
         generator = auxG.getInstance()
+        generator.addComment("BEGIN ACCESS ARRAY")
 
         value = environment.getVariable(self.id)
 
@@ -35,14 +33,16 @@ class ArrayAccess(Instruction):
         size = len(self.access)
 
         ty = value.getType()
-
-        while ty.value != None:
-            finalType = ty.value
-            if type(finalType) is not TypeArray: break  
-            ty = ty.value 
+        
+        # while ty.value != None:
+        #     finalType = ty.value
+        #     if type(finalType) is not TypeArray: break  
+        #     ty = ty.value 
 
         for i in range(size):
             if i == 0: # primera iteracion 
+                finalType = ty.value 
+
                 lblTrue = generator.newLabel()
                 lblFalse = generator.newLabel()
                 lblExit = generator.newLabel()
@@ -50,7 +50,14 @@ class ArrayAccess(Instruction):
                 val = self.access[i].compile(environment) # compilando valor
                 generator.addExp(tempI, val.getValue(), '', '') # guardando posición a acceder
 
-                generator.getStack(tempIndex, value.pos) # recuperando el arreglo
+                # si no es global se toma en cuenta P
+                tempPos = value.pos
+                if(not value.isGlobal):
+                    tempPos = generator.addTemp()
+                    generator.freeTemp(tempPos)
+                    generator.addExp(tempPos, 'P', value.pos, "+")
+                generator.getStack(tempIndex, tempPos) # recuperando el arreglo
+                
                 generator.getHeap(tempItem, tempIndex) # recuperando tamaño
 
                 # comprobando que no exeda los limites
@@ -63,11 +70,13 @@ class ArrayAccess(Instruction):
                 generator.addGoto(lblExit)
                 generator.putLabel(lblFalse)# no exedio los limites
                 
+
                 generator.addExp(tempIndex, tempIndex, tempI, '+')
                 generator.getHeap(tempItem, tempIndex)
-                
                 generator.putLabel(lblExit) # salida 
             else: # mas accesos 
+                finalType = finalType.value
+
                 lblTrue = generator.newLabel()
                 lblFalse = generator.newLabel()
                 lblExit = generator.newLabel()
@@ -88,11 +97,14 @@ class ArrayAccess(Instruction):
                 generator.addGoto(lblExit)
                 generator.putLabel(lblFalse)# no exedio los limites
                 
+                generator.addComment("**************************************")
                 generator.addExp(tempIndex, tempIndex, tempI, '+')
                 generator.getHeap(tempItem, tempIndex)
+                generator.addComment("**************************************")
                 
                 generator.putLabel(lblExit) # salida 
 
+        generator.addComment("END ACCESS ARRAY")
         ret = Return(tempItem, finalType, True)
         ret.setAttributes(auxAttributes)
         ret.setValues(auxValues)

@@ -63,8 +63,11 @@ class Environment:
             self.variables[id] = newSymbol
         return self.variables[id]
 
-    def setStruct(self, id, struct):
-        self.structs[id] = struct
+    def setStruct(self, id, struct, type):
+        newSymbol = Symbol(id, type, self.size, self.previous == None, False)
+        newSymbol.setAuxType(id)
+        newSymbol.setAttributes(struct.attributes)
+        self.structs[id] = newSymbol
 
     # Retorna el simbolo del struct buscado
     def getStruct(self, id):
@@ -124,13 +127,19 @@ class Environment:
         return None
 
     def addFunction(self, id, func):
+        auxType = ''
         if( id not in self.functions.keys()):
             if func.type == Type.ANY:
                 type = Type.INT64
             else:
                 type = func.type 
+                auxType = type 
+                if isinstance(type, str):
+                    type = self.getStruct(type).getType()
+
             sfunc = SymbolFunction(id, type, len(func.parameters), func.parameters, func.line, func.column)
             sfunc.setEnviroment(self.name)
+            sfunc.setAuxType(auxType)
             self.functions[id] = sfunc
             return True
         return False 
