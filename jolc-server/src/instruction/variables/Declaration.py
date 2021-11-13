@@ -171,7 +171,9 @@ class Declaration(Instruction):
                 tempAccess = generator.addTemp() # valor de index a acceder
                 temp = generator.addTemp()
 
-                generator.addExp(tempAccess, access[i].value, '', '')
+                access = access[i].compile(environment)
+
+                generator.addExp(tempAccess, access.getValue(), '', '')
 
                 generator.addExp(temp, tempItem, '', '') # accediendo al nuevo arreglo
                 generator.getHeap(tempItem, temp)
