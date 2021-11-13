@@ -266,7 +266,7 @@ def p_script_function(t):
     if(len(t) == 7):
         t[0] = Function(t[2], [], Type.ANY, t[5], t.lineno(1), find_column(t.slice[1]))
     elif(len(t) == 9):
-        t[0] = Function(t[2], t[4], t[7], t[8], t.lineno(1), find_column(t.slice[1]))
+        t[0] = Function(t[2], [], t[6], t[7], t.lineno(1), find_column(t.slice[1]))
     elif(len(t) == 8):
         t[0] = Function(t[2], t[4], Type.ANY, t[6], t.lineno(1), find_column(t.slice[1]))
     else:
@@ -525,11 +525,19 @@ def p_instruccion_declaration(t):
 def p_instrucion_imprimir(t):
     '''imprimir : PRINTLN PARIZQ PARAMETROS PARDER
                 | PRINT PARIZQ PARAMETROS PARDER
+                | PRINT PARIZQ PARDER
+                | PRINTLN PARIZQ PARDER
     '''
-    if t[1] == "print":
-        t[0] = Print(t[3], t.lineno(1), find_column(t.slice[1]))
-    else:
-        t[0] = Print(t[3], t.lineno(1), find_column(t.slice[1]), True)
+    if len(t) == 5:
+        if t[1] == "print":
+            t[0] = Print(t[3], t.lineno(1), find_column(t.slice[1]))
+        else:
+            t[0] = Print(t[3], t.lineno(1), find_column(t.slice[1]), True)
+    else: 
+        if t[1] == "print":
+            t[0] = Print([], t.lineno(1), find_column(t.slice[1]))
+        else:
+            t[0] = Print([], t.lineno(1), find_column(t.slice[1]), True)
 
 
 #=======================================================================================

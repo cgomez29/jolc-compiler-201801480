@@ -110,6 +110,8 @@ class ArrayAccess(Instruction):
         ret.setValues(auxValues)
         return ret 
 
+    def getId(self):
+        return self.id
 
     def graph(self, g, father):
         pass
