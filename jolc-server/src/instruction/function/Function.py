@@ -2,7 +2,6 @@ from src.ast.Environment import Environment
 from src.exception.Exception import Exception
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
-from src.ast.Type import Type
 
 class Function(Instruction):
     def __init__(self, id, parameters, type, instructions, line, column):

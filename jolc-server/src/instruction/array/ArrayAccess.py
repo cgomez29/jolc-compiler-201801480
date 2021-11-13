@@ -1,6 +1,3 @@
-from typing import Literal
-from src.instruction.array.TypeArray import TypeArray
-from src.expression.Identifier import Identifier
 from src.ast.Generator import Generator
 from src.abstract.Instruction import Instruction
 from src.ast.Type import Type
